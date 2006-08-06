@@ -9,6 +9,7 @@
     <keywords>
       <keyword>Qt</keyword>
     </keywords>
+    <versioncontrol>kdevsubversion</versioncontrol>
     <ignoreparts/>
   </general>
   <kdevfileview>
