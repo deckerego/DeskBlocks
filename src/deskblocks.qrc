@@ -1,0 +1,5 @@
+<RCC version="1.0">
+  <qresource prefix="/blocks">
+    <file alias="square.png">../data/square.png</file>
+  </qresource>
+</RCC>

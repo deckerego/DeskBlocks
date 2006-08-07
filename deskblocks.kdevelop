@@ -13,7 +13,7 @@
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description></description>
+    <description/>
   </general>
   <kdevfileview>
     <groups>
@@ -71,12 +71,12 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell></dbgshell>
-      <programargs></programargs>
-      <gdbpath></gdbpath>
-      <configGdbScript></configGdbScript>
-      <runShellScript></runShellScript>
-      <runGdbScript></runGdbScript>
+      <dbgshell/>
+      <programargs/>
+      <gdbpath/>
+      <configGdbScript/>
+      <runShellScript/>
+      <runGdbScript/>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>false</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
@@ -90,7 +90,7 @@
   <kdevtrollproject>
     <run>
       <mainprogram>bin/deskblocks</mainprogram>
-      <programargs></programargs>
+      <programargs/>
       <directoryradio>executable</directoryradio>
       <customdirectory>/</customdirectory>
       <terminal>false</terminal>
@@ -104,7 +104,7 @@
       <abortonerror>true</abortonerror>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin></makebin>
+      <makebin/>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -122,7 +122,7 @@
     <projectdoc>
       <docsystem>Doxygen Documentation Collection</docsystem>
       <docurl>deskblocks.tag</docurl>
-      <usermanualurl></usermanualurl>
+      <usermanualurl/>
     </projectdoc>
   </kdevdocumentation>
   <substmap>
@@ -157,10 +157,10 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr/lib64/qt</root>
+      <root>/usr/lib/qt/</root>
     </qt>
     <creategettersetter>
-      <prefixGet></prefixGet>
+      <prefixGet/>
       <prefixSet>set</prefixSet>
       <prefixVariable>m_,_</prefixVariable>
       <parameterName>theValue</parameterName>
@@ -174,4 +174,8 @@
       <implementationsuffix>.cpp</implementationsuffix>
     </filetemplates>
   </cppsupportpart>
+  <ctagspart>
+    <customArguments/>
+    <customTagfilePath/>
+  </ctagspart>
 </kdevelop>

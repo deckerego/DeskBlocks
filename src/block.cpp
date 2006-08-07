@@ -52,7 +52,7 @@ void Block::mouseMoveEvent(QMouseEvent *event)
 void Block::resizeEvent(QResizeEvent *)
 {
   int side = qMin(width(), height());
-  QRegion maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side, side, QRegion::Ellipse);
+  QRegion maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side, side, QRegion::Rectangle);
   setMask(maskedRegion);
 }
 
@@ -63,10 +63,9 @@ QSize Block::sizeHint() const
 
 void Block::paintEvent(QPaintEvent *)
 {
+  QPixmap pixmap(":/blocks/square.png");
   int side = qMin(width(), height());
   
   QPainter painter(this);
-  painter.setRenderHint(QPainter::Antialiasing);
-  painter.translate(width() / 2, height() / 2);
-  painter.scale(side / 200.0, side / 200.0);
+  painter.drawPixmap(width() / 2 - side / 2, height() / 2 - side / 2, pixmap);
 }

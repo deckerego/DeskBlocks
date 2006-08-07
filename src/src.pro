@@ -5,5 +5,6 @@
 
 HEADERS += block.h 
 SOURCES += deskblocks.cpp \
-           block.cpp 
+           block.cpp
+RESOURCES += deskblocks.qrc
 TARGET=../bin/deskblocks
