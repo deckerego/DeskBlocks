@@ -18,18 +18,55 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QtGui>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <QApplication>
 #include "block.h"
 
-int main(int argc, char *argv[])
+Block::Block(QWidget *parent)
+  : QWidget(parent, Qt::FramelessWindowHint)
 {
-  QApplication app(argc, argv);
-  Block block;
-  block.show();
-  return app.exec();
+  QTimer *timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+  timer->start(1000);
+  
+  setWindowTitle(tr("DeskBlocks"));
+}
+
+
+void Block::mousePressEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton) {
+    dragPosition = event->globalPos() - frameGeometry().topLeft();
+    event->accept();
+  }
+}
+
+void Block::mouseMoveEvent(QMouseEvent *event)
+{
+  if (event->buttons() & Qt::LeftButton) {
+    move(event->globalPos() - dragPosition);
+    event->accept();
+  }
+}
+
+void Block::resizeEvent(QResizeEvent *)
+{
+  int side = qMin(width(), height());
+  QRegion maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side, side, QRegion::Ellipse);
+  setMask(maskedRegion);
+}
+
+QSize Block::sizeHint() const 
+{
+  return QSize(48, 48);
+}
+
+void Block::paintEvent(QPaintEvent *)
+{
+  int side = qMin(width(), height());
+  
+  QPainter painter(this);
+  painter.setRenderHint(QPainter::Antialiasing);
+  painter.translate(width() / 2, height() / 2);
+  painter.scale(side / 200.0, side / 200.0);
 }

@@ -17,19 +17,30 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#ifndef BLOCK_H
+#define BLOCK_H
 
+#include <QWidget>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
-#include <QApplication>
-#include "block.h"
-
-int main(int argc, char *argv[])
+/**
+	@author John T. Ellis <jtellis@alumni.indiana.edu>
+*/
+class Block : public QWidget
 {
-  QApplication app(argc, argv);
-  Block block;
-  block.show();
-  return app.exec();
-}
+  Q_OBJECT
+      
+  public:
+    Block(QWidget *parent=0);
+    QSize sizeHint() const;
+
+  protected:
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
+    void resizeEvent(QResizeEvent *event);
+    
+  private:
+    QPoint dragPosition;
+};
+
+#endif
