@@ -24,12 +24,31 @@
 #endif
 
 #include <QApplication>
+#include <ode.h>
+
 #include "block.h"
 
 int main(int argc, char *argv[])
 {
+  int retVal = -1;
+  
+  world = dWorldCreate();
+  space = dHashSpaceCreate (0);
+  contactgroup = dJointGroupCreate (0);
+  dWorldSetGravity (world,0,0,-0.5);
+  dWorldSetCFM (world,1e-5);
+  dWorldSetAutoDisableFlag (world,1);
+  dWorldSetContactMaxCorrectingVel (world,0.1);
+  dWorldSetContactSurfaceLayer (world,0.001);
+  dCreatePlane (space,0,0,1,0);
+  memset (obj,0,sizeof(obj));
+  
   QApplication app(argc, argv);
   Block block;
   block.show();
-  return app.exec();
+  
+  retVal = app.exec();
+  dJointGroupDestroy (contactgroup);
+  dSpaceDestroy (space);
+  dWorldDestroy (world);
 }
