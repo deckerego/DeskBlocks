@@ -157,7 +157,7 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr/lib/qt/</root>
+      <root>/usr/lib64/qt</root>
     </qt>
     <creategettersetter>
       <prefixGet/>
@@ -174,8 +174,4 @@
       <implementationsuffix>.cpp</implementationsuffix>
     </filetemplates>
   </cppsupportpart>
-  <ctagspart>
-    <customArguments/>
-    <customTagfilePath/>
-  </ctagspart>
 </kdevelop>

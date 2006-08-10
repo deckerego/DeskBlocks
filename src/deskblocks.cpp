@@ -28,27 +28,37 @@
 
 #include "block.h"
 
+#ifdef dDOUBLE
+#define dsDrawBox dsDrawBoxD
+#define dsDrawSphere dsDrawSphereD
+#define dsDrawCylinder dsDrawCylinderD
+#define dsDrawCappedCylinder dsDrawCappedCylinderD
+#endif
+
+static dWorldID world;
+static dSpaceID space;
+static dJointGroupID contactGroup;
+
 int main(int argc, char *argv[])
 {
   int retVal = -1;
   
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
-  contactgroup = dJointGroupCreate (0);
+  contactGroup = dJointGroupCreate (0);
   dWorldSetGravity (world,0,0,-0.5);
   dWorldSetCFM (world,1e-5);
   dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
   dCreatePlane (space,0,0,1,0);
-  memset (obj,0,sizeof(obj));
   
   QApplication app(argc, argv);
   Block block;
   block.show();
   
   retVal = app.exec();
-  dJointGroupDestroy (contactgroup);
+  dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
 }

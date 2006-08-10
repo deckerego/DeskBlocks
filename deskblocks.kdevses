@@ -2,11 +2,11 @@
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="2" >
-  <Doc0 NumberOfViews="1" URL="file:///home/jellis/DeckerEgo/deskblocks/trunk/src/block.cpp" >
-   <View0 line="38" Type="Source" />
+  <Doc0 NumberOfViews="1" URL="file:///home/jellis/deskblocks/trunk/src/deskblocks.cpp" >
+   <View0 line="61" Type="Source" />
   </Doc0>
-  <Doc1 NumberOfViews="1" URL="file:///home/jellis/DeckerEgo/deskblocks/trunk/src/deskblocks.qrc" >
-   <View0 line="0" Type="Source" />
+  <Doc1 NumberOfViews="1" URL="file:///home/jellis/deskblocks/trunk/src/block.cpp" >
+   <View0 line="32" Type="Source" />
   </Doc1>
  </DocsAndViews>
  <pluginList>
