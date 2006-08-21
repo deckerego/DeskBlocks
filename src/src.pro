@@ -3,10 +3,12 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
+HEADERS += block.h \
+           deskblocks.h 
+SOURCES += deskblocks.cpp \
+           block.cpp \
+           main.cpp 
 INCLUDEPATH += /usr/include/ode
 LIBS += $$system(ode-config --libs)
-HEADERS += block.h 
-SOURCES += deskblocks.cpp \
-           block.cpp
 RESOURCES += deskblocks.qrc
 TARGET=../bin/deskblocks

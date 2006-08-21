@@ -21,6 +21,7 @@
 #define BLOCK_H
 
 #include <QWidget>
+#include <ode.h>
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -30,8 +31,10 @@ class Block : public QWidget
   Q_OBJECT
       
   public:
-    Block(QWidget *parent=0);
+    Block(dSpaceID space, dWorldID world);
+    
     QSize sizeHint() const;
+    dReal getMass() const;
 
   protected:
     void mouseMoveEvent(QMouseEvent *event);
@@ -41,6 +44,9 @@ class Block : public QWidget
     
   private:
     QPoint dragPosition;
+    dReal density;
+    dBodyID body;
+    dGeomID geometry;
 };
 
 #endif

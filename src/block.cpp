@@ -22,16 +22,19 @@
 
 #include "block.h"
 
-Block::Block(QWidget *parent)
-  : QWidget(parent, Qt::FramelessWindowHint)
+Block::Block(dSpaceID space, dWorldID world)
+  : QWidget(0, Qt::FramelessWindowHint)
 {
-  QTimer *timer = new QTimer(this);
-  connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-  timer->start(1000);
+  dMass mass;  
+  body = dBodyCreate(world);
+  //Density of 5.0
+  dMassSetBox(&mass, 5.0, width(), height(), 1);
+  geometry = dCreateBox(space, width(), height(), 1);
+  dBodySetMass(body, &mass);
   
   setWindowTitle(tr("DeskBlocks"));
+  qDebug("Created Block");
 }
-
 
 void Block::mousePressEvent(QMouseEvent *event)
 {

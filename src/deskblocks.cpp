@@ -18,31 +18,13 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <QTimer>
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "deskblocks.h"
 
-#include <QApplication>
-#include <ode.h>
-
-#include "block.h"
-
-#ifdef dDOUBLE
-#define dsDrawBox dsDrawBoxD
-#define dsDrawSphere dsDrawSphereD
-#define dsDrawCylinder dsDrawCylinderD
-#define dsDrawCappedCylinder dsDrawCappedCylinderD
-#endif
-
-static dWorldID world;
-static dSpaceID space;
-static dJointGroupID contactGroup;
-
-int main(int argc, char *argv[])
+DeskBlocks::DeskBlocks()
 {
-  int retVal = -1;
-  
+  //Do the ODE inits
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
@@ -53,12 +35,28 @@ int main(int argc, char *argv[])
   dWorldSetContactSurfaceLayer (world,0.001);
   dCreatePlane (space,0,0,1,0);
   
-  QApplication app(argc, argv);
-  Block block;
-  block.show();
+  block = new Block(space, world);
   
-  retVal = app.exec();
+  //Qt Inits
+  timer = new QTimer(this);
+  connect(timer, SIGNAL(timeout()), this, SLOT(simLoop()));
+}
+
+DeskBlocks::~DeskBlocks()
+{
+  qDebug("Destroying DeskBlocks");
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
+}
+
+void DeskBlocks::start()
+{
+  timer->start(1000);
+  block->show();
+}
+
+void DeskBlocks::simLoop()
+{
+  dWorldQuickStep(world, 0.5);
 }
