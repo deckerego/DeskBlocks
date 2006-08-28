@@ -22,12 +22,17 @@
 
 #include "block.h"
 
-Block::Block(dSpaceID space, dWorldID world)
+Block::Block()
+  : QWidget(0, Qt::FramelessWindowHint)
+{
+}
+
+Block::Block(DeskBlocks *parent)
   : QWidget(0, Qt::FramelessWindowHint)
 {
   dMass mass;  
-  dMatrix3 rotation;
-  body = dBodyCreate(world);
+  //dMatrix3 rotation;
+  body = dBodyCreate(parent->world);
   
   //Set to top of screen
   dReal xPos = (dReal)frameGeometry().topLeft().x();
@@ -46,12 +51,13 @@ Block::Block(dSpaceID space, dWorldID world)
   dBodySetData(body, (void*)i);
   
   //Density of 5.0
-  qDebug("Set mass for %f, %f, %f", (dReal)width(), (dReal)height(), (dReal)width());
-  dMassSetBox(&mass, 5.0, (dReal)width(), (dReal)height(), (dReal)width());
+  qDebug("Set mass for %f, %f, %f", 48.0, 48.0, 48.0);
+  dMassSetBox(&mass, 5.0, 48.0, 48.0, 48.0);
   dBodySetMass(body, &mass);
   
   //Set collision space
-  geometry = dCreateBox(space, (dReal)width(), (dReal)height(), (dReal)width());
+  geometry = dCreateBox(parent->space, 48.0, 48.0, 48.0);
+  dGeomSetPosition(geometry, xPos, yPos, yPos);
   dGeomSetBody(geometry, body);
   dBodyEnable(body);
   
@@ -60,7 +66,7 @@ Block::Block(dSpaceID space, dWorldID world)
 
 void Block::updatePosition()
 {
-  const dReal *position = dBodyGetPosition(body);
+  //dReal *position = (dReal*)dGeomGetPosition(geometry);
   //qDebug("New position at %f, %f, %f.", &position[0], &position[1], &position[2]);
   //QPoint *position = new QPoint((int)position[0], (int)position[1]);
   //move(position);
@@ -82,8 +88,9 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     event->accept();
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
-    dBodySetPosition(body, xPos, yPos, 1);
-    const dReal *position = dBodyGetPosition(body);
+    dBodySetPosition(body, xPos, yPos, yPos);
+    dGeomSetPosition(geometry, xPos, yPos, yPos);
+    dReal *position = (dReal*)dGeomGetPosition(geometry);
     qDebug("Moved position at %f, %f, %f, %f, %f.", xPos, yPos, &position[0], &position[1], &position[2]);
   }
 }

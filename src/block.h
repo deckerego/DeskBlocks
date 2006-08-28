@@ -23,6 +23,10 @@
 #include <QWidget>
 #include <ode.h>
 
+#include "deskblocks.h"
+
+class DeskBlocks;
+
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
 */
@@ -31,7 +35,8 @@ class Block : public QWidget
   Q_OBJECT
       
   public:
-    Block(dSpaceID space, dWorldID world);
+    Block();
+    Block(DeskBlocks *parent);
     
     QSize sizeHint() const;
     dReal getMass() const;

@@ -31,11 +31,14 @@
 #define dsDrawCappedCylinder dsDrawCappedCylinderD
 #endif
 
+#define MAX_CONTACTS 3
+
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
  */
  
 class QTimer;
+class Block;
  
 class DeskBlocks : public QWidget
 {
@@ -45,13 +48,13 @@ class DeskBlocks : public QWidget
     DeskBlocks(QWidget *parent = 0);
     ~DeskBlocks();
     void start();
+    dWorldID world;
+    dSpaceID space;
 
   private slots:
     void simLoop();
     
   private:
-    dWorldID world;
-    dSpaceID space;
     dJointGroupID contactGroup;
     Block *block;
     QTimer *worldTimer;

@@ -40,7 +40,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
   
-  block = new Block(space, world);
+  block = new Block(this);
   connect(worldTimer, SIGNAL(timeout()), block, SLOT(updatePosition()));
 }
 
@@ -62,7 +62,7 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 {
   qDebug("System callback!");
 }
-
+    
 void DeskBlocks::simLoop()
 {
   dSpaceCollide(space, 0, &nearCallback);
@@ -70,3 +70,4 @@ void DeskBlocks::simLoop()
   dJointGroupEmpty(contactGroup);
   block->updatePosition();
 }
+
