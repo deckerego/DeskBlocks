@@ -42,11 +42,11 @@ class DeskBlocks : public QWidget
   Q_OBJECT
       
   public:
-    DeskBlocks();
+    DeskBlocks(QWidget *parent = 0);
     ~DeskBlocks();
     void start();
 
-  protected:
+  private slots:
     void simLoop();
     
   private:
@@ -54,7 +54,7 @@ class DeskBlocks : public QWidget
     dSpaceID space;
     dJointGroupID contactGroup;
     Block *block;
-    QTimer *timer;
+    QTimer *worldTimer;
 };
 
 #endif

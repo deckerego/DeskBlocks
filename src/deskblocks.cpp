@@ -22,24 +22,26 @@
 
 #include "deskblocks.h"
 
-DeskBlocks::DeskBlocks()
+DeskBlocks::DeskBlocks(QWidget *parent)
+  : QWidget(parent)
 {
   //Do the ODE inits
   world = dWorldCreate();
-  space = dHashSpaceCreate (0);
+  space = dSimpleSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,0,-0.5);
+  dWorldSetGravity (world,0,1.0,0);
   dWorldSetCFM (world,1e-5);
-  dWorldSetAutoDisableFlag (world,1);
+  //dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,0,1,0);
+  //dCreatePlane (space,0,0,1,0);
+  
+  worldTimer = new QTimer(this);
+  
+  connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
   
   block = new Block(space, world);
-  
-  //Qt Inits
-  timer = new QTimer(this);
-  connect(timer, SIGNAL(timeout()), this, SLOT(simLoop()));
+  connect(worldTimer, SIGNAL(timeout()), block, SLOT(updatePosition()));
 }
 
 DeskBlocks::~DeskBlocks()
@@ -52,11 +54,19 @@ DeskBlocks::~DeskBlocks()
 
 void DeskBlocks::start()
 {
-  timer->start(1000);
+  worldTimer->start(100);
   block->show();
+}
+
+static void nearCallback(void *data, dGeomID object1, dGeomID object2)
+{
+  qDebug("System callback!");
 }
 
 void DeskBlocks::simLoop()
 {
+  dSpaceCollide(space, 0, &nearCallback);
   dWorldQuickStep(world, 0.5);
+  dJointGroupEmpty(contactGroup);
+  block->updatePosition();
 }

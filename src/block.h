@@ -35,6 +35,9 @@ class Block : public QWidget
     
     QSize sizeHint() const;
     dReal getMass() const;
+    
+  public slots:
+    void updatePosition();
 
   protected:
     void mouseMoveEvent(QMouseEvent *event);

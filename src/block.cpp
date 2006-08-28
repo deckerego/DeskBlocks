@@ -26,14 +26,45 @@ Block::Block(dSpaceID space, dWorldID world)
   : QWidget(0, Qt::FramelessWindowHint)
 {
   dMass mass;  
+  dMatrix3 rotation;
   body = dBodyCreate(world);
+  
+  //Set to top of screen
+  dReal xPos = (dReal)frameGeometry().topLeft().x();
+  dReal yPos = (dReal)frameGeometry().topLeft().y();
+  dBodySetPosition(body, xPos, yPos, yPos);
+  
+  //No initial velocity
+  dBodySetLinearVel(body, 0.0, 0.0, 0.0);
+  
+  //No initial rotation
+  //dRFromAxisAndAngle(rotation, 0, 0, 1, dRandReal()*10.0-5.0);
+  //dBodySetRotation(body, rotation);
+  
+  //User data for body
+  size_t i = 0;
+  dBodySetData(body, (void*)i);
+  
   //Density of 5.0
-  dMassSetBox(&mass, 5.0, width(), height(), 1);
-  geometry = dCreateBox(space, width(), height(), 1);
+  qDebug("Set mass for %f, %f, %f", (dReal)width(), (dReal)height(), (dReal)width());
+  dMassSetBox(&mass, 5.0, (dReal)width(), (dReal)height(), (dReal)width());
   dBodySetMass(body, &mass);
   
-  setWindowTitle(tr("DeskBlocks"));
+  //Set collision space
+  geometry = dCreateBox(space, (dReal)width(), (dReal)height(), (dReal)width());
+  dGeomSetBody(geometry, body);
+  dBodyEnable(body);
+  
   qDebug("Created Block");
+}
+
+void Block::updatePosition()
+{
+  const dReal *position = dBodyGetPosition(body);
+  //qDebug("New position at %f, %f, %f.", &position[0], &position[1], &position[2]);
+  //QPoint *position = new QPoint((int)position[0], (int)position[1]);
+  //move(position);
+  update();
 }
 
 void Block::mousePressEvent(QMouseEvent *event)
@@ -49,6 +80,11 @@ void Block::mouseMoveEvent(QMouseEvent *event)
   if (event->buttons() & Qt::LeftButton) {
     move(event->globalPos() - dragPosition);
     event->accept();
+    dReal xPos = (dReal)frameGeometry().topLeft().x();
+    dReal yPos = (dReal)frameGeometry().topLeft().y();
+    dBodySetPosition(body, xPos, yPos, 1);
+    const dReal *position = dBodyGetPosition(body);
+    qDebug("Moved position at %f, %f, %f, %f, %f.", xPos, yPos, &position[0], &position[1], &position[2]);
   }
 }
 
