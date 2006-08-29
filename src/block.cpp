@@ -37,7 +37,7 @@ Block::Block(DeskBlocks *parent)
   //Set to top of screen
   dReal xPos = (dReal)frameGeometry().topLeft().x();
   dReal yPos = (dReal)frameGeometry().topLeft().y();
-  dBodySetPosition(body, xPos, yPos, yPos);
+  dBodySetPosition(body, xPos, yPos, 0);
   
   //No initial velocity
   dBodySetLinearVel(body, 0.0, 0.0, 0.0);
@@ -66,10 +66,11 @@ Block::Block(DeskBlocks *parent)
 
 void Block::updatePosition()
 {
-  //dReal *position = (dReal*)dGeomGetPosition(geometry);
-  //qDebug("New position at %f, %f, %f.", &position[0], &position[1], &position[2]);
-  //QPoint *position = new QPoint((int)position[0], (int)position[1]);
-  //move(position);
+  dReal *position = (dReal*)dGeomGetPosition(geometry);
+  int xPos = int(position[0]), yPos = int(position[1]);
+  QPoint *newPosition = new QPoint(xPos, yPos);
+  
+  move(xPos, yPos);
   update();
 }
 
@@ -88,10 +89,8 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     event->accept();
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
-    dBodySetPosition(body, xPos, yPos, yPos);
-    dGeomSetPosition(geometry, xPos, yPos, yPos);
+    dGeomSetPosition(geometry, xPos, yPos, 0);
     dReal *position = (dReal*)dGeomGetPosition(geometry);
-    qDebug("Moved position at %f, %f, %f, %f, %f.", xPos, yPos, &position[0], &position[1], &position[2]);
   }
 }
 

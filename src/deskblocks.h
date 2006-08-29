@@ -24,15 +24,6 @@
 #include <ode.h>
 #include "block.h"
 
-#ifdef dDOUBLE
-#define dsDrawBox dsDrawBoxD
-#define dsDrawSphere dsDrawSphereD
-#define dsDrawCylinder dsDrawCylinderD
-#define dsDrawCappedCylinder dsDrawCappedCylinderD
-#endif
-
-#define MAX_CONTACTS 3
-
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
  */
