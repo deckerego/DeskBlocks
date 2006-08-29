@@ -58,7 +58,6 @@ Block::Block(DeskBlocks *parent)
   geometry = dCreateBox(parent->space, 48.0, 48.0, 48.0);
   dGeomSetPosition(geometry, xPos, yPos, yPos);
   dGeomSetBody(geometry, body);
-  dBodyEnable(body);
   
   qDebug("Created Block");
 }
@@ -69,6 +68,7 @@ void Block::updatePosition()
   int xPos = int(position[0]), yPos = int(position[1]);
   QPoint *newPosition = new QPoint(xPos, yPos);
   
+  qDebug("New position: %i", yPos);
   move(xPos, yPos);
   update();
 }

@@ -34,7 +34,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,1,0,1000);
+  dCreatePlane (space,0,-1,0,-450); // normal on Y axis pointing backward
   
   worldTimer = new QTimer(this);
   
@@ -76,7 +76,7 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
-    qDebug("Worlds collide!");
+    qDebug("Worlds collided %i times!", numCollisions);
     
     for (i=0; i<numCollisions; i++) {
       dJointID contactJoint = dJointCreateContact(thisDeskBlock->world, thisDeskBlock->contactGroup, contact+i);
