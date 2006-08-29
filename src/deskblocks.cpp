@@ -34,7 +34,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,1,0,0);
+  dCreatePlane (space,0,1,0,1000);
   
   worldTimer = new QTimer(this);
   
@@ -58,9 +58,10 @@ void DeskBlocks::start()
   block->show();
 }
 
-void nearCallback(void *data, dGeomID object1, dGeomID object2)
+static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 {
   int i = 0;
+  DeskBlocks *thisDeskBlock = (DeskBlocks*)data;
   dBodyID body1 = dGeomGetBody(object1);
   dBodyID body2 = dGeomGetBody(object2);
   dContact contact[MAX_CONTACTS];
@@ -78,15 +79,15 @@ void nearCallback(void *data, dGeomID object1, dGeomID object2)
     qDebug("Worlds collide!");
     
     for (i=0; i<numCollisions; i++) {
-      //dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
-      //dJointAttach(contactJoint, body1, body2);
+      dJointID contactJoint = dJointCreateContact(thisDeskBlock->world, thisDeskBlock->contactGroup, contact+i);
+      dJointAttach(contactJoint, body1, body2);
     }
   }
 }
     
 void DeskBlocks::simLoop()
 {
-  dSpaceCollide(space, 0, &nearCallback);
+  dSpaceCollide(space, this, &nearCallback);
   dWorldQuickStep(world, 0.5);
   dJointGroupEmpty(contactGroup);
   block->updatePosition();

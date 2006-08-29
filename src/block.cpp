@@ -51,7 +51,6 @@ Block::Block(DeskBlocks *parent)
   dBodySetData(body, (void*)i);
   
   //Density of 5.0
-  qDebug("Set mass for %f, %f, %f", 48.0, 48.0, 48.0);
   dMassSetBox(&mass, 5.0, 48.0, 48.0, 48.0);
   dBodySetMass(body, &mass);
   

@@ -43,12 +43,12 @@ class DeskBlocks : public QWidget
     void start();
     dWorldID world;
     dSpaceID space;
+    dJointGroupID contactGroup;
 
   private slots:
     void simLoop();
     
   private:
-    dJointGroupID contactGroup;
     Block *block;
     QTimer *worldTimer;
 };
