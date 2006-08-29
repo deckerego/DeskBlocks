@@ -24,6 +24,8 @@
 #include <ode.h>
 #include "block.h"
 
+#define MAX_CONTACTS 4
+
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
  */

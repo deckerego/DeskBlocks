@@ -29,12 +29,12 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   world = dWorldCreate();
   space = dSimpleSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,1.0,0);
+  dWorldSetGravity (world,0,2.0,0);
   dWorldSetCFM (world,1e-5);
   dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,0,1,0);
+  dCreatePlane (space,0,1,0,0);
   
   worldTimer = new QTimer(this);
   
@@ -58,8 +58,30 @@ void DeskBlocks::start()
   block->show();
 }
 
-static void nearCallback(void *data, dGeomID object1, dGeomID object2)
+void nearCallback(void *data, dGeomID object1, dGeomID object2)
 {
+  int i = 0;
+  dBodyID body1 = dGeomGetBody(object1);
+  dBodyID body2 = dGeomGetBody(object2);
+  dContact contact[MAX_CONTACTS];
+  
+  for (i=0; i<MAX_CONTACTS; i++) {
+    contact[i].surface.mode = dContactBounce | dContactSoftCFM;
+    contact[i].surface.mu = dInfinity;
+    contact[i].surface.mu2 = 0;
+    contact[i].surface.bounce = 0.1;
+    contact[i].surface.bounce_vel = 0.1;
+    contact[i].surface.soft_cfm = 0.01;
+  }
+  
+  if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
+    qDebug("Worlds collide!");
+    
+    for (i=0; i<numCollisions; i++) {
+      //dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
+      //dJointAttach(contactJoint, body1, body2);
+    }
+  }
 }
     
 void DeskBlocks::simLoop()
