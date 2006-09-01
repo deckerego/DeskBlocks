@@ -24,7 +24,7 @@
 #include <ode.h>
 #include "block.h"
 
-#define MAX_CONTACTS 4
+#define MAX_CONTACTS 2
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -40,16 +40,19 @@ class DeskBlocks : public QWidget
   public:
     DeskBlocks(QWidget *parent = 0);
     ~DeskBlocks();
+    
     void start();
+    void detectCollision(dGeomID object1, dGeomID object2);
+    
     dWorldID world;
     dSpaceID space;
     dJointGroupID contactGroup;
+    Block *block;
 
   private slots:
     void simLoop();
     
   private:
-    Block *block;
     QTimer *worldTimer;
 };
 

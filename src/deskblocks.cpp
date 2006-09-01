@@ -27,21 +27,19 @@ DeskBlocks::DeskBlocks(QWidget *parent)
 {
   //Do the ODE inits
   world = dWorldCreate();
-  space = dSimpleSpaceCreate (0);
+  space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,2.0,0);
+  dWorldSetGravity (world,0,0,10.0);
   dWorldSetCFM (world,1e-5);
   dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,-1,0,-450); // normal on Y axis pointing backward
+  dCreatePlane (space,0,0,-1,-450); // normal on Y axis pointing backward
   
   worldTimer = new QTimer(this);
+  block = new Block(this);
   
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
-  
-  block = new Block(this);
-  connect(worldTimer, SIGNAL(timeout()), block, SLOT(updatePosition()));
 }
 
 DeskBlocks::~DeskBlocks()
@@ -58,14 +56,14 @@ void DeskBlocks::start()
   block->show();
 }
 
-static void nearCallback(void *data, dGeomID object1, dGeomID object2)
+void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
 {
   int i = 0;
-  DeskBlocks *thisDeskBlock = (DeskBlocks*)data;
   dBodyID body1 = dGeomGetBody(object1);
   dBodyID body2 = dGeomGetBody(object2);
-  dContact contact[MAX_CONTACTS];
+  if (body1 && body2 && dAreConnectedExcluding (body1, body2, dJointTypeContact)) return;
   
+  dContact contact[MAX_CONTACTS];
   for (i=0; i<MAX_CONTACTS; i++) {
     contact[i].surface.mode = dContactBounce | dContactSoftCFM;
     contact[i].surface.mu = dInfinity;
@@ -76,20 +74,26 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
-    qDebug("Worlds collided %i times!", numCollisions);
     
     for (i=0; i<numCollisions; i++) {
-      dJointID contactJoint = dJointCreateContact(thisDeskBlock->world, thisDeskBlock->contactGroup, contact+i);
+      qDebug("Added joint %i", i);
+      dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
       dJointAttach(contactJoint, body1, body2);
     }
   }
+}
+
+static void nearCallback(void *data, dGeomID object1, dGeomID object2)
+{
+  DeskBlocks *thisDeskBlock = (DeskBlocks*)data;
+  thisDeskBlock->detectCollision(object1, object2);
 }
     
 void DeskBlocks::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, 0.5);
+  dWorldQuickStep(world, 0.05);
   dJointGroupEmpty(contactGroup);
-  block->updatePosition();
+  block->updatePosition(); // Is this causing problems?
 }
 

@@ -22,6 +22,10 @@
 
 #include "block.h"
 
+// ODE's coordinate system is the inverse of Qt's, 
+// so the translation from Qt to ODE is:
+// y = z, x = x and (when necessary) z = -y
+
 Block::Block()
   : QWidget(0, Qt::FramelessWindowHint)
 {
@@ -37,18 +41,14 @@ Block::Block(DeskBlocks *parent)
   //Set to top of screen
   dReal xPos = (dReal)frameGeometry().topLeft().x();
   dReal yPos = (dReal)frameGeometry().topLeft().y();
-  dBodySetPosition(body, xPos, yPos, 0);
+  dBodySetPosition(body, xPos, 0, yPos);
   
   //No initial velocity
-  dBodySetLinearVel(body, 0.0, 0.0, 0.0);
+  //dBodySetLinearVel(body, 0.0, 0.0, 0.0);
   
   //No initial rotation
   //dRFromAxisAndAngle(rotation, 0, 0, 1, dRandReal()*10.0-5.0);
   //dBodySetRotation(body, rotation);
-  
-  //User data for body
-  size_t i = 0;
-  dBodySetData(body, (void*)i);
   
   //Density of 5.0
   dMassSetBox(&mass, 5.0, 48.0, 48.0, 48.0);
@@ -56,7 +56,6 @@ Block::Block(DeskBlocks *parent)
   
   //Set collision space
   geometry = dCreateBox(parent->space, 48.0, 48.0, 48.0);
-  dGeomSetPosition(geometry, xPos, yPos, yPos);
   dGeomSetBody(geometry, body);
   
   qDebug("Created Block");
@@ -65,10 +64,10 @@ Block::Block(DeskBlocks *parent)
 void Block::updatePosition()
 {
   dReal *position = (dReal*)dGeomGetPosition(geometry);
-  int xPos = int(position[0]), yPos = int(position[1]);
+  int xPos = int(position[0]), yPos = int(position[2]);
   QPoint *newPosition = new QPoint(xPos, yPos);
   
-  qDebug("New position: %i", yPos);
+  qDebug("New position: %f", position[2]);
   move(xPos, yPos);
   update();
 }
@@ -88,7 +87,7 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     event->accept();
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
-    dGeomSetPosition(geometry, xPos, yPos, 0);
+    dGeomSetPosition(geometry, xPos, 0, yPos);
     dReal *position = (dReal*)dGeomGetPosition(geometry);
   }
 }
