@@ -35,8 +35,7 @@ class Block : public QWidget
   Q_OBJECT
       
   public:
-    Block();
-    Block(DeskBlocks *parent);
+    Block(DeskBlocks *parent = 0);
     
     QSize sizeHint() const;
     dReal getMass() const;
@@ -52,7 +51,6 @@ class Block : public QWidget
     
   private:
     QPoint dragPosition;
-    dReal density;
     dBodyID body;
     dGeomID geometry;
 };

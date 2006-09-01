@@ -26,14 +26,11 @@
 // so the translation from Qt to ODE is:
 // y = z, x = x and (when necessary) z = -y
 
-Block::Block()
-  : QWidget(0, Qt::FramelessWindowHint)
-{
-}
-
 Block::Block(DeskBlocks *parent)
   : QWidget(0, Qt::FramelessWindowHint)
 {
+  if(! parent) return;
+  
   dMass mass;  
   //dMatrix3 rotation;
   body = dBodyCreate(parent->world);
