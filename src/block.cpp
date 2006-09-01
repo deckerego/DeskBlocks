@@ -48,7 +48,7 @@ Block::Block(DeskBlocks *parent)
   //dBodySetRotation(body, rotation);
   
   //Density of 5.0
-  dMassSetBox(&mass, 5.0, 48.0, 48.0, 48.0);
+  dMassSetBox(&mass, 0.05, 48.0, 48.0, 48.0);
   dBodySetMass(body, &mass);
   
   //Set collision space

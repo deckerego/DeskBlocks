@@ -32,7 +32,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   dWorldSetGravity (world,0,0,10.0);
   dWorldSetCFM (world,1e-5);
   dWorldSetAutoDisableFlag (world,1);
-  dWorldSetContactMaxCorrectingVel (world,0.1);
+  //dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
   dCreatePlane (space,0,0,-1,-450); // normal on Y axis pointing backward
   
@@ -69,14 +69,13 @@ void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
     contact[i].surface.mu = dInfinity;
     contact[i].surface.mu2 = 0;
     contact[i].surface.bounce = 0.1;
-    contact[i].surface.bounce_vel = 0.1;
-    contact[i].surface.soft_cfm = 0.01;
+    contact[i].surface.bounce_vel = 10.0;
+    contact[i].surface.soft_cfm = 0.00001;
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
     
     for (i=0; i<numCollisions; i++) {
-      qDebug("Added joint %i", i);
       dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
       dJointAttach(contactJoint, body1, body2);
     }
@@ -92,7 +91,7 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 void DeskBlocks::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, 0.05);
+  dWorldQuickStep(world, 0.5);
   dJointGroupEmpty(contactGroup);
   block->updatePosition(); // Is this causing problems?
 }
