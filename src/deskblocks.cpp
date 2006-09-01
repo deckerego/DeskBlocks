@@ -91,7 +91,7 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 void DeskBlocks::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, 0.5);
+  dWorldQuickStep(world, 0.1);
   dJointGroupEmpty(contactGroup);
   block->updatePosition(); // Is this causing problems?
 }

@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include <QtGui>
+#include <math.h>
 
 #include "block.h"
 
@@ -61,10 +62,10 @@ Block::Block(DeskBlocks *parent)
 void Block::updatePosition()
 {
   dReal *position = (dReal*)dGeomGetPosition(geometry);
-  int xPos = int(position[0]), yPos = int(position[2]);
+  int xPos = lrint(position[0]), yPos = lrint(position[2]);
   QPoint *newPosition = new QPoint(xPos, yPos);
   
-  qDebug("New position: %f", position[2]);
+  qDebug("New position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
   move(xPos, yPos);
   update();
 }
