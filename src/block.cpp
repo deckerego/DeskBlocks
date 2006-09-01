@@ -65,7 +65,8 @@ void Block::updatePosition()
   int xPos = lrint(position[0]), yPos = lrint(position[2]);
   QPoint *newPosition = new QPoint(xPos, yPos);
   
-  qDebug("New position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
+  if(yPos > 450) // We "passed thru" the plane
+    qDebug("New position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
   move(xPos, yPos);
   update();
 }
