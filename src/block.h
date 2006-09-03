@@ -23,13 +23,17 @@
 #include <QWidget>
 #include <ode.h>
 
+#include "conversions.h"
 #include "deskblocks.h"
+
+#define DENSITY (1.0)
+#define LENGTH 48
 
 class DeskBlocks;
 
 /**
-	@author John T. Ellis <jtellis@alumni.indiana.edu>
-*/
+  @author John T. Ellis <jtellis@alumni.indiana.edu>
+ */
 class Block : public QWidget
 {
   Q_OBJECT
@@ -39,7 +43,7 @@ class Block : public QWidget
     
     QSize sizeHint() const;
     dReal getMass() const;
-    
+
   public slots:
     void updatePosition();
 

@@ -29,12 +29,13 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,0,10.0);
+  dWorldSetGravity (world,0,0,5.0);
   dWorldSetCFM (world,1e-5);
   dWorldSetAutoDisableFlag (world,1);
-  //dWorldSetContactMaxCorrectingVel (world,0.1);
+  dWorldSetContactMaxCorrectingVel (world,0.1);
   dWorldSetContactSurfaceLayer (world,0.001);
-  dCreatePlane (space,0,0,-1,-450); // normal on Y axis pointing backward
+  dCreatePlane (space,0,0,-1,RELATIVE(-450)); // normal on Y axis pointing backward
+  qDebug("Plane at %f", RELATIVE(-450));
   
   worldTimer = new QTimer(this);
   block = new Block(this);
@@ -69,11 +70,12 @@ void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
     contact[i].surface.mu = dInfinity;
     contact[i].surface.mu2 = 0;
     contact[i].surface.bounce = 0.1;
-    contact[i].surface.bounce_vel = 10.0;
-    contact[i].surface.soft_cfm = 0.00001;
+    contact[i].surface.bounce_vel = 0.1;
+    contact[i].surface.soft_cfm = 0.01;
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
+    qDebug("%i Collision(s)!", numCollisions);
     
     for (i=0; i<numCollisions; i++) {
       dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);

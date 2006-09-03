@@ -4,7 +4,8 @@
 # Target is an application:  ../bin/deskblocks
 
 HEADERS += block.h \
-           deskblocks.h 
+           deskblocks.h \
+           conversions.h 
 SOURCES += deskblocks.cpp \
            block.cpp \
            main.cpp 

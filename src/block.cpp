@@ -23,23 +23,21 @@
 
 #include "block.h"
 
-// ODE's coordinate system is the inverse of Qt's, 
-// so the translation from Qt to ODE is:
-// y = z, x = x and (when necessary) z = -y
-
 Block::Block(DeskBlocks *parent)
   : QWidget(0, Qt::FramelessWindowHint)
 {
   if(! parent) return;
   
-  dMass mass;  
+  dMass mass;
+  dReal length = RELATIVE(LENGTH);
+  
   //dMatrix3 rotation;
   body = dBodyCreate(parent->world);
   
   //Set to top of screen
-  dReal xPos = (dReal)frameGeometry().topLeft().x();
-  dReal yPos = (dReal)frameGeometry().topLeft().y();
-  dBodySetPosition(body, xPos, 0, yPos);
+  int xPos = frameGeometry().topLeft().x();
+  int yPos = frameGeometry().topLeft().y();
+  dBodySetPosition(body, RELATIVE(xPos), 0, RELATIVE(yPos));
   
   //No initial velocity
   //dBodySetLinearVel(body, 0.0, 0.0, 0.0);
@@ -48,35 +46,32 @@ Block::Block(DeskBlocks *parent)
   //dRFromAxisAndAngle(rotation, 0, 0, 1, dRandReal()*10.0-5.0);
   //dBodySetRotation(body, rotation);
   
-  //Density of 5.0
-  dMassSetBox(&mass, 0.05, 48.0, 48.0, 48.0);
+  //Define initial mass
+  dMassSetBox(&mass, DENSITY, length, length, length);
   dBodySetMass(body, &mass);
   
   //Set collision space
-  geometry = dCreateBox(parent->space, 48.0, 48.0, 48.0);
+  geometry = dCreateBox(parent->space, length, length, length);
   dGeomSetBody(geometry, body);
   
   qDebug("Created Block");
 }
 
+
+/**
+  ODE's coordinate system is the inverse of Qt's, 
+  so the translation from Qt to ODE is:
+  y = z, x = x and (when necessary) z = -y
+ */
 void Block::updatePosition()
 {
   dReal *position = (dReal*)dGeomGetPosition(geometry);
-  int xPos = lrint(position[0]), yPos = lrint(position[2]);
-  QPoint *newPosition = new QPoint(xPos, yPos);
+  int xPos = ABSOLUTE(position[0]), yPos = ABSOLUTE(position[2]);
   
-  if(yPos > 450) // We "passed thru" the plane
-    qDebug("New position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
+  qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
+  
   move(xPos, yPos);
   update();
-}
-
-void Block::mousePressEvent(QMouseEvent *event)
-{
-  if (event->button() == Qt::LeftButton) {
-    dragPosition = event->globalPos() - frameGeometry().topLeft();
-    event->accept();
-  }
 }
 
 void Block::mouseMoveEvent(QMouseEvent *event)
@@ -86,8 +81,15 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     event->accept();
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
-    dGeomSetPosition(geometry, xPos, 0, yPos);
-    dReal *position = (dReal*)dGeomGetPosition(geometry);
+    dGeomSetPosition(geometry, RELATIVE(xPos), 0, RELATIVE(yPos));
+  }
+}
+
+void Block::mousePressEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton) {
+    dragPosition = event->globalPos() - frameGeometry().topLeft();
+    event->accept();
   }
 }
 
@@ -100,7 +102,7 @@ void Block::resizeEvent(QResizeEvent *)
 
 QSize Block::sizeHint() const 
 {
-  return QSize(48, 48);
+  return QSize(LENGTH, LENGTH);
 }
 
 void Block::paintEvent(QPaintEvent *)

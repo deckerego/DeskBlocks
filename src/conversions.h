@@ -17,45 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DESKBLOCKS_H
-#define DESKBLOCKS_H
-
-#include <QWidget>
-#include <ode.h>
-
-#include "block.h"
-#include "conversions.h"
-
-#define MAX_CONTACTS 2
 
 /**
-	@author John T. Ellis <jtellis@alumni.indiana.edu>
+  As far as lengths and masses, from the ODE FAQ:
+  "In general, length and mass values around 0.1..1.0 are 
+  better as the factorizer may not lose so much precision. This 
+  guideline is especially helpful when single precision is 
+  being used."
+
+  We'll assume that Qt's coordinate range is generally going to
+  be x between 0 and 3200 and y between 0 and 1200 (targeting
+  a maximum of a dual-screen setup with two 1600x1200 monitors)
+  Given the above, the translation of coordinates from 
+  Qt to ODE is:
+  1 = 1024
  */
- 
-class QTimer;
-class Block;
- 
-class DeskBlocks : public QWidget
-{
-  Q_OBJECT
-      
-  public:
-    DeskBlocks(QWidget *parent = 0);
-    ~DeskBlocks();
-    
-    void start();
-    void detectCollision(dGeomID object1, dGeomID object2);
-    
-    dWorldID world;
-    dSpaceID space;
-    dJointGroupID contactGroup;
-    Block *block;
-
-  private slots:
-    void simLoop();
-    
-  private:
-    QTimer *worldTimer;
-};
-
-#endif
+// I should probably replace these with inline functions
+#define ABSOLUTE(position) lrint(position*100.0)
+#define RELATIVE(position) ((dReal)position)/100.0
