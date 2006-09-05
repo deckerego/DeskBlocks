@@ -30,12 +30,11 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
   dWorldSetGravity (world,0,0,5.0);
-  dWorldSetCFM (world,1e-5);
+  dWorldSetERP (world,0.1);
   dWorldSetAutoDisableFlag (world,1);
-  dWorldSetContactMaxCorrectingVel (world,0.1);
-  dWorldSetContactSurfaceLayer (world,0.001);
+  dWorldSetContactSurfaceLayer (world,0.01);
   dCreatePlane (space,0,0,-1,RELATIVE(-450)); // normal on Y axis pointing backward
-  qDebug("Plane at %f", RELATIVE(-450));
+  if(DEBUG) qDebug("Plane at %f", RELATIVE(-450));
   
   worldTimer = new QTimer(this);
   block = new Block(this);
@@ -45,7 +44,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
 
 DeskBlocks::~DeskBlocks()
 {
-  qDebug("Destroying DeskBlocks");
+  if(DEBUG) qDebug("Destroying DeskBlocks");
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
@@ -66,16 +65,16 @@ void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
   
   dContact contact[MAX_CONTACTS];
   for (i=0; i<MAX_CONTACTS; i++) {
-    contact[i].surface.mode = dContactBounce | dContactSoftCFM;
+    contact[i].surface.mode = dContactBounce | dContactSoftERP;
     contact[i].surface.mu = dInfinity;
     contact[i].surface.mu2 = 0;
     contact[i].surface.bounce = 0.1;
     contact[i].surface.bounce_vel = 0.1;
-    contact[i].surface.soft_cfm = 0.01;
+    contact[i].surface.soft_erp = 0.9;
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
-    qDebug("%i Collision(s)!", numCollisions);
+    if(DEBUG) qDebug("%i Collision(s)!", numCollisions);
     
     for (i=0; i<numCollisions; i++) {
       dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
@@ -93,8 +92,8 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 void DeskBlocks::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, 0.1);
+  dWorldQuickStep(world, 0.05);
   dJointGroupEmpty(contactGroup);
-  block->updatePosition(); // Is this causing problems?
+  block->updatePosition();
 }
 

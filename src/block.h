@@ -26,7 +26,10 @@
 #include "conversions.h"
 #include "deskblocks.h"
 
-#define DENSITY (1.0)
+//Density and length are given to Qt's scale, *not* ODE's.
+//I'm assuming that (for the sake of Newtonian forces) 
+//density would scale relative to size
+#define DENSITY 100
 #define LENGTH 48
 
 class DeskBlocks;
@@ -57,6 +60,7 @@ class Block : public QWidget
     QPoint dragPosition;
     dBodyID body;
     dGeomID geometry;
+    dMatrix3 rotation;
 };
 
 #endif

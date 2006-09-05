@@ -30,8 +30,8 @@ Block::Block(DeskBlocks *parent)
   
   dMass mass;
   dReal length = RELATIVE(LENGTH);
+  dReal density = RELATIVE(DENSITY);
   
-  //dMatrix3 rotation;
   body = dBodyCreate(parent->world);
   
   //Set to top of screen
@@ -40,21 +40,21 @@ Block::Block(DeskBlocks *parent)
   dBodySetPosition(body, RELATIVE(xPos), 0, RELATIVE(yPos));
   
   //No initial velocity
-  //dBodySetLinearVel(body, 0.0, 0.0, 0.0);
+  dBodySetLinearVel(body, 0.0, 0.0, 0.0);
   
   //No initial rotation
-  //dRFromAxisAndAngle(rotation, 0, 0, 1, dRandReal()*10.0-5.0);
-  //dBodySetRotation(body, rotation);
+  dRSetIdentity (rotation);
+  dBodySetRotation(body, rotation);
   
   //Define initial mass
-  dMassSetBox(&mass, DENSITY, length, length, length);
+  dMassSetBox(&mass, density, length, length, length);
   dBodySetMass(body, &mass);
   
   //Set collision space
   geometry = dCreateBox(parent->space, length, length, length);
   dGeomSetBody(geometry, body);
   
-  qDebug("Created Block");
+  if(DEBUG) qDebug("Created Block");
 }
 
 
@@ -68,7 +68,7 @@ void Block::updatePosition()
   dReal *position = (dReal*)dGeomGetPosition(geometry);
   int xPos = ABSOLUTE(position[0]), yPos = ABSOLUTE(position[2]);
   
-  qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
+  if(DEBUG) qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
   
   move(xPos, yPos);
   update();
@@ -77,11 +77,17 @@ void Block::updatePosition()
 void Block::mouseMoveEvent(QMouseEvent *event)
 {
   if (event->buttons() & Qt::LeftButton) {
+    //Move the block on Qt's desktop
     move(event->globalPos() - dragPosition);
     event->accept();
+    
+    //Move the object in ODE space
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
     dGeomSetPosition(geometry, RELATIVE(xPos), 0, RELATIVE(yPos));
+    
+    //Reset any velocity the object had
+    dBodySetLinearVel(body, 0.0, 0.0, 0.0);
   }
 }
 

@@ -27,11 +27,12 @@
 
   We'll assume that Qt's coordinate range is generally going to
   be x between 0 and 3200 and y between 0 and 1200 (targeting
-  a maximum of a dual-screen setup with two 1600x1200 monitors)
+  a maximum of a dual-screen setup with two 1600x1200 monitors).
+  We'll also assume a "shape" won't be greater than 64x64.
   Given the above, the translation of coordinates from 
-  Qt to ODE is:
-  1 = 1024
+  Qt to ODE is 100 to 1.
  */
 // I should probably replace these with inline functions
-#define ABSOLUTE(position) lrint(position*100.0)
-#define RELATIVE(position) ((dReal)position)/100.0
+#define DEBUG               FALSE
+#define ABSOLUTE(position)  lrint(position*100.0)
+#define RELATIVE(position)  ((dReal)position)/100.0
