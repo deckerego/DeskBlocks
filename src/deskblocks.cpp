@@ -31,13 +31,18 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   contactGroup = dJointGroupCreate (0);
   dWorldSetGravity (world,0,0,5.0);
   dWorldSetERP (world,0.1);
-  dWorldSetAutoDisableFlag (world,1);
+  dWorldSetAutoDisableFlag (world,0);
   dWorldSetContactSurfaceLayer (world,0.01);
-  dCreatePlane (space,0,0,-1,RELATIVE(-450)); // normal on Y axis pointing backward
-  if(DEBUG) qDebug("Plane at %f", RELATIVE(-450));
+  
+  //Create the screen boundries
+  createBounds();
   
   worldTimer = new QTimer(this);
-  block = new Block(this);
+  
+  //TODO Create a menu-driven system for adding blocks
+  for(numBlocks=0; numBlocks < 3; numBlocks++) {
+    blocks[numBlocks] = new Block(this);
+  }
   
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
 }
@@ -52,8 +57,28 @@ DeskBlocks::~DeskBlocks()
 
 void DeskBlocks::start()
 {
+  int b;
+  
   worldTimer->start(100);
-  block->show();
+  
+  for(b = 0; b < numBlocks; b++) {
+    blocks[b]->show();
+  }
+}
+
+/**
+  Create ODE boundries for the screen.
+  ODE's coordinate system is the inverse of Qt's, 
+  so the translation from Qt to ODE is:
+  y = z, x = x and (when necessary) z = -y
+ */
+void DeskBlocks::createBounds()
+{
+  //TODO Replace the static boundries with ones pulled directly from Qt
+  dCreatePlane (space,0,0,-1,RELATIVE(-954)); // normal on Y axis pointing backward, bottom bounds
+  dCreatePlane (space,0,0,1,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
+  dCreatePlane (space,1,0,0,RELATIVE(0)); // normal on X axis pointing forward, left bounds
+  dCreatePlane (space,-1,0,0,RELATIVE(-1300)); // normal on X axis pointing backward, right bounds
 }
 
 void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
@@ -91,9 +116,13 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
     
 void DeskBlocks::simLoop()
 {
+  int b;
   dSpaceCollide(space, this, &nearCallback);
   dWorldQuickStep(world, 0.05);
   dJointGroupEmpty(contactGroup);
-  block->updatePosition();
+  
+  for(b=0; b < numBlocks; b++) {
+    blocks[b]->updatePosition();
+  }
 }
 

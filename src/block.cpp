@@ -57,12 +57,6 @@ Block::Block(DeskBlocks *parent)
   if(DEBUG) qDebug("Created Block");
 }
 
-
-/**
-  ODE's coordinate system is the inverse of Qt's, 
-  so the translation from Qt to ODE is:
-  y = z, x = x and (when necessary) z = -y
- */
 void Block::updatePosition()
 {
   dReal *position = (dReal*)dGeomGetPosition(geometry);

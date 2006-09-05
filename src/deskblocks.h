@@ -27,6 +27,7 @@
 #include "conversions.h"
 
 #define MAX_CONTACTS 2
+#define MAX_BLOCKS 10
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -48,14 +49,17 @@ class DeskBlocks : public QWidget
     
     dWorldID world;
     dSpaceID space;
-    dJointGroupID contactGroup;
-    Block *block;
-
+    
   private slots:
     void simLoop();
     
   private:
+    void createBounds();
+    
     QTimer *worldTimer;
+    dJointGroupID contactGroup;
+    Block *blocks[MAX_BLOCKS];
+    int numBlocks;
 };
 
 #endif
