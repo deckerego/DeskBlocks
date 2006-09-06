@@ -26,7 +26,7 @@
 #include "block.h"
 #include "conversions.h"
 
-#define MAX_CONTACTS 2
+#define MAX_CONTACTS 4
 #define MAX_BLOCKS 10
 
 /**
