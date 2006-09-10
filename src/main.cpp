@@ -26,11 +26,16 @@
 #include <QApplication>
 
 #include "deskblocks.h"
+#include "blocksbox.h"
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
-  DeskBlocks desktop;
-  desktop.start();
+  
+  DeskBlocks *desktop = new DeskBlocks(); // The world blocks exist in
+  BlocksBox *box = new BlocksBox(desktop); // The window the user interacts with
+  
+  box->show();
+  desktop->start();
   return app.exec();
 }

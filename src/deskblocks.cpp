@@ -38,12 +38,6 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   createBounds();
   
   worldTimer = new QTimer(this);
-  
-  //TODO Create a menu-driven system for adding blocks
-  for(numBlocks=0; numBlocks < 3; numBlocks++) {
-    blocks[numBlocks] = new Block(this);
-  }
-  
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
 }
 
@@ -60,10 +54,14 @@ void DeskBlocks::start()
   int b;
   
   worldTimer->start(100);
+}
+
+void DeskBlocks::dropBlock()
+{
+  if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  for(b = 0; b < numBlocks; b++) {
-    blocks[b]->show();
-  }
+  blocks[numBlocks] = new Block(this);
+  blocks[numBlocks++]->show();
 }
 
 /**

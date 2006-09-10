@@ -24,7 +24,7 @@
 #include "block.h"
 
 Block::Block(DeskBlocks *parent)
-  : QWidget(0, Qt::FramelessWindowHint | Qt::SubWindow)
+  : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   if(! parent) return;
   

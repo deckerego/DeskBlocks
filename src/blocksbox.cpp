@@ -17,50 +17,24 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DESKBLOCKS_H
-#define DESKBLOCKS_H
+#include <QVBoxLayout>
+#include "blocksbox.h"
 
-#include <QWidget>
-#include <ode.h>
-
-#include "block.h"
-#include "conversions.h"
-
-#define MAX_CONTACTS 4
-#define MAX_BLOCKS 10
-
-/**
-	@author John T. Ellis <jtellis@alumni.indiana.edu>
- */
- 
-class QTimer;
-class Block;
- 
-class DeskBlocks : public QWidget
+BlocksBox::BlocksBox(DeskBlocks *desktop, QWidget *parent)
+  : QWidget(parent)
 {
-  Q_OBJECT
-      
-  public:
-    DeskBlocks(QWidget *parent = 0);
-    ~DeskBlocks();
-    
-    void start();
-    void detectCollision(dGeomID object1, dGeomID object2);
-    
-    dWorldID world;
-    dSpaceID space;
-    
-  private slots:
-    void simLoop();
-    void dropBlock();
-    
-  private:
-    void createBounds();
-    
-    QTimer *worldTimer;
-    dJointGroupID contactGroup;
-    Block *blocks[MAX_BLOCKS];
-    int numBlocks;
-};
+  setFixedSize(200, 120);
 
-#endif
+  QPushButton *quit = new QPushButton(tr("Quit"), this);
+  quit->setFont(QFont("Times", 12, QFont::Bold));
+  connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+  
+  QPushButton *dropBlock = new QPushButton(tr("Drop Block"), this);
+  dropBlock->setFont(QFont("Times", 12, QFont::Bold));
+  connect(dropBlock, SIGNAL(clicked()), desktop, SLOT(dropBlock()));
+  
+  QVBoxLayout *layout = new QVBoxLayout;
+  layout->addWidget(quit);
+  layout->addWidget(dropBlock);
+  setLayout(layout);
+}

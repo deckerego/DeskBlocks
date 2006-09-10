@@ -17,50 +17,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DESKBLOCKS_H
-#define DESKBLOCKS_H
+#ifndef BLOCKSBOX_H
+#define BLOCKSBOX_H
 
+#include <QApplication>
+#include <QFont>
+#include <QPushButton>
 #include <QWidget>
-#include <ode.h>
 
-#include "block.h"
-#include "conversions.h"
-
-#define MAX_CONTACTS 4
-#define MAX_BLOCKS 10
+#include "deskblocks.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
- */
- 
-class QTimer;
-class Block;
- 
-class DeskBlocks : public QWidget
+*/
+class BlocksBox : public QWidget
 {
   Q_OBJECT
       
   public:
-    DeskBlocks(QWidget *parent = 0);
-    ~DeskBlocks();
-    
-    void start();
-    void detectCollision(dGeomID object1, dGeomID object2);
-    
-    dWorldID world;
-    dSpaceID space;
-    
-  private slots:
-    void simLoop();
-    void dropBlock();
-    
-  private:
-    void createBounds();
-    
-    QTimer *worldTimer;
-    dJointGroupID contactGroup;
-    Block *blocks[MAX_BLOCKS];
-    int numBlocks;
+    BlocksBox(DeskBlocks *desktop, QWidget *parent = 0);
+
 };
 
 #endif

@@ -5,10 +5,12 @@
 
 HEADERS += block.h \
            deskblocks.h \
-           conversions.h 
+           conversions.h \
+           blocksbox.h 
 SOURCES += deskblocks.cpp \
            block.cpp \
-           main.cpp 
+           main.cpp \
+           blocksbox.cpp 
 INCLUDEPATH += /usr/include/ode
 LIBS += $$system(ode-config --libs)
 RESOURCES += deskblocks.qrc
