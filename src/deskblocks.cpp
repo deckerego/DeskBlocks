@@ -29,7 +29,7 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,0,5.0);
+  dWorldSetGravity (world,0,5.0,0);
   dWorldSetERP (world,0.1);
   dWorldSetAutoDisableFlag (world,0);
   dWorldSetContactSurfaceLayer (world,0.01);
@@ -51,8 +51,6 @@ DeskBlocks::~DeskBlocks()
 
 void DeskBlocks::start()
 {
-  int b;
-  
   worldTimer->start(100);
 }
 
@@ -65,18 +63,18 @@ void DeskBlocks::dropBlock()
 }
 
 /**
-  Create ODE boundries for the screen.
-  ODE's coordinate system is the inverse of Qt's, 
-  so the translation from Qt to ODE is:
-  y = z, x = x and (when necessary) z = -y
+ * The Plane2D joint is what changes ODE's coordinate system around -
+ * instead of having to map ODE's z axis to Qt's y axis, we use ODE's
+ * 2D constraint. It was around since 0.35 evidentally, but just merged
+ * in since release version 0.7.
  */
 void DeskBlocks::createBounds()
 {
   //TODO Replace the static boundries with ones pulled directly from Qt
-  dCreatePlane (space,0,0,-1,RELATIVE(-954)); // normal on Y axis pointing backward, bottom bounds
-  dCreatePlane (space,0,0,1,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
+  dCreatePlane (space,0,-1,0,RELATIVE(-954)); // normal on Y axis pointing backward, bottom bounds
+  dCreatePlane (space,0,1,0,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
   dCreatePlane (space,1,0,0,RELATIVE(0)); // normal on X axis pointing forward, left bounds
-  dCreatePlane (space,-1,0,0,RELATIVE(-1300)); // normal on X axis pointing backward, right bounds
+  dCreatePlane (space,-1,0,0,RELATIVE(-1200)); // normal on X axis pointing backward, right bounds
 }
 
 void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
@@ -88,11 +86,9 @@ void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
   
   dContact contact[MAX_CONTACTS];
   for (i=0; i<MAX_CONTACTS; i++) {
-    contact[i].surface.mode = dContactBounce | dContactSoftERP;
+    contact[i].surface.mode = dContactSoftERP;
     contact[i].surface.mu = dInfinity;
     contact[i].surface.mu2 = 0;
-    contact[i].surface.bounce = 0.1;
-    contact[i].surface.bounce_vel = 0.1;
     contact[i].surface.soft_erp = 0.9;
   }
   

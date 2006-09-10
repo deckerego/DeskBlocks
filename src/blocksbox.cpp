@@ -24,6 +24,7 @@ BlocksBox::BlocksBox(DeskBlocks *desktop, QWidget *parent)
   : QWidget(parent)
 {
   setFixedSize(200, 120);
+  setWindowTitle(tr("DeskBlocks"));
 
   QPushButton *quit = new QPushButton(tr("Quit"), this);
   quit->setFont(QFont("Times", 12, QFont::Bold));

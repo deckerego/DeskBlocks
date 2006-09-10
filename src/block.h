@@ -21,7 +21,7 @@
 #define BLOCK_H
 
 #include <QWidget>
-#include <ode.h>
+#include <ode/ode.h>
 
 #include "conversions.h"
 #include "deskblocks.h"

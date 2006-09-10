@@ -34,10 +34,14 @@ Block::Block(DeskBlocks *parent)
   
   body = dBodyCreate(parent->world);
   
+  //Use ODE's new constraint for 2D
+  dJointID planeJoint = dJointCreatePlane2D(parent->world, 0);
+  dJointAttach(planeJoint, body, 0);
+  
   //Set to top of screen
   int xPos = frameGeometry().topLeft().x();
   int yPos = frameGeometry().topLeft().y();
-  dBodySetPosition(body, RELATIVE(xPos), 0, RELATIVE(yPos));
+  dBodySetPosition(body, RELATIVE(xPos), RELATIVE(yPos), 0);
   
   //No initial velocity
   dBodySetLinearVel(body, 0.0, 0.0, 0.0);
@@ -60,10 +64,11 @@ Block::Block(DeskBlocks *parent)
 void Block::updatePosition()
 {
   dReal *position = (dReal*)dGeomGetPosition(geometry);
-  int xPos = ABSOLUTE(position[0]), yPos = ABSOLUTE(position[2]);
+  int xPos = ABSOLUTE(position[0]), yPos = ABSOLUTE(position[1]);
   
-  if(DEBUG) qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[2]);
+  if(DEBUG) qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[1]);
   
+  // Update Qt's position
   move(xPos, yPos);
   update();
 }
@@ -78,7 +83,7 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     //Move the object in ODE space
     dReal xPos = (dReal)frameGeometry().topLeft().x();
     dReal yPos = (dReal)frameGeometry().topLeft().y();
-    dGeomSetPosition(geometry, RELATIVE(xPos), 0, RELATIVE(yPos));
+    dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
     
     //Reset any velocity the object had
     dBodySetLinearVel(body, 0.0, 0.0, 0.0);

@@ -3,6 +3,14 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
+RESOURCES = deskblocks.qrc 
+LIBS += -lode 
+INCLUDEPATH += /usr/local/include 
+QMAKE_LIBDIR = /usr/local/lib 
+TARGET = ../bin/deskblocks 
+CONFIG += release \
+          warn_on 
+TEMPLATE = app 
 HEADERS += block.h \
            deskblocks.h \
            conversions.h \
@@ -11,7 +19,3 @@ SOURCES += deskblocks.cpp \
            block.cpp \
            main.cpp \
            blocksbox.cpp 
-INCLUDEPATH += /usr/include/ode
-LIBS += $$system(ode-config --libs)
-RESOURCES += deskblocks.qrc
-TARGET=../bin/deskblocks
