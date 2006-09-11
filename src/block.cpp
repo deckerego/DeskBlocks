@@ -77,16 +77,24 @@ void Block::mouseMoveEvent(QMouseEvent *event)
 {
   if (event->buttons() & Qt::LeftButton) {
     //Move the block on Qt's desktop
-    move(event->globalPos() - dragPosition);
-    event->accept();
+    QPoint currentPosition = event->globalPos() - dragPosition;
+    move(currentPosition);
     
     //Move the object in ODE space
-    dReal xPos = (dReal)frameGeometry().topLeft().x();
-    dReal yPos = (dReal)frameGeometry().topLeft().y();
+    dReal xPos = (dReal)currentPosition.x();
+    dReal yPos = (dReal)currentPosition.y();
     dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
+    if(DEBUG) qDebug("Moved to %f, %f", xPos, yPos);
     
-    //Reset any velocity the object had
-    dBodySetLinearVel(body, 0.0, 0.0, 0.0);
+    //Reset any velocity the object had, replace it with mouse velocity.
+    //Since we're hard-coding the frequency of updates, use that value
+    //to calculate the time delta instead of actually watching the clock
+    int xDelta = (currentPosition.x() - lastPosition.x()) * FRAMES_SEC;
+    int yDelta = (currentPosition.y() - lastPosition.y()) * FRAMES_SEC;
+    dBodySetLinearVel(body, RELATIVE((dReal)xDelta), RELATIVE((dReal)yDelta), 0.0);
+    
+    lastPosition = currentPosition;
+    event->accept();
   }
 }
 
@@ -94,6 +102,8 @@ void Block::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton) {
     dragPosition = event->globalPos() - frameGeometry().topLeft();
+    lastPosition = event->globalPos() - dragPosition;
+    dBodyEnable(body); //Wake up the ODE object if it was auto-disabled
     event->accept();
   }
 }

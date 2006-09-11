@@ -28,6 +28,7 @@
 
 #define MAX_CONTACTS 4
 #define MAX_BLOCKS 10
+#define FRAMES_SEC 10
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>

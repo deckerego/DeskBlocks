@@ -29,9 +29,9 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,5.0,0);
+  dWorldSetGravity (world,0,10.0,0);
   dWorldSetERP (world,0.1);
-  dWorldSetAutoDisableFlag (world,0);
+  dWorldSetAutoDisableFlag (world,1);
   dWorldSetContactSurfaceLayer (world,0.01);
   
   //Create the screen boundries
@@ -51,7 +51,7 @@ DeskBlocks::~DeskBlocks()
 
 void DeskBlocks::start()
 {
-  worldTimer->start(100);
+  worldTimer->start(1000/FRAMES_SEC);
 }
 
 void DeskBlocks::dropBlock()

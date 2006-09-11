@@ -58,6 +58,7 @@ class Block : public QWidget
     
   private:
     QPoint dragPosition;
+    QPoint lastPosition;
     dBodyID body;
     dGeomID geometry;
     dMatrix3 rotation;
