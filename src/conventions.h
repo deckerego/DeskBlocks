@@ -31,8 +31,25 @@
   We'll also assume a "shape" won't be greater than 64x64.
   Given the above, the translation of coordinates from 
   Qt to ODE is 100 to 1.
+
+  Density and length are given to Qt's scale, *not* ODE's.
+  I'm assuming that (for the sake of Newtonian forces) 
+  density would scale relative to size
  */
 // I should probably replace these with inline functions
-#define DEBUG               FALSE
 #define ABSOLUTE(position)  lrint(position*100.0)
 #define RELATIVE(position)  ((dReal)position)/100.0
+
+//Tweakable DeskBlocks parameters
+#define DEBUG               FALSE
+#define LENGTH              48
+#define MAX_BLOCKS          10
+#define FRAMES_SEC          30
+
+//Tweakable ODE parameters
+#define DENSITY             100
+#define MAX_CONTACTS        4
+#define ODE_STEPS           0.01
+#define GRAVITY             10.0
+#define ERROR_REDUCTION     0.1
+#define CONTACT_DEPTH       0.01

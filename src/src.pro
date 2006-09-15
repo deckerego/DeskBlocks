@@ -13,7 +13,7 @@ CONFIG += release \
 TEMPLATE = app 
 HEADERS += block.h \
            deskblocks.h \
-           conversions.h \
+           conventions.h \
            blocksbox.h 
 SOURCES += deskblocks.cpp \
            block.cpp \

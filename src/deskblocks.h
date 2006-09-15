@@ -24,11 +24,7 @@
 #include <ode/ode.h>
 
 #include "block.h"
-#include "conversions.h"
-
-#define MAX_CONTACTS 4
-#define MAX_BLOCKS 10
-#define FRAMES_SEC 10
+#include "conventions.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>

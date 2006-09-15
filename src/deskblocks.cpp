@@ -29,10 +29,10 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,10.0,0);
-  dWorldSetERP (world,0.1);
+  dWorldSetGravity (world,0,GRAVITY,0);
+  dWorldSetERP (world,ERROR_REDUCTION);
   dWorldSetAutoDisableFlag (world,1);
-  dWorldSetContactSurfaceLayer (world,0.01);
+  dWorldSetContactSurfaceLayer (world,CONTACT_DEPTH);
   
   //Create the screen boundries
   createBounds();
@@ -70,7 +70,7 @@ void DeskBlocks::dropBlock()
  */
 void DeskBlocks::createBounds()
 {
-  //TODO Replace the static boundries with ones pulled directly from Qt
+  //TODO Replace the static boundries with ones pulled directly from QDesktopWidget
   dCreatePlane (space,0,-1,0,RELATIVE(-954)); // normal on Y axis pointing backward, bottom bounds
   dCreatePlane (space,0,1,0,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
   dCreatePlane (space,1,0,0,RELATIVE(0)); // normal on X axis pointing forward, left bounds
@@ -112,7 +112,7 @@ void DeskBlocks::simLoop()
 {
   int b;
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, 0.05);
+  dWorldQuickStep(world, ODE_STEPS);
   dJointGroupEmpty(contactGroup);
   
   for(b=0; b < numBlocks; b++) {

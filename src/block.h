@@ -23,14 +23,8 @@
 #include <QWidget>
 #include <ode/ode.h>
 
-#include "conversions.h"
+#include "conventions.h"
 #include "deskblocks.h"
-
-//Density and length are given to Qt's scale, *not* ODE's.
-//I'm assuming that (for the sake of Newtonian forces) 
-//density would scale relative to size
-#define DENSITY 100
-#define LENGTH 48
 
 class DeskBlocks;
 

@@ -78,20 +78,22 @@ void Block::mouseMoveEvent(QMouseEvent *event)
   if (event->buttons() & Qt::LeftButton) {
     //Move the block on Qt's desktop
     QPoint currentPosition = event->globalPos() - dragPosition;
-    move(currentPosition);
     
     //Move the object in ODE space
     dReal xPos = (dReal)currentPosition.x();
     dReal yPos = (dReal)currentPosition.y();
-    dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
-    if(DEBUG) qDebug("Moved to %f, %f", xPos, yPos);
     
     //Reset any velocity the object had, replace it with mouse velocity.
     //Since we're hard-coding the frequency of updates, use that value
     //to calculate the time delta instead of actually watching the clock
     int xDelta = (currentPosition.x() - lastPosition.x()) * FRAMES_SEC;
     int yDelta = (currentPosition.y() - lastPosition.y()) * FRAMES_SEC;
+    
+    //Commit object changes at once
+    move(currentPosition);
+    dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
     dBodySetLinearVel(body, RELATIVE((dReal)xDelta), RELATIVE((dReal)yDelta), 0.0);
+    if(DEBUG) qDebug("Moved to %f, %f", xPos, yPos);
     
     lastPosition = currentPosition;
     event->accept();
