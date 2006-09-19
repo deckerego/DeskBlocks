@@ -125,8 +125,9 @@ QSize Block::sizeHint() const
 void Block::paintEvent(QPaintEvent *)
 {
   QPixmap pixmap(":/blocks/square.png");
-  int side = qMin(width(), height());
-  
+  pixmap.setMask(pixmap.createHeuristicMask());
   QPainter painter(this);
-  painter.drawPixmap(width() / 2 - side / 2, height() / 2 - side / 2, pixmap);
+  painter.setBackgroundMode(Qt::TransparentMode);
+  painter.rotate(60.0);
+  painter.drawPixmap(0, 0, pixmap);
 }
