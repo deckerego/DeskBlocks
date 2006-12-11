@@ -112,22 +112,29 @@ void Block::mousePressEvent(QMouseEvent *event)
 
 void Block::resizeEvent(QResizeEvent *)
 {
-  int side = qMin(width(), height());
-  QRegion maskedRegion(width() / 2 - side / 2, height() / 2 - side / 2, side, side, QRegion::Rectangle);
+  //TODO: We should just do the below initialization once
+  QBitmap bitmap(":/blocks/square.png");
+  bitmap.fill(Qt::black); //Make everything the background
+  QMatrix rotation;
+  rotation.rotate(45.0);
+  
+  QRegion maskedRegion(bitmap.transformed(rotation));
   setMask(maskedRegion);
 }
 
 QSize Block::sizeHint() const 
 {
-  return QSize(LENGTH, LENGTH);
+  //TODO: Need a better way to figure out size
+  return QSize(LENGTH*2, LENGTH*2);
 }
 
 void Block::paintEvent(QPaintEvent *)
 {
+  //TODO: Manage rotation and pixmap as object property
   QPixmap pixmap(":/blocks/square.png");
-  pixmap.setMask(pixmap.createHeuristicMask());
+  QMatrix rotation;
+  rotation.rotate(45.0);
+  
   QPainter painter(this);
-  painter.setBackgroundMode(Qt::TransparentMode);
-  painter.rotate(60.0);
-  painter.drawPixmap(0, 0, pixmap);
+  painter.drawPixmap(0, 0, pixmap.transformed(rotation));
 }
