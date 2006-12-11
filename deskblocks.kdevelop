@@ -9,7 +9,7 @@
     <keywords>
       <keyword>Qt</keyword>
     </keywords>
-    <versioncontrol>kdevsubversion</versioncontrol>
+    <versioncontrol/>
     <ignoreparts/>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
