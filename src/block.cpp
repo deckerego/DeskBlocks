@@ -78,7 +78,7 @@ void Block::updatePosition()
   //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper right.
   //Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
   //the turn in Qt to make it clockwise (relative to Qt's coordinate system)
-  rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
+  rotation = QMatrix(odeRotation[5], odeRotation[4], odeRotation[1], odeRotation[0], 0.0, 0.0);
   if(DEBUG) qDebug("Qt rotation:");
   if(DEBUG) qDebug("[%f %f %f]", rotation.m11(), rotation.m12(), 0.0);
   if(DEBUG) qDebug("[%f %f %f]", rotation.m21(), rotation.m22(), 0.0);
