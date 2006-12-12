@@ -21,6 +21,9 @@
 #define BLOCK_H
 
 #include <QWidget>
+#include <QPixmap>
+#include <QBitmap>
+#include <QMatrix>
 #include <ode/ode.h>
 
 #include "conventions.h"
@@ -48,14 +51,15 @@ class Block : public QWidget
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
     
   private:
     QPoint dragPosition;
     QPoint lastPosition;
     dBodyID body;
     dGeomID geometry;
-    dMatrix3 rotation;
+    QMatrix rotation;
+    QBitmap bitmask;
+    QPixmap texture;
 };
 
 #endif

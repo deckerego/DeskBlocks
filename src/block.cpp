@@ -28,6 +28,11 @@ Block::Block(DeskBlocks *parent)
 {
   if(! parent) return;
   
+  texture = QPixmap(":/blocks/square.png");
+  
+  bitmask = QBitmap(":/blocks/square.png");
+  bitmask.fill(Qt::black); //Make everything the background
+  
   dMass mass;
   dReal length = RELATIVE(LENGTH);
   dReal density = RELATIVE(DENSITY);
@@ -47,6 +52,7 @@ Block::Block(DeskBlocks *parent)
   dBodySetLinearVel(body, 0.0, 0.0, 0.0);
   
   //No initial rotation
+  dMatrix3 rotation;
   dRSetIdentity (rotation);
   dBodySetRotation(body, rotation);
   
@@ -63,6 +69,22 @@ Block::Block(DeskBlocks *parent)
 
 void Block::updatePosition()
 {
+  //Update rotation
+  dMatrix3& odeRotation = *(dMatrix3*)dGeomGetRotation(geometry);
+  if(DEBUG) qDebug("ODE rotation:");
+  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[0], odeRotation[1], odeRotation[2], odeRotation[3]);
+  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[4], odeRotation[5], odeRotation[6], odeRotation[7]);
+  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[8], odeRotation[9], odeRotation[10], odeRotation[11]);
+  //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper right.
+  //Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
+  //the turn in Qt to make it clockwise (relative to Qt's coordinate system)
+  rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
+  if(DEBUG) qDebug("Qt rotation:");
+  if(DEBUG) qDebug("[%f %f %f]", rotation.m11(), rotation.m12(), 0.0);
+  if(DEBUG) qDebug("[%f %f %f]", rotation.m21(), rotation.m22(), 0.0);
+  if(DEBUG) qDebug("[%f %f %f]", rotation.dx(), rotation.dy(), 1.0);
+  
+  //Update position
   dReal *position = (dReal*)dGeomGetPosition(geometry);
   int xPos = ABSOLUTE(position[0]), yPos = ABSOLUTE(position[1]);
   
@@ -110,31 +132,17 @@ void Block::mousePressEvent(QMouseEvent *event)
   }
 }
 
-void Block::resizeEvent(QResizeEvent *)
-{
-  //TODO: We should just do the below initialization once
-  QBitmap bitmap(":/blocks/square.png");
-  bitmap.fill(Qt::black); //Make everything the background
-  QMatrix rotation;
-  rotation.rotate(45.0);
-  
-  QRegion maskedRegion(bitmap.transformed(rotation));
-  setMask(maskedRegion);
-}
-
 QSize Block::sizeHint() const 
 {
-  //TODO: Need a better way to figure out size
+  //TODO Need a better way to figure out size
   return QSize(LENGTH*2, LENGTH*2);
 }
 
 void Block::paintEvent(QPaintEvent *)
 {
-  //TODO: Manage rotation and pixmap as object property
-  QPixmap pixmap(":/blocks/square.png");
-  QMatrix rotation;
-  rotation.rotate(45.0);
+  QRegion maskedRegion(bitmask.transformed(rotation));
+  setMask(maskedRegion);
   
   QPainter painter(this);
-  painter.drawPixmap(0, 0, pixmap.transformed(rotation));
+  painter.drawPixmap(0, 0, texture.transformed(rotation));
 }

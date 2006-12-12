@@ -25,6 +25,8 @@
 DeskBlocks::DeskBlocks(QWidget *parent)
   : QWidget(parent)
 {
+  numBlocks = 0;
+  
   //Do the ODE inits
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
