@@ -77,8 +77,9 @@ void Block::updatePosition()
   if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[8], odeRotation[9], odeRotation[10], odeRotation[11]);
   //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper right.
   //Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
-  //the turn in Qt to make it clockwise (relative to Qt's coordinate system)
-  rotation = QMatrix(odeRotation[5], odeRotation[4], odeRotation[1], odeRotation[0], 0.0, 0.0);
+  //the turn in Qt to make it clockwise (relative to Qt's coordinate system). The nice thing
+  //is that since this is a matrix identity ([a b][-b a]) we just have to swap values.
+  rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
   if(DEBUG) qDebug("Qt rotation:");
   if(DEBUG) qDebug("[%f %f %f]", rotation.m11(), rotation.m12(), 0.0);
   if(DEBUG) qDebug("[%f %f %f]", rotation.m21(), rotation.m22(), 0.0);
@@ -134,8 +135,11 @@ void Block::mousePressEvent(QMouseEvent *event)
 
 QSize Block::sizeHint() const 
 {
-  //TODO Need a better way to figure out size
-  return QSize(LENGTH*2, LENGTH*2);
+  //a^2 + b^2 = c^2. I remembered something from elementary school!
+  //In all fairness, this is actually square(side * (side * 2))
+  int boundingLength = (int)sqrt(LENGTH * (LENGTH << 1));
+  if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
+  return QSize(boundingLength, boundingLength);
 }
 
 void Block::paintEvent(QPaintEvent *)
