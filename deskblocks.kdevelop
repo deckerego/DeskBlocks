@@ -107,6 +107,7 @@
       <makebin/>
       <prio>0</prio>
       <envvars/>
+      <runmultiplejobs>false</runmultiplejobs>
     </make>
   </kdevtrollproject>
   <kdevfilecreate>
@@ -157,7 +158,7 @@
     <qt>
       <used>true</used>
       <version>4</version>
-      <root>/usr/lib64/qt</root>
+      <root>/usr/lib/qt</root>
     </qt>
     <creategettersetter>
       <prefixGet/>
