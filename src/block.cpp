@@ -52,9 +52,9 @@ Block::Block(DeskBlocks *parent)
   dBodySetLinearVel(body, 0.0, 0.0, 0.0);
   
   //No initial rotation
-  dMatrix3 rotation;
-  dRSetIdentity (rotation);
-  dBodySetRotation(body, rotation);
+  dMatrix3 odeRotation;
+  dRSetIdentity (odeRotation);
+  dBodySetRotation(body, odeRotation);
   
   //Define initial mass
   dMassSetBox(&mass, density, length, length, length);
@@ -106,6 +106,11 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     dReal xPos = (dReal)currentPosition.x();
     dReal yPos = (dReal)currentPosition.y();
     
+    //Reset the rotation - make it "flat" again
+    dMatrix3 odeRotation;
+    dRSetIdentity (odeRotation);
+    dBodySetRotation(body, odeRotation);
+    
     //Reset any velocity the object had, replace it with mouse velocity.
     //Since we're hard-coding the frequency of updates, use that value
     //to calculate the time delta instead of actually watching the clock
@@ -117,8 +122,8 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
     dBodySetLinearVel(body, RELATIVE((dReal)xDelta), RELATIVE((dReal)yDelta), 0.0);
     if(DEBUG) qDebug("Moved to %f, %f", xPos, yPos);
-    
     lastPosition = currentPosition;
+    
     event->accept();
   }
 }
@@ -147,6 +152,15 @@ void Block::paintEvent(QPaintEvent *)
   QRegion maskedRegion(bitmask.transformed(rotation));
   setMask(maskedRegion);
   
+  QLinearGradient linearGradient(0, 0, 100, 100);
+  linearGradient.setColorAt(0.0, Qt::white);
+  linearGradient.setColorAt(0.2, Qt::green);
+  linearGradient.setColorAt(1.0, Qt::black);
+  
   QPainter painter(this);
-  painter.drawPixmap(0, 0, texture.transformed(rotation));
+  painter.save();
+  painter.setMatrix(rotation, false);
+  painter.fillRect(maskedRegion.boundingRect(), linearGradient);
+  //painter.drawPixmap(0, 0, texture.transformed(rotation));
+  painter.restore();
 }
