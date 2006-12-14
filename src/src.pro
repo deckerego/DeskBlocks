@@ -5,8 +5,6 @@
 
 RESOURCES = deskblocks.qrc 
 LIBS += -lode 
-INCLUDEPATH += /usr/local/include/ode 
-QMAKE_LIBDIR = /usr/local/lib 
 TARGET = ../bin/deskblocks 
 CONFIG += release \
           warn_on 
