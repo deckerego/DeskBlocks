@@ -50,16 +50,21 @@ class Block : public QWidget
   protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+
     void paintEvent(QPaintEvent *event);
     
   private:
+    QPixmap texture;
+    QMatrix canvasRotation;
+
+    QBitmap bitmask;
+    QMatrix maskRotation;
+
     QPoint dragPosition;
     QPoint lastPosition;
+
     dBodyID body;
     dGeomID geometry;
-    QMatrix rotation;
-    QBitmap bitmask;
-    QPixmap texture;
 };
 
 #endif

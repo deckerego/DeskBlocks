@@ -71,19 +71,28 @@ void Block::updatePosition()
 {
   //Update rotation
   dMatrix3& odeRotation = *(dMatrix3*)dGeomGetRotation(geometry);
-  if(DEBUG) qDebug("ODE rotation:");
-  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[0], odeRotation[1], odeRotation[2], odeRotation[3]);
-  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[4], odeRotation[5], odeRotation[6], odeRotation[7]);
-  if(DEBUG) qDebug("[%f %f %f %f]", odeRotation[8], odeRotation[9], odeRotation[10], odeRotation[11]);
+  // * The story of dx, dy *
+  //We need to change the pivot point of the rotation, so we need to translate the object to
+  //the origin and then translate it back. That means the matrix operation is 
+  //T(x, y) * R(theta) * T(-x, -y)
+  //if we multiply that out:
+  //dx = x * (1 - cos(theta)) + y * sin(theta)
+  //dy = y * (1 - cos(theta)) - x * sin(theta)
+  //Of course, we already know sin(theta), -sin(theta) and cos(theta). So we'll just reuse those.
+  //int midpoint = LENGTH >> 1;
+  int midpoint = 24;
+  qreal dx = midpoint * (1 - odeRotation[0]);
+  dx += midpoint * odeRotation[4];
+  qreal dy = midpoint * (1 - odeRotation[5]);
+  dy += midpoint * odeRotation[1];
+
+  //* The story of m11, m12, m22 and m23 *
   //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper right.
   //Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
   //the turn in Qt to make it clockwise (relative to Qt's coordinate system). The nice thing
   //is that since this is a matrix identity ([a b][-b a]) we just have to swap values.
-  rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
-  if(DEBUG) qDebug("Qt rotation:");
-  if(DEBUG) qDebug("[%f %f %f]", rotation.m11(), rotation.m12(), 0.0);
-  if(DEBUG) qDebug("[%f %f %f]", rotation.m21(), rotation.m22(), 0.0);
-  if(DEBUG) qDebug("[%f %f %f]", rotation.dx(), rotation.dy(), 1.0);
+  canvasRotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], dx, dy);
+  maskRotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
   
   //Update position
   dReal *position = (dReal*)dGeomGetPosition(geometry);
@@ -142,15 +151,16 @@ QSize Block::sizeHint() const
 {
   //a^2 + b^2 = c^2. I remembered something from elementary school!
   //In all fairness, this is actually square(side * (side * 2))
-  int boundingLength = (int)sqrt(LENGTH * (LENGTH << 1));
+  //int boundingLength = (int)sqrt(LENGTH * (LENGTH << 1));
+  int boundingLength = 68;
   if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
   return QSize(boundingLength, boundingLength);
 }
 
 void Block::paintEvent(QPaintEvent *)
 {
-  QRegion maskedRegion(bitmask.transformed(rotation));
-  setMask(maskedRegion);
+  QRegion maskedRegion(bitmask.transformed(maskRotation));
+  if(! DEBUG) setMask(maskedRegion);
   
   QLinearGradient linearGradient(0, 0, 100, 100);
   linearGradient.setColorAt(0.0, Qt::white);
@@ -159,8 +169,7 @@ void Block::paintEvent(QPaintEvent *)
   
   QPainter painter(this);
   painter.save();
-  painter.setMatrix(rotation, false);
-  painter.fillRect(maskedRegion.boundingRect(), linearGradient);
-  //painter.drawPixmap(0, 0, texture.transformed(rotation));
+  painter.setMatrix(canvasRotation, false);
+  painter.fillRect(0, 0, LENGTH, LENGTH, linearGradient);
   painter.restore();
 }
