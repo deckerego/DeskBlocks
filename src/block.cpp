@@ -80,7 +80,7 @@ void Block::updatePosition()
   //dy = y * (1 - cos(theta)) - x * sin(theta)
   //Of course, we already know sin(theta), -sin(theta) and cos(theta). So we'll just reuse those.
   //int midpoint = LENGTH >> 1;
-  int midpoint = 24;
+  int midpoint = 34;
   qreal dx = midpoint * (1 - odeRotation[0]);
   dx += midpoint * odeRotation[4];
   qreal dy = midpoint * (1 - odeRotation[5]);
@@ -92,7 +92,7 @@ void Block::updatePosition()
   //the turn in Qt to make it clockwise (relative to Qt's coordinate system). The nice thing
   //is that since this is a matrix identity ([a b][-b a]) we just have to swap values.
   canvasRotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], dx, dy);
-  maskRotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
+  maskRotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 10, 10);
   
   //Update position
   dReal *position = (dReal*)dGeomGetPosition(geometry);
@@ -160,7 +160,7 @@ QSize Block::sizeHint() const
 void Block::paintEvent(QPaintEvent *)
 {
   QRegion maskedRegion(bitmask.transformed(maskRotation));
-  if(! DEBUG) setMask(maskedRegion);
+  setMask(maskedRegion);
   
   QLinearGradient linearGradient(0, 0, 100, 100);
   linearGradient.setColorAt(0.0, Qt::white);
@@ -170,6 +170,6 @@ void Block::paintEvent(QPaintEvent *)
   QPainter painter(this);
   painter.save();
   painter.setMatrix(canvasRotation, false);
-  painter.fillRect(0, 0, LENGTH, LENGTH, linearGradient);
+  painter.fillRect(10, 10, LENGTH, LENGTH, linearGradient);
   painter.restore();
 }
