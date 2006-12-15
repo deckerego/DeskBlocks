@@ -3,17 +3,19 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
-RESOURCES = deskblocks.qrc 
-LIBS += -lode 
-TARGET = ../bin/deskblocks 
-CONFIG += release \
-          warn_on 
-TEMPLATE = app 
 HEADERS += block.h \
            deskblocks.h \
            conventions.h \
-           blocksbox.h 
+           blocksbox.h \
+           blockwidget.h 
 SOURCES += deskblocks.cpp \
            block.cpp \
            main.cpp \
-           blocksbox.cpp 
+           blocksbox.cpp \
+           blockwidget.cpp 
+RESOURCES = deskblocks.qrc
+LIBS += -lode
+TARGET = ../bin/deskblocks
+CONFIG += release \
+warn_on
+TEMPLATE = app

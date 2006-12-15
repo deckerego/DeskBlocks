@@ -21,11 +21,10 @@
 #define BLOCK_H
 
 #include <QWidget>
-#include <QPixmap>
-#include <QBitmap>
 #include <QMatrix>
 #include <ode/ode.h>
 
+#include "blockwidget.h"
 #include "conventions.h"
 #include "deskblocks.h"
 
@@ -34,14 +33,13 @@ class DeskBlocks;
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
  */
-class Block : public QWidget
+class Block : public BlockWidget
 {
   Q_OBJECT
       
   public:
     Block(DeskBlocks *parent = 0);
     
-    QSize sizeHint() const;
     dReal getMass() const;
 
   public slots:
@@ -50,21 +48,10 @@ class Block : public QWidget
   protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
-
-    void paintEvent(QPaintEvent *event);
     
   private:
-    QPixmap texture;
-    QMatrix canvasRotation;
-
-    QBitmap bitmask;
-    QMatrix maskRotation;
-
     QPoint dragPosition;
     QPoint lastPosition;
-
-    dBodyID body;
-    dGeomID geometry;
 };
 
 #endif
