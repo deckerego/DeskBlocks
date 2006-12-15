@@ -24,7 +24,7 @@
 #include "block.h"
 
 Block::Block(DeskBlocks *parent)
-  : BlockWidget()
+  : BlockWidget(QBitmap(":/blocks/square.png"), LENGTH, LENGTH)
 {
   if(! parent) return;
   
@@ -105,4 +105,27 @@ void Block::mousePressEvent(QMouseEvent *event)
     dBodyEnable(body); //Wake up the ODE object if it was auto-disabled
     event->accept();
   }
+}
+
+QSize Block::sizeHint() const 
+{
+  return QSize(boundingLength, boundingLength);
+}
+
+void Block::paintEvent(QPaintEvent *)
+{
+  QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
+  linearGradient.setColorAt(0.0, Qt::white);
+  linearGradient.setColorAt(0.2, Qt::green);
+  linearGradient.setColorAt(1.0, Qt::black);
+  
+  QRegion maskedRegion(bitmask.transformed(rotation));
+  QPainterPath maskedPath;
+  maskedPath.addRegion(maskedRegion);
+  setMask(maskedRegion);
+  
+  QPainter painter(this);
+  painter.save();
+  painter.fillPath(maskedPath, linearGradient);
+  painter.restore();
 }

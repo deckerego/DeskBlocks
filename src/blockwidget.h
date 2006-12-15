@@ -38,9 +38,7 @@ class BlockWidget : public QWidget
   Q_OBJECT
       
   public:
-    BlockWidget();
-    
-    QSize sizeHint() const;
+    BlockWidget(QBitmap mask, int length, int width);
     
     void resetRotation();
     void setRotation(const dMatrix3 rotation);
@@ -49,14 +47,15 @@ class BlockWidget : public QWidget
     void setPosition(const QPoint position);
     
   protected:
-    QMatrix rotation;
     dBodyID body;
     dGeomID geometry;
     
-    void paintEvent(QPaintEvent *event);
-    
-  private:
+    QMatrix rotation;
     QBitmap bitmask;
+    
+    int boundingLength;
+    int length;
+    int width;
 };
 
 #endif

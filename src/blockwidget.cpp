@@ -23,19 +23,15 @@
 
 #include "blockwidget.h"
 
-BlockWidget::BlockWidget()
+BlockWidget::BlockWidget(QBitmap bitmask, int length, int width)
   : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
-  bitmask = QBitmap(":/blocks/square.png");
-}
-
-QSize BlockWidget::sizeHint() const 
-{
+  this->bitmask = bitmask;
+  this->length = length;
+  this->width = width;
   //a^2 + b^2 = c^2. I remembered something from elementary school!
-  //In all fairness, this is actually square(side * (side * 2))
-  int boundingLength = (int)sqrt(LENGTH * (LENGTH << 1));
+  boundingLength = (int)sqrt((length * length) + (width * width));
   if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
-  return QSize(boundingLength, boundingLength);
 }
 
 void BlockWidget::setPosition(dReal *position) {
@@ -75,22 +71,4 @@ void BlockWidget::setRotation(const dMatrix3 odeRotation)
   //the turn in Qt to make it clockwise (relative to Qt's coordinate system). The nice thing
   //is that since this is a matrix identity ([a b][-b a]) we just have to swap values.
   rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
-}
-
-void BlockWidget::paintEvent(QPaintEvent *)
-{
-  QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
-  linearGradient.setColorAt(0.0, Qt::white);
-  linearGradient.setColorAt(0.2, Qt::green);
-  linearGradient.setColorAt(1.0, Qt::black);
-  
-  QRegion maskedRegion(bitmask.transformed(rotation));
-  QPainterPath maskedPath;
-  maskedPath.addRegion(maskedRegion);
-  setMask(maskedRegion);
-  
-  QPainter painter(this);
-  painter.save();
-  painter.fillPath(maskedPath, linearGradient);
-  painter.restore();
 }

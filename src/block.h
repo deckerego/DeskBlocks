@@ -41,6 +41,7 @@ class Block : public BlockWidget
     Block(DeskBlocks *parent = 0);
     
     dReal getMass() const;
+    QSize sizeHint() const;
 
   public slots:
     void updatePosition();
@@ -48,6 +49,7 @@ class Block : public BlockWidget
   protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
     
   private:
     QPoint dragPosition;
