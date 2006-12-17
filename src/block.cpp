@@ -24,7 +24,7 @@
 #include "block.h"
 
 Block::Block(DeskBlocks *parent)
-  : BlockWidget(QBitmap(":/blocks/square.png"), LENGTH, LENGTH)
+  : BlockWidget(QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
 {
   if(! parent) return;
   

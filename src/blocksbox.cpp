@@ -22,13 +22,16 @@
 #include "blocksbox.h"
 
 BlocksBox::BlocksBox(DeskBlocks *desktop, QWidget *parent)
-  : QWidget(parent, Qt::FramelessWindowHint)
+  : QSvgWidget(":/box/box.svg", parent)
 {
   setWindowTitle(tr("DeskBlocks"));
-  
-  QLabel imageLabel(this);
-  
-  QPixmap box(":/box/box.png");
-  //box.setMask(box.createHeuristicMask());
-  imageLabel.setPixmap(box);
+  setWindowFlags(Qt::FramelessWindowHint);
+}
+
+void BlocksBox::mousePressEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton) {
+    event->globalPos();
+    event->accept();
+  }
 }

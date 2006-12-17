@@ -18,7 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <QTimer>
+#include <QtGui>
 
 #include "deskblocks.h"
 
@@ -72,11 +72,15 @@ void DeskBlocks::dropBlock()
  */
 void DeskBlocks::createBounds()
 {
-  //TODO Replace the static boundries with ones pulled directly from QDesktopWidget
-  dCreatePlane (space,0,-1,0,RELATIVE(-954)); // normal on Y axis pointing backward, bottom bounds
+  QDesktopWidget *screen = QApplication::desktop();
+  int height = screen->height();
+  int width = screen->width();
+  if(DEBUG) qDebug("Window dimensions are: %i x %i", height, width);
+  
+  dCreatePlane (space,0,-1,0,RELATIVE(-1 * height)); // normal on Y axis pointing backward, bottom bounds
   dCreatePlane (space,0,1,0,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
   dCreatePlane (space,1,0,0,RELATIVE(0)); // normal on X axis pointing forward, left bounds
-  dCreatePlane (space,-1,0,0,RELATIVE(-1200)); // normal on X axis pointing backward, right bounds
+  dCreatePlane (space,-1,0,0,RELATIVE(-1 * width)); // normal on X axis pointing backward, right bounds
 }
 
 void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)

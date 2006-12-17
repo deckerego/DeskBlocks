@@ -23,20 +23,22 @@
 #include <QApplication>
 #include <QFont>
 #include <QPushButton>
-#include <QWidget>
+#include <QSvgWidget>
 
 #include "deskblocks.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
 */
-class BlocksBox : public QWidget
+class BlocksBox : public QSvgWidget
 {
   Q_OBJECT
       
   public:
     BlocksBox(DeskBlocks *desktop, QWidget *parent = 0);
 
+  protected:
+    mousePressEvent(QMouseEvent *event);
 };
 
 #endif
