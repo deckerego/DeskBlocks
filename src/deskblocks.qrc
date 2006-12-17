@@ -3,6 +3,6 @@
     <file alias="square.png">../data/square.png</file>
   </qresource>
   <qresource prefix="/box">
-    <file alias="box.svg">../data/Blocks Container.svg</file>
+    <file alias="box.svg">../data/Blocks Container.png</file>
   </qresource>
 </RCC>

@@ -17,11 +17,18 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include <QtGui>
+
 #include "blocksbox.h"
 
 BlocksBox::BlocksBox(DeskBlocks *desktop, QWidget *parent)
-  : QSvgWidget(":/box/box.svg", parent)
+  : QWidget(parent, Qt::FramelessWindowHint)
 {
   setWindowTitle(tr("DeskBlocks"));
-  setWindowFlags(Qt::FramelessWindowHint);
+  
+  QLabel imageLabel(this);
+  
+  QPixmap box(":/box/box.png");
+  //box.setMask(box.createHeuristicMask());
+  imageLabel.setPixmap(box);
 }
