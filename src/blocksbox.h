@@ -24,13 +24,14 @@
 #include <QFont>
 #include <QPushButton>
 #include <QWidget>
+#include <QtSvg>
 
 #include "deskblocks.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
 */
-class BlocksBox : public QWidget
+class BlocksBox : public QSvgWidget
 {
   Q_OBJECT
       

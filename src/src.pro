@@ -19,3 +19,4 @@ TARGET = ../bin/deskblocks
 CONFIG += release \
 warn_on
 TEMPLATE = app
+QT += svg

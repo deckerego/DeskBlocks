@@ -17,25 +17,11 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <QVBoxLayout>
 #include "blocksbox.h"
 
 BlocksBox::BlocksBox(DeskBlocks *desktop, QWidget *parent)
-  : QWidget(parent)
+  : QSvgWidget(":/box/box.svg", parent)
 {
-  setFixedSize(200, 120);
   setWindowTitle(tr("DeskBlocks"));
-
-  QPushButton *quit = new QPushButton(tr("Quit"), this);
-  quit->setFont(QFont("Times", 12, QFont::Bold));
-  connect(quit, SIGNAL(clicked()), qApp, SLOT(quit()));
-  
-  QPushButton *dropBlock = new QPushButton(tr("Drop Block"), this);
-  dropBlock->setFont(QFont("Times", 12, QFont::Bold));
-  connect(dropBlock, SIGNAL(clicked()), desktop, SLOT(dropBlock()));
-  
-  QVBoxLayout *layout = new QVBoxLayout;
-  layout->addWidget(quit);
-  layout->addWidget(dropBlock);
-  setLayout(layout);
+  setWindowFlags(Qt::FramelessWindowHint);
 }
