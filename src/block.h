@@ -38,7 +38,7 @@ class Block : public BlockWidget
   Q_OBJECT
       
   public:
-    Block(DeskBlocks *parent = 0);
+    Block(DeskBlocks *parent, QPoint position);
     
     dReal getMass() const;
     QSize sizeHint() const;

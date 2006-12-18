@@ -47,9 +47,13 @@ class DeskBlocks : public QWidget
     dWorldID world;
     dSpaceID space;
     
+  signals:
+    void odeUpdated();
+    
   private slots:
+    void shutdown();
     void simLoop();
-    void dropBlock();
+    void dropBlock(QPoint origin);
     
   private:
     void createBounds();

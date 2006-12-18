@@ -23,7 +23,7 @@
 
 #include "block.h"
 
-Block::Block(DeskBlocks *parent)
+Block::Block(DeskBlocks *parent, QPoint position)
   : BlockWidget(QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
 {
   if(! parent) return;
@@ -39,8 +39,8 @@ Block::Block(DeskBlocks *parent)
   dJointAttach(planeJoint, body, 0);
   
   //Set to top of screen
-  int xPos = frameGeometry().topLeft().x();
-  int yPos = frameGeometry().topLeft().y();
+  int xPos = position.x();
+  int yPos = position.y();
   dBodySetPosition(body, RELATIVE(xPos), RELATIVE(yPos), 0);
   
   //No initial velocity

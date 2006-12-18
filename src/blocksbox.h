@@ -36,9 +36,14 @@ class BlocksBox : public QSvgWidget
       
   public:
     BlocksBox(DeskBlocks *desktop, QWidget *parent = 0);
+    
+  signals:
+    void mousePressed(QPoint cursorPosition);
+    void closed();
 
   protected:
-    mousePressEvent(QMouseEvent *event);
+    void closeEvent (QCloseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif

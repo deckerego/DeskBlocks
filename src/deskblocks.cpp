@@ -46,6 +46,8 @@ DeskBlocks::DeskBlocks(QWidget *parent)
 DeskBlocks::~DeskBlocks()
 {
   if(DEBUG) qDebug("Destroying DeskBlocks");
+  for(int i = 0; i < numBlocks; i++)
+    delete blocks[i];
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
@@ -56,12 +58,18 @@ void DeskBlocks::start()
   worldTimer->start(1000/FRAMES_SEC);
 }
 
-void DeskBlocks::dropBlock()
+void DeskBlocks::dropBlock(QPoint origin)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  blocks[numBlocks] = new Block(this);
+  blocks[numBlocks] = new Block(this, origin);
+  connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
   blocks[numBlocks++]->show();
+}
+
+void DeskBlocks::shutdown()
+{
+  delete this;
 }
 
 /**
@@ -116,13 +124,9 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
     
 void DeskBlocks::simLoop()
 {
-  int b;
   dSpaceCollide(space, this, &nearCallback);
   dWorldQuickStep(world, ODE_STEPS);
   dJointGroupEmpty(contactGroup);
-  
-  for(b=0; b < numBlocks; b++) {
-    blocks[b]->updatePosition();
-  }
+  emit odeUpdated();
 }
 
