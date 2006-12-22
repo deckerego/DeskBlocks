@@ -29,6 +29,8 @@
 #include "conventions.h"
 
 class DeskBlocks;
+class QMatrix;
+class QBitmap;
 
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -38,7 +40,7 @@ class BlockWidget : public QWidget
   Q_OBJECT
       
   public:
-    BlockWidget(QBitmap mask, int length, int width);
+    BlockWidget(QBitmap *mask, int length, int width);
     
     void resetRotation();
     void setRotation(const dMatrix3 rotation);
@@ -51,7 +53,7 @@ class BlockWidget : public QWidget
     dGeomID geometry;
     
     QMatrix rotation;
-    QBitmap bitmask;
+    QBitmap *bitmask;
     
     int boundingLength;
     int length;

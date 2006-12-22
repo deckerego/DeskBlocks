@@ -24,7 +24,7 @@
 #include "block.h"
 
 Block::Block(DeskBlocks *parent, QPoint position)
-  : BlockWidget(QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
+  : BlockWidget(new QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
 {
   if(! parent) return;
   
@@ -119,7 +119,7 @@ void Block::paintEvent(QPaintEvent *)
   linearGradient.setColorAt(0.2, Qt::gray);
   linearGradient.setColorAt(1.0, Qt::black);
   
-  QRegion maskedRegion(bitmask.transformed(rotation));
+  QRegion maskedRegion(bitmask->transformed(rotation));
   QPainterPath maskedPath;
   maskedPath.addRegion(maskedRegion);
   setMask(maskedRegion);

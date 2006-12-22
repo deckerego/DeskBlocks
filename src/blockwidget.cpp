@@ -23,7 +23,7 @@
 
 #include "blockwidget.h"
 
-BlockWidget::BlockWidget(QBitmap bitmask, int length, int width)
+BlockWidget::BlockWidget(QBitmap *bitmask, int length, int width)
   : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   this->bitmask = bitmask;

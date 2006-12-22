@@ -29,6 +29,7 @@
 #include "deskblocks.h"
 
 class DeskBlocks;
+class QPoint;
 
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
