@@ -7,12 +7,14 @@ HEADERS += block.h \
            deskblocks.h \
            conventions.h \
            blocksbox.h \
-           blockwidget.h 
+           blockwidget.h \
+           square.h 
 SOURCES += deskblocks.cpp \
            block.cpp \
            main.cpp \
            blocksbox.cpp \
-           blockwidget.cpp 
+           blockwidget.cpp \
+           square.cpp 
 RESOURCES = deskblocks.qrc
 LIBS += -lode
 TARGET = ../bin/deskblocks

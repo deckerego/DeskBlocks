@@ -23,7 +23,6 @@
 #include <QWidget>
 #include <ode/ode.h>
 
-#include "block.h"
 #include "conventions.h"
 
 /**

@@ -21,6 +21,7 @@
 #include <QtGui>
 
 #include "deskblocks.h"
+#include "square.h"
 
 DeskBlocks::DeskBlocks(QWidget *parent)
   : QWidget(parent)
@@ -62,7 +63,7 @@ void DeskBlocks::dropBlock(QPoint origin)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  blocks[numBlocks] = new Block(this, origin);
+  blocks[numBlocks] = new Square(this, origin);
   connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
   blocks[numBlocks++]->show();
 }

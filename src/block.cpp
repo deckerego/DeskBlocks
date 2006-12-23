@@ -23,8 +23,8 @@
 
 #include "block.h"
 
-Block::Block(DeskBlocks *parent, QPoint position)
-  : BlockWidget(new QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
+Block::Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, int height)
+  : BlockWidget(bitmask, width, height)
 {
   if(! parent) return;
   

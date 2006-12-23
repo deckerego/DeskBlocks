@@ -39,7 +39,7 @@ class Block : public BlockWidget
   Q_OBJECT
       
   public:
-    Block(DeskBlocks *parent, QPoint position);
+    Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, int height);
     
     dReal getMass() const;
     QSize sizeHint() const;
