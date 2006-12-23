@@ -81,14 +81,17 @@ void DeskBlocks::shutdown()
 void DeskBlocks::createBounds()
 {
   QDesktopWidget *screen = QApplication::desktop();
+  int halfLength = LENGTH / 2;
   int height = screen->height();
   int width = screen->width();
   if(DEBUG) qDebug("Window dimensions are: %i x %i", height, width);
   
-  dCreatePlane (space,0,-1,0,RELATIVE(-1 * height)); // normal on Y axis pointing backward, bottom bounds
-  dCreatePlane (space,0,1,0,RELATIVE(0)); // normal on Y axis pointing forward, top bounds
-  dCreatePlane (space,1,0,0,RELATIVE(0)); // normal on X axis pointing forward, left bounds
-  dCreatePlane (space,-1,0,0,RELATIVE(-1 * width)); // normal on X axis pointing backward, right bounds
+  // Our point in space used for collision is the midpoint of the shape - so we add
+  // half the length to ensure we create boundries that exist on either extremity
+  dCreatePlane (space,0,-1,0,RELATIVE(-height + halfLength)); // normal on Y axis pointing backward, bottom bounds
+  dCreatePlane (space,0,1,0,RELATIVE(halfLength)); // normal on Y axis pointing forward, top bounds
+  dCreatePlane (space,1,0,0,RELATIVE(-halfLength)); // normal on X axis pointing forward, left bounds
+  dCreatePlane (space,-1,0,0,RELATIVE(-width + halfLength)); // normal on X axis pointing backward, right bounds
 }
 
 void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)

@@ -34,6 +34,11 @@ BlocksBox::BlocksBox(DeskBlocks *deskBlocks, QWidget *parent)
   connect(this, SIGNAL(closed()), deskBlocks, SLOT(shutdown()));
 }
 
+QSize BlocksBox::sizeHint() const
+{
+  return QSize(192, 64);
+}
+
 void BlocksBox::closeEvent (QCloseEvent *event)
 {
   emit closed();
@@ -44,6 +49,7 @@ void BlocksBox::mousePressEvent(QMouseEvent *event)
 {
   if (event->button() == Qt::LeftButton) {
     emit mousePressed(event->globalPos());
+    if(DEBUG) qDebug("New block at %i, %i", event->globalPos().x(), event->globalPos().y());
     event->accept();
   }
 }

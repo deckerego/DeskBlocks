@@ -116,7 +116,7 @@ void Block::paintEvent(QPaintEvent *)
 {
   QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
   linearGradient.setColorAt(0.0, Qt::white);
-  linearGradient.setColorAt(0.2, Qt::gray);
+  linearGradient.setColorAt(0.2, Qt::blue);
   linearGradient.setColorAt(1.0, Qt::black);
   
   QRegion maskedRegion(bitmask->transformed(rotation));

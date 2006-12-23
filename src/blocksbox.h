@@ -36,6 +36,7 @@ class BlocksBox : public QSvgWidget
       
   public:
     BlocksBox(DeskBlocks *desktop, QWidget *parent = 0);
+    QSize sizeHint() const;
     
   signals:
     void mousePressed(QPoint cursorPosition);
