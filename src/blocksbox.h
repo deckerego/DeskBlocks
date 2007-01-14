@@ -23,28 +23,28 @@
 #include <QApplication>
 #include <QFont>
 #include <QPushButton>
-#include <QSvgWidget>
+#include <QSystemTrayIcon>
 
 #include "deskblocks.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
 */
-class BlocksBox : public QSvgWidget
+class BlocksBox : public QSystemTrayIcon
 {
   Q_OBJECT
       
   public:
-    BlocksBox(DeskBlocks *desktop, QWidget *parent = 0);
-    QSize sizeHint() const;
+    BlocksBox(DeskBlocks *desktop);
     
   signals:
-    void mousePressed(QPoint cursorPosition);
     void closed();
 
   protected:
     void closeEvent (QCloseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
+    
+  private:
+    QSystemTrayIcon *trayIcon;
 };
 
 #endif

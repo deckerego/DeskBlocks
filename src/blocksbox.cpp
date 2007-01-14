@@ -21,22 +21,15 @@
 
 #include "blocksbox.h"
 
-BlocksBox::BlocksBox(DeskBlocks *deskBlocks, QWidget *parent)
-  : QSvgWidget(":/box/box.svg", parent)
+BlocksBox::BlocksBox(DeskBlocks *deskBlocks)
 {
-  setWindowTitle(tr("DeskBlocks"));
-  setWindowFlags(Qt::FramelessWindowHint);
+  setIcon(QIcon(":/box/box.svg"));
   
   //Tells us if a mouse click on the tray necessitates block creation
-  connect(this, SIGNAL(mousePressed(QPoint)), deskBlocks, SLOT(dropBlock(QPoint)));
+  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), deskBlocks, SLOT(dropBlock()));
   
   //Shut things down
   connect(this, SIGNAL(closed()), deskBlocks, SLOT(shutdown()));
-}
-
-QSize BlocksBox::sizeHint() const
-{
-  return QSize(192, 64);
 }
 
 void BlocksBox::closeEvent (QCloseEvent *event)
@@ -44,12 +37,3 @@ void BlocksBox::closeEvent (QCloseEvent *event)
   emit closed();
   event->accept();
 }  
-
-void BlocksBox::mousePressEvent(QMouseEvent *event)
-{
-  if (event->button() == Qt::LeftButton) {
-    emit mousePressed(event->globalPos());
-    if(DEBUG) qDebug("New block at %i, %i", event->globalPos().x(), event->globalPos().y());
-    event->accept();
-  }
-}

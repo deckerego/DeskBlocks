@@ -52,7 +52,7 @@ class DeskBlocks : public QWidget
   private slots:
     void shutdown();
     void simLoop();
-    void dropBlock(QPoint origin);
+    void dropBlock();
     
   private:
     void createBounds();
