@@ -23,8 +23,8 @@
 
 #include "block.h"
 
-Block::Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, int height)
-  : BlockWidget(bitmask, width, height)
+Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, int height)
+  : BaseWidget(bitmask, width, height)
 {
   if(! parent) return;
   

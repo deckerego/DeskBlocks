@@ -21,9 +21,9 @@
 #include <QtGui>
 #include <math.h>
 
-#include "blockwidget.h"
+#include "basewidget.h"
 
-BlockWidget::BlockWidget(QBitmap *bitmask, int length, int width)
+BaseWidget::BaseWidget(QBitmap *bitmask, int length, int width)
   : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   this->bitmask = bitmask;
@@ -34,7 +34,7 @@ BlockWidget::BlockWidget(QBitmap *bitmask, int length, int width)
   if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
 }
 
-void BlockWidget::setPosition(dReal *position) {
+void BaseWidget::setPosition(dReal *position) {
   //Update position
   int xPos = ABSOLUTE(position[0]);
   int yPos = ABSOLUTE(position[1]);
@@ -45,7 +45,7 @@ void BlockWidget::setPosition(dReal *position) {
   move(xPos, yPos);
 }
 
-void BlockWidget::setPosition(QPoint position) {
+void BaseWidget::setPosition(QPoint position) {
   dReal xPos = (dReal)position.x();
   dReal yPos = (dReal)position.y();
   
@@ -57,14 +57,14 @@ void BlockWidget::setPosition(QPoint position) {
   move(position);
 }
 
-void BlockWidget::resetRotation()
+void BaseWidget::resetRotation()
 {
   dMatrix3 odeRotation;
   dRSetIdentity (odeRotation);
   dBodySetRotation(body, odeRotation);
 }
 
-void BlockWidget::setRotation(const dMatrix3 odeRotation)
+void BaseWidget::setRotation(const dMatrix3 odeRotation)
 {
   //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper
   //right. Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert

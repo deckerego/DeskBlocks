@@ -17,42 +17,53 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef BLOCKSBOX_H
-#define BLOCKSBOX_H
+#include <QtGui>
 
-#include <QApplication>
-#include <QFont>
-#include <QPushButton>
-#include <QSystemTrayIcon>
+#include "systray.h"
 
-#include "deskblocks.h"
-
-/**
-	@author John T. Ellis <jtellis@alumni.indiana.edu>
-*/
-class BlocksBox : public QSystemTrayIcon
+SysTray::SysTray(Playground *playground)
 {
-  Q_OBJECT
-      
-  public:
-    BlocksBox(DeskBlocks *desktop);
-    
-  signals:
-    void closed();
-    
-  private slots:
-    void activation (QSystemTrayIcon::ActivationReason reason);
+  this->playground = playground;
+  
+  setIcon(QIcon(":/box/box.svg"));
+  
+  //Quit Action
+  quitAction = new QAction(tr("&Quit"), this);
+  connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+  
+  //Build the menu
+  trayIconMenu = new QMenu();
+  trayIconMenu->addAction(quitAction);
+  setContextMenu(trayIconMenu);
+  
+  //Tells us if a mouse click on the tray necessitates block creation
+  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(activation(QSystemTrayIcon::ActivationReason)));
+  
+  //Shut things down
+  connect(this, SIGNAL(closed()), playground, SLOT(shutdown()));
+}
 
-  protected:
-    void closeEvent (QCloseEvent *event);
-    
-  private:
-    DeskBlocks *deskBlocks;
-    
-    //SysTray
-    QAction *quitAction;
-    QMenu *trayIconMenu;
-    QSystemTrayIcon *trayIcon;
-};
+void SysTray::closeEvent (QCloseEvent *event)
+{
+  emit closed();
+  event->accept();
+}
 
-#endif
+void SysTray::activation (QSystemTrayIcon::ActivationReason reason)
+{
+  switch (reason) {
+    case QSystemTrayIcon::Trigger: //left clicked
+      playground->dropBlock(QPoint(LENGTH, LENGTH));
+      break;
+    case QSystemTrayIcon::DoubleClick: //left double-clicked
+      break;
+    case QSystemTrayIcon::MiddleClick: //middle clicked
+      break;
+    case QSystemTrayIcon::Context: //context menu requested
+      break;
+    case QSystemTrayIcon::Unknown: //who knows
+      break;
+    default:
+      ;
+  }
+}

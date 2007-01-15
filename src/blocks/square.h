@@ -17,50 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef DESKBLOCKS_H
-#define DESKBLOCKS_H
+#ifndef SQUARE_H
+#define SQUARE_H
 
-#include <QWidget>
-#include <ode/ode.h>
-
-#include "conventions.h"
+#include "../block.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
- */
- 
-class QTimer;
-class Block;
- 
-class DeskBlocks : public QWidget
+*/
+
+class Square : public Block
 {
   Q_OBJECT
       
   public:
-    DeskBlocks(QWidget *parent = 0);
-    ~DeskBlocks();
-    
-    void start();
-    void detectCollision(dGeomID object1, dGeomID object2);
-    void dropBlock(QPoint origin);
-    
-    dWorldID world;
-    dSpaceID space;
-    
-  signals:
-    void odeUpdated();
-    
-  private slots:
-    void shutdown();
-    void simLoop();
-    
-  private:
-    void createBounds();
-    
-    QTimer *worldTimer;
-    dJointGroupID contactGroup;
-    Block *blocks[MAX_BLOCKS];
-    int numBlocks;
+    Square(Playground *parent, QPoint position);
 };
 
 #endif

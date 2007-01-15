@@ -4,19 +4,19 @@
 # Target is an application:  ../bin/deskblocks
 
 HEADERS += block.h \
-           deskblocks.h \
+           playground.h \
            conventions.h \
-           blocksbox.h \
-           blockwidget.h \
-           square.h \
-           circle.h 
-SOURCES += deskblocks.cpp \
+           systray.h \
+           basewidget.h \
+           blocks/square.h \
+           blocks/circle.h 
+SOURCES += playground.cpp \
            block.cpp \
            main.cpp \
-           blocksbox.cpp \
-           blockwidget.cpp \
-           square.cpp \
-           circle.cpp 
+           systray.cpp \
+           basewidget.cpp \
+           blocks/square.cpp \
+           blocks/circle.cpp 
 RESOURCES = deskblocks.qrc
 LIBS += -lode
 TARGET = ../bin/deskblocks

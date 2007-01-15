@@ -25,15 +25,15 @@
 
 #include <QApplication>
 
-#include "deskblocks.h"
-#include "blocksbox.h"
+#include "playground.h"
+#include "systray.h"
 
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
   
-  DeskBlocks *desktop = new DeskBlocks(); // The world blocks exist in
-  BlocksBox *box = new BlocksBox(desktop); // The window the user interacts with
+  Playground *desktop = new Playground(); // The world blocks exist in
+  SysTray *box = new SysTray(desktop); // The window the user interacts with
   
   box->show();
   desktop->start();

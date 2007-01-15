@@ -20,11 +20,11 @@
 
 #include <QtGui>
 
-#include "deskblocks.h"
-#include "square.h"
-#include "circle.h"
+#include "playground.h"
+#include "blocks/square.h"
+#include "blocks/circle.h"
 
-DeskBlocks::DeskBlocks(QWidget *parent)
+Playground::Playground(QWidget *parent)
   : QWidget(parent)
 {
   numBlocks = 0;
@@ -45,9 +45,9 @@ DeskBlocks::DeskBlocks(QWidget *parent)
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
 }
 
-DeskBlocks::~DeskBlocks()
+Playground::~Playground()
 {
-  if(DEBUG) qDebug("Destroying DeskBlocks");
+  if(DEBUG) qDebug("Destroying Playground");
   for(int i = 0; i < numBlocks; i++)
     delete blocks[i];
   dJointGroupDestroy (contactGroup);
@@ -55,12 +55,12 @@ DeskBlocks::~DeskBlocks()
   dWorldDestroy (world);
 }
 
-void DeskBlocks::start()
+void Playground::start()
 {
   worldTimer->start(1000/FRAMES_SEC);
 }
 
-void DeskBlocks::dropBlock(QPoint origin)
+void Playground::dropBlock(QPoint origin)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
@@ -73,7 +73,7 @@ void DeskBlocks::dropBlock(QPoint origin)
   blocks[numBlocks++]->show();
 }
 
-void DeskBlocks::shutdown()
+void Playground::shutdown()
 {
   delete this;
 }
@@ -84,7 +84,7 @@ void DeskBlocks::shutdown()
  * 2D constraint. It was around since 0.35 evidentally, but just merged
  * in since release version 0.7.
  */
-void DeskBlocks::createBounds()
+void Playground::createBounds()
 {
   QDesktopWidget *screen = QApplication::desktop();
   int halfLength = LENGTH / 2;
@@ -100,7 +100,7 @@ void DeskBlocks::createBounds()
   dCreatePlane (space,-1,0,0,RELATIVE(-width + halfLength)); // normal on X axis pointing backward, right bounds
 }
 
-void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
+void Playground::detectCollision(dGeomID object1, dGeomID object2)
 {
   int i = 0;
   dBodyID body1 = dGeomGetBody(object1);
@@ -127,11 +127,11 @@ void DeskBlocks::detectCollision(dGeomID object1, dGeomID object2)
 
 static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 {
-  DeskBlocks *thisDeskBlock = (DeskBlocks*)data;
+  Playground *thisDeskBlock = (Playground*)data;
   thisDeskBlock->detectCollision(object1, object2);
 }
     
-void DeskBlocks::simLoop()
+void Playground::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
   dWorldQuickStep(world, ODE_STEPS);

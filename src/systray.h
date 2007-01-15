@@ -17,21 +17,42 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef SQUARE_H
-#define SQUARE_H
+#ifndef SYSTRAY_H
+#define SYSTRAY_H
 
-#include "block.h"
+#include <QApplication>
+#include <QFont>
+#include <QPushButton>
+#include <QSystemTrayIcon>
+
+#include "playground.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
 */
-
-class Square : public Block
+class SysTray : public QSystemTrayIcon
 {
   Q_OBJECT
       
   public:
-    Square(DeskBlocks *parent, QPoint position);
+    SysTray(Playground *desktop);
+    
+  signals:
+    void closed();
+    
+  private slots:
+    void activation (QSystemTrayIcon::ActivationReason reason);
+
+  protected:
+    void closeEvent (QCloseEvent *event);
+    
+  private:
+    Playground *playground;
+    
+    //SysTray
+    QAction *quitAction;
+    QMenu *trayIconMenu;
+    QSystemTrayIcon *trayIcon;
 };
 
 #endif

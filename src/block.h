@@ -24,22 +24,22 @@
 #include <QMatrix>
 #include <ode/ode.h>
 
-#include "blockwidget.h"
+#include "basewidget.h"
 #include "conventions.h"
-#include "deskblocks.h"
+#include "playground.h"
 
-class DeskBlocks;
+class Playground;
 class QPoint;
 
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
  */
-class Block : public BlockWidget
+class Block : public BaseWidget
 {
   Q_OBJECT
       
   public:
-    Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, int height);
+    Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, int height);
     
     dReal getMass() const;
     QSize sizeHint() const;

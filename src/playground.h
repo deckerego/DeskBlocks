@@ -17,47 +17,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef QBLOCKWIDGETBLOCK_H
-#define QBLOCKWIDGETBLOCK_H
+#ifndef PLAYGROUND_H
+#define PLAYGROUND_H
 
 #include <QWidget>
-#include <QPixmap>
-#include <QBitmap>
-#include <QMatrix>
 #include <ode/ode.h>
 
 #include "conventions.h"
 
-class DeskBlocks;
-class QMatrix;
-class QBitmap;
-
 /**
-  @author John T. Ellis <jtellis@alumni.indiana.edu>
+	@author John T. Ellis <jtellis@alumni.indiana.edu>
  */
-class BlockWidget : public QWidget
+ 
+class QTimer;
+class Block;
+ 
+class Playground : public QWidget
 {
   Q_OBJECT
       
   public:
-    BlockWidget(QBitmap *mask, int length, int width);
+    Playground(QWidget *parent = 0);
+    ~Playground();
     
-    void resetRotation();
-    void setRotation(const dMatrix3 rotation);
+    void start();
+    void detectCollision(dGeomID object1, dGeomID object2);
+    void dropBlock(QPoint origin);
     
-    void setPosition(dReal *position);
-    void setPosition(const QPoint position);
+    dWorldID world;
+    dSpaceID space;
     
-  protected:
-    dBodyID body;
-    dGeomID geometry;
+  signals:
+    void odeUpdated();
     
-    QMatrix rotation;
-    QBitmap *bitmask;
+  private slots:
+    void shutdown();
+    void simLoop();
     
-    int boundingLength;
-    int length;
-    int width;
+  private:
+    void createBounds();
+    
+    QTimer *worldTimer;
+    dJointGroupID contactGroup;
+    Block *blocks[MAX_BLOCKS];
+    int numBlocks;
 };
 
 #endif

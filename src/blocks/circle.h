@@ -17,53 +17,21 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <QtGui>
+#ifndef CIRCLE_H
+#define CIRCLE_H
 
-#include "blocksbox.h"
+#include "../block.h"
 
-BlocksBox::BlocksBox(DeskBlocks *deskBlocks)
+/**
+	@author John T. Ellis <jtellis@alumni.indiana.edu>
+*/
+class Circle : public Block
 {
-  this->deskBlocks = deskBlocks;
-  
-  setIcon(QIcon(":/box/box.svg"));
-  
-  //Quit Action
-  quitAction = new QAction(tr("&Quit"), this);
-  connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
-  
-  //Build the menu
-  trayIconMenu = new QMenu();
-  trayIconMenu->addAction(quitAction);
-  setContextMenu(trayIconMenu);
-  
-  //Tells us if a mouse click on the tray necessitates block creation
-  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(activation(QSystemTrayIcon::ActivationReason)));
-  
-  //Shut things down
-  connect(this, SIGNAL(closed()), deskBlocks, SLOT(shutdown()));
-}
+  Q_OBJECT
 
-void BlocksBox::closeEvent (QCloseEvent *event)
-{
-  emit closed();
-  event->accept();
-}
+  public:
+    Circle(Playground *parent, QPoint position);
 
-void BlocksBox::activation (QSystemTrayIcon::ActivationReason reason)
-{
-  switch (reason) {
-    case QSystemTrayIcon::Trigger: //left clicked
-      deskBlocks->dropBlock(QPoint(LENGTH, LENGTH));
-      break;
-    case QSystemTrayIcon::DoubleClick: //left double-clicked
-      break;
-    case QSystemTrayIcon::MiddleClick: //middle clicked
-      break;
-    case QSystemTrayIcon::Context: //context menu requested
-      break;
-    case QSystemTrayIcon::Unknown: //who knows
-      break;
-    default:
-      ;
-  }
-}
+};
+
+#endif

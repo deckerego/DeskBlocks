@@ -19,10 +19,10 @@
  ***************************************************************************/
 #include <QtGui>
 
-#include "square.h"
+#include "circle.h"
 
-Square::Square(DeskBlocks *parent, QPoint position)
-  : Block(parent, position, new QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
+Circle::Circle(Playground *parent, QPoint position)
+  : Block(parent, position, new QBitmap(":/blocks/circle.bmp"), LENGTH, LENGTH)
 {
   dMass mass;
   
@@ -30,10 +30,10 @@ Square::Square(DeskBlocks *parent, QPoint position)
   dReal density = RELATIVE(DENSITY);
 
   //Define initial mass
-  dMassSetBox(&mass, density, length, length, length);
+  dMassSetSphere(&mass, density, length / 2);
   dBodySetMass(body, &mass);
   
   //Set collision space
-  geometry = dCreateBox(parent->space, length, length, length);
+  geometry = dCreateSphere(parent->space, length / 2);
   dGeomSetBody(geometry, body);
 }

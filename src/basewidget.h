@@ -17,21 +17,47 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef QBASEWIDGET_H
+#define QBASEWIDGET_H
 
-#include "block.h"
+#include <QWidget>
+#include <QPixmap>
+#include <QBitmap>
+#include <QMatrix>
+#include <ode/ode.h>
+
+#include "conventions.h"
+
+class DeskBlocks;
+class QMatrix;
+class QBitmap;
 
 /**
-	@author John T. Ellis <jtellis@alumni.indiana.edu>
-*/
-class Circle : public Block
+  @author John T. Ellis <jtellis@alumni.indiana.edu>
+ */
+class BaseWidget : public QWidget
 {
   Q_OBJECT
-
+      
   public:
-    Circle(DeskBlocks *parent, QPoint position);
-
+    BaseWidget(QBitmap *mask, int length, int width);
+    
+    void resetRotation();
+    void setRotation(const dMatrix3 rotation);
+    
+    void setPosition(dReal *position);
+    void setPosition(const QPoint position);
+    
+  protected:
+    dBodyID body;
+    dGeomID geometry;
+    
+    QMatrix rotation;
+    QBitmap *bitmask;
+    
+    int boundingLength;
+    int length;
+    int width;
 };
 
 #endif
