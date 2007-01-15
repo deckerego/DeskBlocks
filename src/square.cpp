@@ -24,4 +24,16 @@
 Square::Square(DeskBlocks *parent, QPoint position)
   : Block(parent, position, new QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
 {
+  dMass mass;
+  
+  dReal length = RELATIVE(LENGTH);
+  dReal density = RELATIVE(DENSITY);
+
+  //Define initial mass
+  dMassSetBox(&mass, density, length, length, length);
+  dBodySetMass(body, &mass);
+  
+  //Set collision space
+  geometry = dCreateBox(parent->space, length, length, length);
+  dGeomSetBody(geometry, body);
 }

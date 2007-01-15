@@ -28,10 +28,6 @@ Block::Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, i
 {
   if(! parent) return;
   
-  dMass mass;
-  dReal length = RELATIVE(LENGTH);
-  dReal density = RELATIVE(DENSITY);
-  
   body = dBodyCreate(parent->world);
   
   //Use ODE's new constraint for 2D
@@ -51,19 +47,13 @@ Block::Block(DeskBlocks *parent, QPoint position, QBitmap *bitmask, int width, i
   dRSetIdentity (odeRotation);
   dBodySetRotation(body, odeRotation);
   
-  //Define initial mass
-  dMassSetBox(&mass, density, length, length, length);
-  dBodySetMass(body, &mass);
-  
-  //Set collision space
-  geometry = dCreateBox(parent->space, length, length, length);
-  dGeomSetBody(geometry, body);
-  
   if(DEBUG) qDebug("Created Block");
 }
 
 void Block::updatePosition()
 {
+  //TODO I need to test and ensure the geometry is set, exit if not
+  
   //Update rotation
   setRotation(*(dMatrix3*)dGeomGetRotation(geometry));
   
@@ -122,7 +112,7 @@ void Block::paintEvent(QPaintEvent *)
   QRegion maskedRegion(bitmask->transformed(rotation));
   QPainterPath maskedPath;
   maskedPath.addRegion(maskedRegion);
-  setMask(maskedRegion);
+  if(! DEBUG) setMask(maskedRegion);
   
   QPainter painter(this);
   painter.save();

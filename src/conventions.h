@@ -41,7 +41,7 @@
 #define RELATIVE(position)  ((dReal)position)/100.0
 
 //Tweakable DeskBlocks parameters
-#define DEBUG               FALSE
+#define DEBUG               TRUE
 #define LENGTH              48
 #define MAX_BLOCKS          10
 #define FRAMES_SEC          30

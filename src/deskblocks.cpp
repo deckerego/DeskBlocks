@@ -22,6 +22,7 @@
 
 #include "deskblocks.h"
 #include "square.h"
+#include "circle.h"
 
 DeskBlocks::DeskBlocks(QWidget *parent)
   : QWidget(parent)
@@ -63,7 +64,11 @@ void DeskBlocks::dropBlock(QPoint origin)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  blocks[numBlocks] = new Square(this, origin);
+  if(numBlocks % 2 == 1) //TODO Remove this in lieu of having the user decide
+    blocks[numBlocks] = new Circle(this, origin);
+  else
+    blocks[numBlocks] = new Square(this, origin);
+  
   connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
   blocks[numBlocks++]->show();
 }

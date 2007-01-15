@@ -1,6 +1,7 @@
 <RCC version="1.0">
   <qresource prefix="/blocks">
     <file alias="square.bmp">../data/square.bmp</file>
+    <file alias="circle.bmp">../data/circle.bmp</file>
   </qresource>
   <qresource prefix="/box">
     <file alias="box.svg">../data/Blocks Container.svg</file>
