@@ -42,6 +42,7 @@ class DeskBlocks : public QWidget
     
     void start();
     void detectCollision(dGeomID object1, dGeomID object2);
+    void dropBlock(QPoint origin);
     
     dWorldID world;
     dSpaceID space;
@@ -52,7 +53,6 @@ class DeskBlocks : public QWidget
   private slots:
     void shutdown();
     void simLoop();
-    void dropBlock();
     
   private:
     void createBounds();

@@ -23,10 +23,21 @@
 
 BlocksBox::BlocksBox(DeskBlocks *deskBlocks)
 {
+  this->deskBlocks = deskBlocks;
+  
   setIcon(QIcon(":/box/box.svg"));
   
+  //Quit Action
+  quitAction = new QAction(tr("&Quit"), this);
+  connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+  
+  //Build the menu
+  trayIconMenu = new QMenu();
+  trayIconMenu->addAction(quitAction);
+  setContextMenu(trayIconMenu);
+  
   //Tells us if a mouse click on the tray necessitates block creation
-  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), deskBlocks, SLOT(dropBlock()));
+  connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(activation(QSystemTrayIcon::ActivationReason)));
   
   //Shut things down
   connect(this, SIGNAL(closed()), deskBlocks, SLOT(shutdown()));
@@ -36,4 +47,23 @@ void BlocksBox::closeEvent (QCloseEvent *event)
 {
   emit closed();
   event->accept();
-}  
+}
+
+void BlocksBox::activation (QSystemTrayIcon::ActivationReason reason)
+{
+  switch (reason) {
+    case QSystemTrayIcon::Trigger: //left clicked
+      deskBlocks->dropBlock(QPoint(LENGTH, LENGTH));
+      break;
+    case QSystemTrayIcon::DoubleClick: //left double-clicked
+      break;
+    case QSystemTrayIcon::MiddleClick: //middle clicked
+      break;
+    case QSystemTrayIcon::Context: //context menu requested
+      break;
+    case QSystemTrayIcon::Unknown: //who knows
+      break;
+    default:
+      ;
+  }
+}

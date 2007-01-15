@@ -39,11 +39,19 @@ class BlocksBox : public QSystemTrayIcon
     
   signals:
     void closed();
+    
+  private slots:
+    void activation (QSystemTrayIcon::ActivationReason reason);
 
   protected:
     void closeEvent (QCloseEvent *event);
     
   private:
+    DeskBlocks *deskBlocks;
+    
+    //SysTray
+    QAction *quitAction;
+    QMenu *trayIconMenu;
     QSystemTrayIcon *trayIcon;
 };
 

@@ -59,11 +59,11 @@ void DeskBlocks::start()
   worldTimer->start(1000/FRAMES_SEC);
 }
 
-void DeskBlocks::dropBlock()
+void DeskBlocks::dropBlock(QPoint origin)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  blocks[numBlocks] = new Square(this, QPoint(LENGTH, LENGTH));
+  blocks[numBlocks] = new Square(this, origin);
   connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
   blocks[numBlocks++]->show();
 }
