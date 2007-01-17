@@ -3,6 +3,13 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
+RESOURCES = deskblocks.qrc 
+QT = svg 
+LIBS += -lode 
+TARGET = ../bin/deskblocks 
+CONFIG += release \
+          warn_on 
+TEMPLATE = app 
 HEADERS += block.h \
            playground.h \
            conventions.h \
@@ -17,10 +24,3 @@ SOURCES += playground.cpp \
            basewidget.cpp \
            blocks/square.cpp \
            blocks/circle.cpp 
-RESOURCES = deskblocks.qrc
-LIBS += -lode
-TARGET = ../bin/deskblocks
-CONFIG += release \
-warn_on
-TEMPLATE = app
-QT += svg
