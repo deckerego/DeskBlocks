@@ -104,16 +104,28 @@ QSize Block::sizeHint() const
 
 void Block::paintEvent(QPaintEvent *)
 {
+  //Procedurally texture the object. Actual pixmaps take too long to draw.
   QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
   linearGradient.setColorAt(0.0, Qt::white);
   linearGradient.setColorAt(0.2, Qt::blue);
   linearGradient.setColorAt(1.0, Qt::black);
   
-  QRegion maskedRegion(bitmask->transformed(rotation));
+  //Rotate the bitmap to correspond to what ODE sees
+  QBitmap regionMask = bitmask->transformed(rotation);
+  
+  //We just changed the width & height of the bitmap by rotating it.
+  //Next we should determine how far to shift the bitmap so it's
+  //centered inside of the window
+  int xMargin = boundingLength - regionMask.width(); //window width - bitmap width
+  xMargin >>= 1; // divide by 2
+  int yMargin = boundingLength - regionMask.height(); //window height - bitmap height
+  yMargin >>= 1; // divide by 2
+  QRegion maskedRegion(regionMask);
+  maskedRegion.translate(xMargin, yMargin);
+  
   QPainterPath maskedPath;
   maskedPath.addRegion(maskedRegion);
   if(! DEBUG) setMask(maskedRegion);
-  
   QPainter painter(this);
   painter.save();
   painter.fillPath(maskedPath, linearGradient);

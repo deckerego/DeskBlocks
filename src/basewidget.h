@@ -56,8 +56,8 @@ class BaseWidget : public QWidget
     QBitmap *bitmask;
     
     int boundingLength;
-    int length;
     int width;
+    int height;
 };
 
 #endif

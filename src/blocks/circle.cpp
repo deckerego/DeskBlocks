@@ -36,4 +36,30 @@ Circle::Circle(Playground *parent, QPoint position)
   //Set collision space
   geometry = dCreateSphere(parent->space, length / 2);
   dGeomSetBody(geometry, body);
+  
+  xMargin = boundingLength - width; //window width - block width
+  xMargin >>= 1;
+  yMargin = boundingLength - height; //window height - block height
+  yMargin >>= 1;
+}
+
+void Circle::paintEvent(QPaintEvent *)
+{
+  //Procedurally texture the object. Actual pixmaps take too long to draw.
+  QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
+  linearGradient.setColorAt(0.0, Qt::white);
+  linearGradient.setColorAt(0.2, Qt::red);
+  linearGradient.setColorAt(1.0, Qt::black);
+  
+  //No need to rotate. It's a freakin' circle.
+  QRegion maskedRegion(*bitmask);
+  maskedRegion.translate(xMargin, yMargin);
+  
+  QPainterPath maskedPath;
+  maskedPath.addRegion(maskedRegion);
+  if(! DEBUG) setMask(maskedRegion);
+  QPainter painter(this);
+  painter.save();
+  painter.fillPath(maskedPath, linearGradient);
+  painter.restore();
 }

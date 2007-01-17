@@ -23,14 +23,14 @@
 
 #include "basewidget.h"
 
-BaseWidget::BaseWidget(QBitmap *bitmask, int length, int width)
+BaseWidget::BaseWidget(QBitmap *bitmask, int width, int height)
   : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   this->bitmask = bitmask;
-  this->length = length;
   this->width = width;
+  this->height = height;
   //a^2 + b^2 = c^2. I remembered something from elementary school!
-  boundingLength = (int)sqrt((length * length) + (width * width));
+  boundingLength = (int)sqrt((width* width) + (height * height));
   if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
 }
 
