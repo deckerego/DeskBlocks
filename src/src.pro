@@ -4,8 +4,9 @@
 # Target is an application:  ../bin/deskblocks
 
 RESOURCES = deskblocks.qrc 
-QT = svg 
 LIBS += -lode 
+INCLUDEPATH += /usr/include
+QMAKE_LIBDIR += /usr/lib/releasedll
 TARGET = ../bin/deskblocks 
 CONFIG += release \
           warn_on 
