@@ -24,7 +24,7 @@
 #include "basewidget.h"
 
 BaseWidget::BaseWidget(QBitmap *bitmask, int width, int height)
-  : QWidget(0, Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
+  : QWidget(0, Qt::SubWindow | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   this->bitmask = bitmask;
   this->width = width;
