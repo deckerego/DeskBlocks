@@ -20,8 +20,7 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-#include <QWidget>
-#include <QMatrix>
+#include <QtGui>
 #include <ode/ode.h>
 
 #include "basewidget.h"
@@ -30,6 +29,7 @@
 
 class Playground;
 class QPoint;
+class QLinearGradient;
 
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -51,6 +51,10 @@ class Block : public BaseWidget
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *event);
+    
+    int density;
+
+    QLinearGradient *gradient;
     
   private:
     QPoint dragPosition;

@@ -20,7 +20,7 @@
 #ifndef PLAYGROUND_H
 #define PLAYGROUND_H
 
-#include <QWidget>
+#include <QtGui>
 #include <ode/ode.h>
 
 #include "conventions.h"
@@ -46,6 +46,7 @@ class Playground : public QWidget
     
     dWorldID world;
     dSpaceID space;
+    QSettings *settings;
     
   signals:
     void odeUpdated();
@@ -56,11 +57,17 @@ class Playground : public QWidget
     
   private:
     void createBounds();
+    void loadPrefs();
     
     QTimer *worldTimer;
     dJointGroupID contactGroup;
     Block *blocks[MAX_BLOCKS];
     int numBlocks;
+    
+    dReal gravity;
+    dReal errorReduction;
+    dReal contactDepth;
+    dReal odeSteps;
 };
 
 #endif

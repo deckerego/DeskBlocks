@@ -27,7 +27,7 @@ Circle::Circle(Playground *parent, QPoint position)
   dMass mass;
   
   dReal length = RELATIVE(LENGTH);
-  dReal density = RELATIVE(DENSITY);
+  dReal density = RELATIVE(this->density);
 
   //Define initial mass
   dMassSetSphere(&mass, density, length / 2);
@@ -37,29 +37,27 @@ Circle::Circle(Playground *parent, QPoint position)
   geometry = dCreateSphere(parent->space, length / 2);
   dGeomSetBody(geometry, body);
   
+  //We should determine how far to shift the bitmap so it's centered inside of the window
   xMargin = boundingLength - width; //window width - block width
-  xMargin >>= 1;
+  xMargin >>= 1; // divide by 2
   yMargin = boundingLength - height; //window height - block height
-  yMargin >>= 1;
+  yMargin >>= 1; // divide by 2
+  
+  //Procedurally texture the object. Actual pixmaps take too long to draw.
+  gradient->setColorAt(0.0, Qt::white);
+  gradient->setColorAt(0.2, Qt::red);
+  gradient->setColorAt(1.0, Qt::black);
 }
 
 void Circle::paintEvent(QPaintEvent *)
 {
-  //Procedurally texture the object. Actual pixmaps take too long to draw.
-  QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
-  linearGradient.setColorAt(0.0, Qt::white);
-  linearGradient.setColorAt(0.2, Qt::red);
-  linearGradient.setColorAt(1.0, Qt::black);
-  
   //No need to rotate. It's a freakin' circle.
   QRegion maskedRegion(*bitmask);
   maskedRegion.translate(xMargin, yMargin);
   
   QPainterPath maskedPath;
-  maskedPath.addRegion(maskedRegion);
   if(! DEBUG) setMask(maskedRegion);
+  maskedPath.addRegion(maskedRegion);
   QPainter painter(this);
-  painter.save();
-  painter.fillPath(maskedPath, linearGradient);
-  painter.restore();
+  painter.fillPath(maskedPath, *gradient);
 }

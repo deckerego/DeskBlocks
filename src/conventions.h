@@ -18,6 +18,9 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#ifndef CONVENTIONS_H
+#define CONVENTIONS_H
+
 /**
   As far as lengths and masses, from the ODE FAQ:
   "In general, length and mass values around 0.1..1.0 are 
@@ -36,20 +39,22 @@
   I'm assuming that (for the sake of Newtonian forces) 
   density would scale relative to size
  */
-// I should probably replace these with inline functions
+//I should probably replace these with inline functions
 #define ABSOLUTE(position)  lrint(position*100.0)
 #define RELATIVE(position)  ((dReal)position)/100.0
 
-//Tweakable DeskBlocks parameters
+//Debug or no?
+#ifndef DEBUG
 #define DEBUG               FALSE
-#define LENGTH              48
-#define MAX_BLOCKS          10
-#define FRAMES_SEC          30
+#endif
 
-//Tweakable ODE parameters
-#define DENSITY             100
+//What is the "normal" size of an object?
+#define LENGTH              48
+//How many objects can we spew at the same time?
+#define MAX_BLOCKS          10
+//How many times per second should we calculate object positions?
+#define FRAMES_SEC          30
+//How many ODE contact points should an object have?
 #define MAX_CONTACTS        4
-#define ODE_STEPS           0.01
-#define GRAVITY             10.0
-#define ERROR_REDUCTION     0.1
-#define CONTACT_DEPTH       0.01
+
+#endif

@@ -4,11 +4,13 @@
 # Target is an application:  ../bin/deskblocks
 
 RESOURCES = deskblocks.qrc 
+PRECOMPILED_HEADER = conventions.h 
 LIBS += -lode 
-INCLUDEPATH += /usr/include
-QMAKE_LIBDIR += /usr/lib/releasedll
+INCLUDEPATH += /usr/include 
+QMAKE_LIBDIR = /usr/lib/releasedll 
+QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
 TARGET = ../bin/deskblocks 
-CONFIG += release \
+CONFIG += debug \
           warn_on 
 TEMPLATE = app 
 HEADERS += block.h \

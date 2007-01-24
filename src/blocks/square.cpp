@@ -27,7 +27,7 @@ Square::Square(Playground *parent, QPoint position)
   dMass mass;
   
   dReal length = RELATIVE(LENGTH);
-  dReal density = RELATIVE(DENSITY);
+  dReal density = RELATIVE(this->density);
 
   //Define initial mass
   dMassSetBox(&mass, density, length, length, length);
@@ -36,4 +36,9 @@ Square::Square(Playground *parent, QPoint position)
   //Set collision space
   geometry = dCreateBox(parent->space, length, length, length);
   dGeomSetBody(geometry, body);
+  
+  //Procedurally texture the object. Actual pixmaps take too long to draw.
+  gradient->setColorAt(0.0, Qt::white);
+  gradient->setColorAt(0.2, Qt::blue);
+  gradient->setColorAt(1.0, Qt::black);
 }

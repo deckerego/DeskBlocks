@@ -28,6 +28,8 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
 {
   if(! parent) return;
   
+  density = parent->settings->value("ode/density", 100).toInt();;
+  
   body = dBodyCreate(parent->world);
   
   //Use ODE's new constraint for 2D
@@ -47,6 +49,11 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
   dRSetIdentity (odeRotation);
   dBodySetRotation(body, odeRotation);
   
+  //Procedurally texture the object. Actual pixmaps take too long to draw.
+  gradient = new QLinearGradient(0, 0, LENGTH, LENGTH);
+  gradient->setColorAt(0.0, Qt::white);
+  gradient->setColorAt(1.0, Qt::black);
+
   if(DEBUG) qDebug("Created Block");
 }
 
@@ -104,18 +111,14 @@ QSize Block::sizeHint() const
 
 void Block::paintEvent(QPaintEvent *)
 {
-  //Procedurally texture the object. Actual pixmaps take too long to draw.
-  QLinearGradient linearGradient(0, 0, LENGTH, LENGTH);
-  linearGradient.setColorAt(0.0, Qt::white);
-  linearGradient.setColorAt(0.2, Qt::blue);
-  linearGradient.setColorAt(1.0, Qt::black);
-
+  //TODO If ODE auto-disables an object I should skip the repaint... or at least the transformation
+  if(DEBUG) qDebug("Repainting Block");
+  
   //Rotate the bitmap to correspond to what ODE sees
   QBitmap regionMask = bitmask->transformed(rotation);
   
-  //We just changed the width & height of the bitmap by rotating it.
-  //Next we should determine how far to shift the bitmap so it's
-  //centered inside of the window
+  //We just changed the width & height of the bitmap by rotating it. Next we should 
+  //determine how far to shift the bitmap so it's centered inside of the window
   int xMargin = boundingLength - regionMask.width(); //window width - bitmap width
   xMargin >>= 1; // divide by 2
   int yMargin = boundingLength - regionMask.height(); //window height - bitmap height
@@ -123,11 +126,10 @@ void Block::paintEvent(QPaintEvent *)
   QRegion maskedRegion(regionMask);
   maskedRegion.translate(xMargin, yMargin);
 
+  //Draw the object and mask the rest
   QPainterPath maskedPath;
   if(! DEBUG) setMask(maskedRegion);
   maskedPath.addRegion(maskedRegion);
   QPainter painter(this);
-  painter.save();
-  painter.fillPath(maskedPath, linearGradient);
-  painter.restore();
+  painter.fillPath(maskedPath, *gradient);
 }

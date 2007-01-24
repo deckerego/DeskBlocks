@@ -30,6 +30,10 @@
 
 int main(int argc, char *argv[])
 {
+  QCoreApplication::setOrganizationName("Desktop Distractions");
+  QCoreApplication::setOrganizationDomain("desktopdistractions.com");
+  QCoreApplication::setApplicationName("DeskBlocks");
+  
   QApplication app(argc, argv);
   
   Playground *desktop = new Playground(); // The world blocks exist in

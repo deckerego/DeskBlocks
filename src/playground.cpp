@@ -27,22 +27,30 @@
 Playground::Playground(QWidget *parent)
   : QWidget(parent)
 {
+  //Load preferences file
+  settings = new QSettings();
+  loadPrefs();
+  
   numBlocks = 0;
   
   //Do the ODE inits
   world = dWorldCreate();
   space = dHashSpaceCreate (0);
   contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,GRAVITY,0);
-  dWorldSetERP (world,ERROR_REDUCTION);
+  dWorldSetGravity (world,0,gravity,0);
+  dWorldSetERP (world,errorReduction);
   dWorldSetAutoDisableFlag (world,1);
-  dWorldSetContactSurfaceLayer (world,CONTACT_DEPTH);
+  dWorldSetContactSurfaceLayer (world,contactDepth);
   
   //Create the screen boundries
   createBounds();
   
+  //Connect the Qt timer with the ODE timer
   worldTimer = new QTimer(this);
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
+  
+  //Get user preferences
+  
 }
 
 Playground::~Playground()
@@ -53,6 +61,19 @@ Playground::~Playground()
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
+}
+
+void Playground::loadPrefs()
+{
+  //Since ODE flips between single and double precision, warn if we're different than Qt
+#ifdef dSINGLE
+  qWarning("WARNING: ODE is using single precision");
+#endif
+  
+  gravity = settings->value("ode/gravity", 10.0).toDouble();
+  errorReduction = settings->value("ode/error_reduction", 0.1).toDouble();
+  contactDepth = settings->value("ode/contact_depth", 0.01).toDouble();
+  odeSteps = settings->value("ode/steps", 0.01).toDouble();
 }
 
 void Playground::start()
@@ -134,7 +155,7 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
 void Playground::simLoop()
 {
   dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, ODE_STEPS);
+  dWorldQuickStep(world, odeSteps);
   dJointGroupEmpty(contactGroup);
   emit odeUpdated();
 }
