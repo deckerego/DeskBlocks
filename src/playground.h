@@ -24,6 +24,7 @@
 #include <ode/ode.h>
 
 #include "conventions.h"
+#include "block.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -37,12 +38,17 @@ class Playground : public QWidget
   Q_OBJECT
       
   public:
+    enum BlockType {
+      SQUARE,
+      CIRCLE
+    };
+
     Playground(QWidget *parent = 0);
     ~Playground();
     
     void start();
     void detectCollision(dGeomID object1, dGeomID object2);
-    void dropBlock(QPoint origin);
+    void dropBlock(QPoint origin, Playground::BlockType type);
     
     dWorldID world;
     dSpaceID space;
@@ -54,6 +60,7 @@ class Playground : public QWidget
   private slots:
     void shutdown();
     void simLoop();
+    void clear();
     
   private:
     void createBounds();

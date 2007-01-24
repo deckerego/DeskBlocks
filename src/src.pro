@@ -10,7 +10,7 @@ INCLUDEPATH += /usr/include
 QMAKE_LIBDIR = /usr/lib/releasedll 
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
 TARGET = ../bin/deskblocks 
-CONFIG += debug \
+CONFIG += release \
           warn_on 
 TEMPLATE = app 
 HEADERS += block.h \

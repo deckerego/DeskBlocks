@@ -56,11 +56,17 @@ Playground::Playground(QWidget *parent)
 Playground::~Playground()
 {
   if(DEBUG) qDebug("Destroying Playground");
-  for(int i = 0; i < numBlocks; i++)
-    delete blocks[i];
+  clear();
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
   dWorldDestroy (world);
+}
+
+void Playground::clear()
+{
+  for(int i = 0; i < numBlocks; i++)
+    delete blocks[i];
+  numBlocks = 0;
 }
 
 void Playground::loadPrefs()
@@ -81,14 +87,18 @@ void Playground::start()
   worldTimer->start(1000/FRAMES_SEC);
 }
 
-void Playground::dropBlock(QPoint origin)
+void Playground::dropBlock(QPoint origin, Playground::BlockType type)
 {
   if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
   
-  if(numBlocks % 2 == 1) //TODO Remove this in lieu of having the user decide
-    blocks[numBlocks] = new Circle(this, origin);
-  else
-    blocks[numBlocks] = new Square(this, origin);
+  switch(type) {
+    case Playground::SQUARE:
+      blocks[numBlocks] = new Square(this, origin);
+      break;
+    case Playground::CIRCLE:
+      blocks[numBlocks] = new Circle(this, origin);
+      break;
+  }
   
   connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
   blocks[numBlocks++]->show();

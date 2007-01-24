@@ -26,6 +26,7 @@
 #include <QSystemTrayIcon>
 
 #include "playground.h"
+#include "block.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -41,7 +42,9 @@ class SysTray : public QSystemTrayIcon
     void closed();
     
   private slots:
-    void activation (QSystemTrayIcon::ActivationReason reason);
+    void activation(QSystemTrayIcon::ActivationReason reason);
+    void setCircles();
+    void setSquares();
 
   protected:
     void closeEvent (QCloseEvent *event);
@@ -50,9 +53,15 @@ class SysTray : public QSystemTrayIcon
     Playground *playground;
     
     //SysTray
+    QActionGroup *shapeActions;
     QAction *quitAction;
+    QAction *clearAction;
+    QAction *dropSquareAction;
+    QAction *dropCircleAction;
     QMenu *trayIconMenu;
     QSystemTrayIcon *trayIcon;
+    
+    Playground::BlockType currentBlockType;
 };
 
 #endif
