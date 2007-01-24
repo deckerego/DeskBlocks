@@ -109,7 +109,7 @@ void Block::paintEvent(QPaintEvent *)
   linearGradient.setColorAt(0.0, Qt::white);
   linearGradient.setColorAt(0.2, Qt::blue);
   linearGradient.setColorAt(1.0, Qt::black);
-  
+
   //Rotate the bitmap to correspond to what ODE sees
   QBitmap regionMask = bitmask->transformed(rotation);
   
@@ -122,10 +122,10 @@ void Block::paintEvent(QPaintEvent *)
   yMargin >>= 1; // divide by 2
   QRegion maskedRegion(regionMask);
   maskedRegion.translate(xMargin, yMargin);
-  
+
   QPainterPath maskedPath;
-  maskedPath.addRegion(maskedRegion);
   if(! DEBUG) setMask(maskedRegion);
+  maskedPath.addRegion(maskedRegion);
   QPainter painter(this);
   painter.save();
   painter.fillPath(maskedPath, linearGradient);
