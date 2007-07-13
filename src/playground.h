@@ -47,8 +47,11 @@ class Playground : public QWidget
     ~Playground();
     
     void start();
+    void initODEPrefs();
     void detectCollision(dGeomID object1, dGeomID object2);
     void dropBlock(QPoint origin, Playground::BlockType type);
+    
+    void setGravity(double gravity);
     
     dWorldID world;
     dSpaceID space;

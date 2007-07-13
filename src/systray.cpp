@@ -24,7 +24,7 @@
 SysTray::SysTray(Playground *playground)
 {
   this->playground = playground;
-  this->prefsWindow = new PrefsWindow();
+  this->prefsWindow = new PrefsWindow(playground);
   setIcon(QIcon(":/box/box.svg"));
   
   //Quit Action

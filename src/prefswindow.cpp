@@ -18,11 +18,14 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+//QtDesigner is probably one of the coolest things ever.
 #include "prefswindow.h"
 
-PrefsWindow::PrefsWindow(QWidget *parent)
+PrefsWindow::PrefsWindow(Playground *playground, QWidget *parent)
  : QDialog(parent)
 {
+  this->playground = playground;
+  
   ui.setupUi(this);
 }
 
@@ -30,3 +33,9 @@ void PrefsWindow::showPreferences()
  {
   show();
  }
+ 
+void PrefsWindow::on_gravitySlider_valueChanged(int value)
+{
+  playground->setGravity(value);
+  if(DEBUG) qDebug("Gravity changed to: %i", value);
+}

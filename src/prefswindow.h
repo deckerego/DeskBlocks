@@ -21,6 +21,7 @@
 #define PREFSWINDOW_H
 
 #include "ui_preferences.h"
+#include "playground.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -30,12 +31,14 @@ class PrefsWindow : public QDialog
   Q_OBJECT;
 
   public:
-    PrefsWindow(QWidget *parent = 0);
+    PrefsWindow(Playground *desktop, QWidget *parent = 0);
   
   private slots:
     void showPreferences();
+    void on_gravitySlider_valueChanged(int value);
     
   private:
+    Playground *playground;
     Ui::PrefsWindow ui;
 };
 

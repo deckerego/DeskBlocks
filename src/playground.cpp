@@ -64,11 +64,18 @@ Playground::~Playground()
   dWorldDestroy (world);
 }
 
+//TODO This doesn't properly remove blocks from the ODE world
 void Playground::clear()
 {
   for(int i = 0; i < numBlocks; i++)
     delete blocks[i];
   numBlocks = 0;
+}
+
+void Playground::setGravity(double gravity)
+{
+  this->gravity = gravity;
+  dWorldSetGravity (world,0,gravity,0);
 }
 
 void Playground::loadPrefs()

@@ -3,6 +3,17 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
+RESOURCES = deskblocks.qrc 
+PRECOMPILED_HEADER = conventions.h 
+LIBS += -lode 
+INCLUDEPATH += /usr/include 
+QMAKE_LIBDIR = /usr/lib/releasedll 
+QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
+TARGET = ../bin/deskblocks 
+CONFIG += debug \
+          warn_on \
+          qt 
+TEMPLATE = app 
 FORMS += ../forms/preferences.ui 
 HEADERS += block.h \
            playground.h \
@@ -20,14 +31,3 @@ SOURCES += playground.cpp \
            blocks/square.cpp \
            blocks/circle.cpp \
            prefswindow.cpp 
-RESOURCES = deskblocks.qrc 
-PRECOMPILED_HEADER = conventions.h 
-LIBS += -lode 
-INCLUDEPATH += /usr/include 
-QMAKE_LIBDIR = /usr/lib/releasedll 
-QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
-TARGET = ../bin/deskblocks 
-CONFIG += release \
-          warn_on \
-          qt
-TEMPLATE = app 
