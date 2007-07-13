@@ -24,7 +24,7 @@
 SysTray::SysTray(Playground *playground)
 {
   this->playground = playground;
-  
+  this->prefsWindow = new PrefsWindow();
   setIcon(QIcon(":/box/box.svg"));
   
   //Quit Action
@@ -35,46 +35,42 @@ SysTray::SysTray(Playground *playground)
   clearAction = new QAction(tr("C&lear"), this);
   connect(clearAction, SIGNAL(triggered()), playground, SLOT(clear()));
   
+  //Show Preferences Window
+  prefsAction = new QAction(tr("&Preferences"), this);
+  connect(prefsAction, SIGNAL(triggered()), prefsWindow, SLOT(showPreferences()));
+  
   //Group of shape actions
   shapeActions = new QActionGroup(this);
-  
-  //Drop boxes - enabled by default
-  dropSquareAction = new QAction(tr("&Squares"), shapeActions);
-  dropSquareAction->setCheckable(true);
-  dropSquareAction->setChecked(true);
-  connect(dropSquareAction, SIGNAL(triggered()), this, SLOT(setSquares()));
-  setSquares();
-
-  //Drop circle
+     
+  //Drop circle - enabled by default
   dropCircleAction = new QAction(tr("&Circles"), shapeActions);
   dropCircleAction->setCheckable(true);
+  dropCircleAction->setChecked(true);
   connect(dropCircleAction, SIGNAL(triggered()), this, SLOT(setCircles()));
+  setCircles();
   
+  //Drop boxes
+  dropSquareAction = new QAction(tr("&Squares"), shapeActions);
+  dropSquareAction->setCheckable(true);
+  connect(dropSquareAction, SIGNAL(triggered()), this, SLOT(setSquares()));
+
   //Build the menu
   trayIconMenu = new QMenu();
   trayIconMenu->addAction(dropSquareAction);
   trayIconMenu->addAction(dropCircleAction);
   trayIconMenu->addSeparator();
   trayIconMenu->addAction(clearAction);
+  trayIconMenu->addAction(prefsAction);
   trayIconMenu->addSeparator();
   trayIconMenu->addAction(quitAction);
   setContextMenu(trayIconMenu);
   
   //Tells us if a mouse click on the tray necessitates block creation
   connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(activation(QSystemTrayIcon::ActivationReason)));
-  
-  //Shut things down
-  connect(this, SIGNAL(closed()), playground, SLOT(shutdown()));
 }
 
 void SysTray::setSquares() { currentBlockType = Playground::SQUARE; }
 void SysTray::setCircles() { currentBlockType = Playground::CIRCLE; }
-
-void SysTray::closeEvent (QCloseEvent *event)
-{
-  emit closed();
-  event->accept();
-}
 
 void SysTray::activation (QSystemTrayIcon::ActivationReason reason)
 {

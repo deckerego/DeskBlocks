@@ -49,13 +49,15 @@ Playground::Playground(QWidget *parent)
   worldTimer = new QTimer(this);
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
   
-  //Get user preferences
+  //Connect other Qt signals
+  connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(shutdown()));
   
+  if(DEBUG) qDebug("Created new playground");
 }
 
 Playground::~Playground()
 {
-  if(DEBUG) qDebug("Destroying Playground");
+  savePrefs();
   clear();
   dJointGroupDestroy (contactGroup);
   dSpaceDestroy (space);
@@ -76,10 +78,31 @@ void Playground::loadPrefs()
   qWarning("WARNING: ODE is using single precision");
 #endif
   
-  gravity = settings->value("ode/gravity", 10.0).toDouble();
-  errorReduction = settings->value("ode/error_reduction", 0.1).toDouble();
-  contactDepth = settings->value("ode/contact_depth", 0.01).toDouble();
-  odeSteps = settings->value("ode/steps", 0.01).toDouble();
+  //Restore ODE settings
+  settings->beginGroup("ODE");
+  gravity = settings->value("gravity", 10.0).toDouble();
+  errorReduction = settings->value("error_reduction", 0.1).toDouble();
+  contactDepth = settings->value("contact_depth", 0.01).toDouble();
+  odeSteps = settings->value("steps", 0.01).toDouble();
+  settings->endGroup();
+}
+
+void Playground::savePrefs()
+{
+  //Since ODE flips between single and double precision, warn if we're different than Qt
+#ifdef dSINGLE
+  qWarning("WARNING: ODE is using single precision");
+#endif
+
+  //Save ODE settings
+  settings->beginGroup("ODE");
+  settings->setValue("gravity", gravity);
+  settings->setValue("error_reduction", errorReduction);
+  settings->setValue("contact_depth", contactDepth);
+  settings->setValue("steps", odeSteps);
+  settings->endGroup();
+  
+  settings->sync();
 }
 
 void Playground::start()
@@ -106,6 +129,7 @@ void Playground::dropBlock(QPoint origin, Playground::BlockType type)
 
 void Playground::shutdown()
 {
+  if(DEBUG) qDebug("Destroying Playground");
   delete this;
 }
 

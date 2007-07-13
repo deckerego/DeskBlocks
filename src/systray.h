@@ -27,6 +27,7 @@
 
 #include "playground.h"
 #include "block.h"
+#include "prefswindow.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -51,11 +52,13 @@ class SysTray : public QSystemTrayIcon
     
   private:
     Playground *playground;
+    PrefsWindow *prefsWindow;
     
     //SysTray
     QActionGroup *shapeActions;
     QAction *quitAction;
     QAction *clearAction;
+    QAction *prefsAction;
     QAction *dropSquareAction;
     QAction *dropCircleAction;
     QMenu *trayIconMenu;

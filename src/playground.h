@@ -65,6 +65,7 @@ class Playground : public QWidget
   private:
     void createBounds();
     void loadPrefs();
+    void savePrefs();
     
     QTimer *worldTimer;
     dJointGroupID contactGroup;
