@@ -18,16 +18,16 @@ FORMS += ../forms/preferences.ui
 HEADERS += blocks/block.h \
            playground.h \
            conventions.h \
-           systray.h \
+           ui/systray.h \
            basewidget.h \
            blocks/square.h \
            blocks/circle.h \
-           prefswindow.h 
+           ui/prefswindow.h 
 SOURCES += playground.cpp \
            blocks/block.cpp \
            main.cpp \
-           systray.cpp \
+           ui/systray.cpp \
            basewidget.cpp \
            blocks/square.cpp \
            blocks/circle.cpp \
-           prefswindow.cpp 
+           ui/prefswindow.cpp 

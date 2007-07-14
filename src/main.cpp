@@ -26,7 +26,7 @@
 #include <QApplication>
 
 #include "playground.h"
-#include "systray.h"
+#include "ui/systray.h"
 
 int main(int argc, char *argv[])
 {
