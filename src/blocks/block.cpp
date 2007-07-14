@@ -28,7 +28,9 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
 {
   if(! parent) return;
   
-  density = parent->settings->value("ode/density", 100).toInt();;
+  parent->settings->beginGroup("blocks");
+  density = parent->settings->value("density", 100).toInt();;
+  parent->settings->endGroup();
   
   body = dBodyCreate(parent->world);
   

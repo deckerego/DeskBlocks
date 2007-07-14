@@ -66,28 +66,28 @@
       </property>
      </widget>
     </item>
-    <item>
-     <widget class="QPushButton" name="buttonCancel" >
-      <property name="text" >
-       <string>&amp;Cancel</string>
-      </property>
-      <property name="shortcut" >
-       <string/>
-      </property>
-      <property name="autoDefault" >
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="gravityLabel" >
+  <widget class="QLabel" name="maxGravityLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>420</x>
+     <y>50</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>50 m/s/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="erpLabel" >
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>10</y>
-     <width>131</width>
-     <height>31</height>
+     <y>120</y>
+     <width>112</width>
+     <height>21</height>
     </rect>
    </property>
    <property name="font" >
@@ -96,22 +96,16 @@
     </font>
    </property>
    <property name="text" >
-    <string>Gravity</string>
-   </property>
-   <property name="textFormat" >
-    <enum>Qt::AutoText</enum>
-   </property>
-   <property name="scaledContents" >
-    <bool>false</bool>
+    <string>Error Correction</string>
    </property>
   </widget>
   <widget class="QSlider" name="gravitySlider" >
    <property name="geometry" >
     <rect>
-     <x>20</x>
-     <y>40</y>
-     <width>421</width>
-     <height>16</height>
+     <x>10</x>
+     <y>30</y>
+     <width>431</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="maximum" >
@@ -135,6 +129,241 @@
    <property name="tickPosition" >
     <enum>QSlider::TicksBelow</enum>
    </property>
+   <property name="tickInterval" >
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minGravityLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>0 m/s/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="gravityLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>Gravity</string>
+   </property>
+   <property name="textFormat" >
+    <enum>Qt::AutoText</enum>
+   </property>
+   <property name="scaledContents" >
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="collisionERPLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>104</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>Block Softness</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minERPLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="stepsLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>180</y>
+     <width>162</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font" >
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text" >
+    <string>Calculations per Frame</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="erpSlider" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>431</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>10</number>
+   </property>
+   <property name="pageStep" >
+    <number>1</number>
+   </property>
+   <property name="value" >
+    <number>1</number>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition" >
+    <enum>QSlider::TicksBelow</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minStepsLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>230</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>0.00</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="minCollisionERPLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxERPLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>430</x>
+     <y>160</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>1.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxCollisionERPLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>430</x>
+     <y>100</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>1.0</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="collisionERPSlider" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>90</y>
+     <width>431</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>10</number>
+   </property>
+   <property name="pageStep" >
+    <number>1</number>
+   </property>
+   <property name="value" >
+    <number>9</number>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition" >
+    <enum>QSlider::TicksBelow</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="maxStepsLabel" >
+   <property name="geometry" >
+    <rect>
+     <x>430</x>
+     <y>230</y>
+     <width>48</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>0.10</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="stepsSlider" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>210</y>
+     <width>431</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="maximum" >
+    <number>10</number>
+   </property>
+   <property name="singleStep" >
+    <number>1</number>
+   </property>
+   <property name="pageStep" >
+    <number>1</number>
+   </property>
+   <property name="value" >
+    <number>1</number>
+   </property>
+   <property name="sliderPosition" >
+    <number>1</number>
+   </property>
+   <property name="orientation" >
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickPosition" >
+    <enum>QSlider::TicksBelow</enum>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11" />
@@ -146,22 +375,6 @@
    <signal>clicked()</signal>
    <receiver>PrefsWindow</receiver>
    <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonCancel</sender>
-   <signal>clicked()</signal>
-   <receiver>PrefsWindow</receiver>
-   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>20</x>

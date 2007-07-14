@@ -78,8 +78,50 @@ void Playground::clear()
 
 void Playground::setGravity(double gravity)
 {
+  if(DEBUG) qDebug("Gravity set to: %f", gravity);
   this->gravity = gravity;
   dWorldSetGravity (world,0,gravity,0);
+}
+
+// Let the record show I hate getter's and setter's. Yet sometimes they're
+// actually useful when you want to obscure the object's actual property
+double Playground::getGravity()
+{
+  return this->gravity;
+}
+
+void Playground::setErrorReduction(double errorReduction)
+{
+  if(DEBUG) qDebug("Error Reduction set to: %f", errorReduction);
+  this->errorReduction = errorReduction;
+  dWorldSetERP (world,errorReduction);
+}
+
+double Playground::getErrorReduction()
+{
+  return this->errorReduction;
+}
+
+void Playground::setCollisionErrorReduction(double collisionErrorReduction)
+{
+  if(DEBUG) qDebug("Collision Error Reduction set to: %f", collisionErrorReduction);
+  this->collisionErrorReduction = collisionErrorReduction;
+}
+
+double Playground::getCollisionErrorReduction()
+{
+  return this->collisionErrorReduction;
+}
+
+void Playground::setODESteps(double odeSteps)
+{
+  if(DEBUG) qDebug("ODE Steps set to: %f", odeSteps);
+  this->odeSteps = odeSteps;
+}
+
+double Playground::getODESteps()
+{
+  return this->odeSteps;
 }
 
 void Playground::loadPrefs()
@@ -95,6 +137,7 @@ void Playground::loadPrefs()
   errorReduction = settings->value("error_reduction", 0.1).toDouble();
   contactDepth = settings->value("contact_depth", 0.01).toDouble();
   odeSteps = settings->value("steps", 0.01).toDouble();
+  collisionErrorReduction = settings->value("collision_error_reduction", 0.09).toDouble();
   settings->endGroup();
 }
 
@@ -111,6 +154,7 @@ void Playground::savePrefs()
   settings->setValue("error_reduction", errorReduction);
   settings->setValue("contact_depth", contactDepth);
   settings->setValue("steps", odeSteps);
+  settings->setValue("collision_error_reduction", collisionErrorReduction);
   settings->endGroup();
   
   settings->sync();
@@ -178,7 +222,7 @@ void Playground::detectCollision(dGeomID object1, dGeomID object2)
     contact[i].surface.mode = dContactSoftERP;
     contact[i].surface.mu = dInfinity;
     contact[i].surface.mu2 = 0;
-    contact[i].surface.soft_erp = 0.9;
+    contact[i].surface.soft_erp = collisionErrorReduction;
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {

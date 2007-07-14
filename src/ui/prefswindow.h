@@ -36,6 +36,9 @@ class PrefsWindow : public QDialog
   private slots:
     void showPreferences();
     void on_gravitySlider_valueChanged(int value);
+    void on_erpSlider_valueChanged(int value);
+    void on_collisionERPSlider_valueChanged(int value);
+    void on_stepsSlider_valueChanged(int value);
     
   private:
     Playground *playground;
