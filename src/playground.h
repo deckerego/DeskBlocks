@@ -24,7 +24,7 @@
 #include <ode/ode.h>
 
 #include "conventions.h"
-#include "block.h"
+#include "blocks/block.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>

@@ -15,7 +15,7 @@ CONFIG += debug \
           qt 
 TEMPLATE = app 
 FORMS += ../forms/preferences.ui 
-HEADERS += block.h \
+HEADERS += blocks/block.h \
            playground.h \
            conventions.h \
            systray.h \
@@ -24,7 +24,7 @@ HEADERS += block.h \
            blocks/circle.h \
            prefswindow.h 
 SOURCES += playground.cpp \
-           block.cpp \
+           blocks/block.cpp \
            main.cpp \
            systray.cpp \
            basewidget.cpp \

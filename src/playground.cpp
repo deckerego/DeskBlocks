@@ -64,11 +64,15 @@ Playground::~Playground()
   dWorldDestroy (world);
 }
 
-//TODO This doesn't properly remove blocks from the ODE world
 void Playground::clear()
 {
   for(int i = 0; i < numBlocks; i++)
+  {
+    dBodyDestroy(blocks[i]->body);
+    dGeomDestroy(blocks[i]->geometry);
     delete blocks[i];
+  }
+  
   numBlocks = 0;
 }
 

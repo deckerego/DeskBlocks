@@ -26,7 +26,7 @@
 #include <QSystemTrayIcon>
 
 #include "playground.h"
-#include "block.h"
+#include "blocks/block.h"
 #include "prefswindow.h"
 
 /**

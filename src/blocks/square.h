@@ -20,7 +20,7 @@
 #ifndef SQUARE_H
 #define SQUARE_H
 
-#include "../block.h"
+#include "block.h"
 
 /**
 	@author John T. Ellis <jtellis@alumni.indiana.edu>

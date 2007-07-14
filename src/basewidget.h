@@ -48,10 +48,10 @@ class BaseWidget : public QWidget
     void setPosition(dReal *position);
     void setPosition(const QPoint position);
     
-  protected:
     dBodyID body;
     dGeomID geometry;
     
+  protected:
     QMatrix rotation;
     QBitmap *bitmask;
     
