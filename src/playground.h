@@ -51,14 +51,14 @@ class Playground : public QWidget
     void detectCollision(dGeomID object1, dGeomID object2);
     void dropBlock(QPoint origin, Playground::BlockType type);
     
-    void setGravity(double gravity);
-    double getGravity();
-    void setErrorReduction(double erp);
-    double getErrorReduction();
-    void setCollisionErrorReduction(double collisionERP);
-    double getCollisionErrorReduction();
-    void setODESteps(double odeSteps);
-    double getODESteps();
+    void setGravity(dReal gravity);
+    dReal getGravity();
+    void setErrorReduction(dReal erp);
+    dReal getErrorReduction();
+    void setCollisionErrorReduction(dReal collisionERP);
+    dReal getCollisionErrorReduction();
+    void setODESteps(dReal odeSteps);
+    dReal getODESteps();
     
     dWorldID world;
     dSpaceID space;

@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>511</width>
-    <height>282</height>
+    <height>315</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -21,18 +21,27 @@
   <widget class="QWidget" name="Layout1" >
    <property name="geometry" >
     <rect>
-     <x>20</x>
-     <y>240</y>
+     <x>10</x>
+     <y>280</y>
      <width>476</width>
      <height>33</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" >
-    <property name="margin" >
-     <number>0</number>
-    </property>
     <property name="spacing" >
      <number>6</number>
+    </property>
+    <property name="leftMargin" >
+     <number>0</number>
+    </property>
+    <property name="topMargin" >
+     <number>0</number>
+    </property>
+    <property name="rightMargin" >
+     <number>0</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>0</number>
     </property>
     <item>
      <spacer>
@@ -71,10 +80,10 @@
   <widget class="QLabel" name="maxGravityLabel" >
    <property name="geometry" >
     <rect>
-     <x>420</x>
+     <x>409</x>
      <y>50</y>
-     <width>48</width>
-     <height>15</height>
+     <width>59</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="text" >
@@ -85,14 +94,14 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>120</y>
-     <width>112</width>
-     <height>21</height>
+     <y>130</y>
+     <width>170</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font" >
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text" >
@@ -138,8 +147,8 @@
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>48</width>
-     <height>15</height>
+     <width>51</width>
+     <height>22</height>
     </rect>
    </property>
    <property name="text" >
@@ -157,7 +166,7 @@
    </property>
    <property name="font" >
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text" >
@@ -175,13 +184,13 @@
     <rect>
      <x>10</x>
      <y>70</y>
-     <width>104</width>
-     <height>21</height>
+     <width>141</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font" >
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text" >
@@ -192,7 +201,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>160</y>
+     <y>190</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -205,14 +214,14 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>180</y>
-     <width>162</width>
-     <height>21</height>
+     <y>200</y>
+     <width>250</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="font" >
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text" >
@@ -223,7 +232,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>140</y>
+     <y>160</y>
      <width>431</width>
      <height>25</height>
     </rect>
@@ -248,7 +257,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>230</y>
+     <y>250</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -261,7 +270,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>120</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -274,7 +283,7 @@
    <property name="geometry" >
     <rect>
      <x>430</x>
-     <y>160</y>
+     <y>190</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -287,7 +296,7 @@
    <property name="geometry" >
     <rect>
      <x>430</x>
-     <y>100</y>
+     <y>120</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -300,7 +309,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>90</y>
+     <y>100</y>
      <width>431</width>
      <height>16</height>
     </rect>
@@ -325,7 +334,7 @@
    <property name="geometry" >
     <rect>
      <x>430</x>
-     <y>230</y>
+     <y>250</y>
      <width>48</width>
      <height>15</height>
     </rect>
@@ -338,7 +347,7 @@
    <property name="geometry" >
     <rect>
      <x>10</x>
-     <y>210</y>
+     <y>230</y>
      <width>431</width>
      <height>16</height>
     </rect>
@@ -374,7 +383,7 @@
    <sender>buttonOk</sender>
    <signal>clicked()</signal>
    <receiver>PrefsWindow</receiver>
-   <slot>accept()</slot>
+   <slot>hide()</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>20</x>

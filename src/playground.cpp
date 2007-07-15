@@ -76,7 +76,7 @@ void Playground::clear()
   numBlocks = 0;
 }
 
-void Playground::setGravity(double gravity)
+void Playground::setGravity(dReal gravity)
 {
   if(DEBUG) qDebug("Gravity set to: %f", gravity);
   this->gravity = gravity;
@@ -85,41 +85,41 @@ void Playground::setGravity(double gravity)
 
 // Let the record show I hate getter's and setter's. Yet sometimes they're
 // actually useful when you want to obscure the object's actual property
-double Playground::getGravity()
+dReal Playground::getGravity()
 {
   return this->gravity;
 }
 
-void Playground::setErrorReduction(double errorReduction)
+void Playground::setErrorReduction(dReal errorReduction)
 {
   if(DEBUG) qDebug("Error Reduction set to: %f", errorReduction);
   this->errorReduction = errorReduction;
   dWorldSetERP (world,errorReduction);
 }
 
-double Playground::getErrorReduction()
+dReal Playground::getErrorReduction()
 {
   return this->errorReduction;
 }
 
-void Playground::setCollisionErrorReduction(double collisionErrorReduction)
+void Playground::setCollisionErrorReduction(dReal collisionErrorReduction)
 {
   if(DEBUG) qDebug("Collision Error Reduction set to: %f", collisionErrorReduction);
   this->collisionErrorReduction = collisionErrorReduction;
 }
 
-double Playground::getCollisionErrorReduction()
+dReal Playground::getCollisionErrorReduction()
 {
   return this->collisionErrorReduction;
 }
 
-void Playground::setODESteps(double odeSteps)
+void Playground::setODESteps(dReal odeSteps)
 {
   if(DEBUG) qDebug("ODE Steps set to: %f", odeSteps);
   this->odeSteps = odeSteps;
 }
 
-double Playground::getODESteps()
+dReal Playground::getODESteps()
 {
   return this->odeSteps;
 }
