@@ -4,8 +4,10 @@
 # Target is an application:  ../bin/deskblocks
 
 RESOURCES = deskblocks.qrc 
-PRECOMPILED_HEADER = conventions.h
-QMAKE_LIBDIR = /usr/lib/releasedll
+PRECOMPILED_HEADER = conventions.h 
+LIBS += -lode 
+INCLUDEPATH += /usr/include 
+QMAKE_LIBDIR = /usr/lib/releasedll 
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
 TARGET = ../bin/deskblocks 
 CONFIG += release \
@@ -29,12 +31,3 @@ SOURCES += playground.cpp \
            blocks/square.cpp \
            blocks/circle.cpp \
            ui/prefswindow.cpp 
-CONFIG -= stl \
-thread \
-release
-DESTDIR = .
-
-INCLUDEPATH += /usr/include
-
-LIBS += -lode
-
