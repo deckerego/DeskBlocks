@@ -8,9 +8,9 @@ PRECOMPILED_HEADER = conventions.h
 QMAKE_LIBDIR = /usr/lib/releasedll
 QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
 TARGET = ../bin/deskblocks 
-CONFIG += warn_on \
-          qt \
- debug
+CONFIG += release \
+          warn_on \
+          qt 
 TEMPLATE = app 
 FORMS += ../forms/preferences.ui 
 HEADERS += blocks/block.h \
