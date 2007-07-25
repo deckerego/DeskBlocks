@@ -59,6 +59,7 @@ class Block : public BaseWidget
   private:
     QPoint dragPosition;
     QPoint lastPosition;
+    Playground *playground;
 };
 
 #endif

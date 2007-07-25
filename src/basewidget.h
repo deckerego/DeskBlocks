@@ -28,7 +28,6 @@
 
 #include "conventions.h"
 
-class DeskBlocks;
 class QMatrix;
 class QBitmap;
 

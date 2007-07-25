@@ -31,33 +31,33 @@ PrefsWindow::PrefsWindow(Playground *playground, QWidget *parent)
 
 void PrefsWindow::showPreferences()
  {
-  ui.gravitySlider->setValue(ODE_INT(playground->getGravity()));
-  ui.erpSlider->setValue(ODE_INT(playground->getErrorReduction() * 10.0));
-  ui.collisionERPSlider->setValue(ODE_INT(playground->getCollisionErrorReduction() * 100.0));
-  ui.stepsSlider->setValue(ODE_INT(playground->getODESteps() * 100.0));
+  ui.gravitySlider->setValue((int) (playground->getGravity()));
+  ui.erpSlider->setValue((int) (playground->getErrorReduction() * 10.0));
+  ui.collisionERPSlider->setValue((int) (playground->getCollisionErrorReduction() * 100.0));
+  ui.stepsSlider->setValue((int) (playground->getODESteps() * 100.0));
   
   show();
  }
  
 void PrefsWindow::on_gravitySlider_valueChanged(int value)
 {
-  playground->setGravity(value);
+  playground->setGravity((int) value);
 }
 
 void PrefsWindow::on_erpSlider_valueChanged(int value)
 {
-  dReal actualValue = (dReal)value / 10.0;
-  playground->setErrorReduction(actualValue);
+  double actualValue = (double)value / 10.0;
+  playground->setErrorReduction((int) actualValue);
 }
 
 void PrefsWindow::on_collisionERPSlider_valueChanged(int value)
 {
-  dReal actualValue = (dReal)value / 100.0;
-  playground->setCollisionErrorReduction(actualValue);
+  double actualValue = (double)value / 100.0;
+  playground->setCollisionErrorReduction((int) actualValue);
 }
 
 void PrefsWindow::on_stepsSlider_valueChanged(int value)
 {
-  dReal actualValue = (dReal)value / 100.0;
-  playground->setODESteps(actualValue);
+  double actualValue = (double)value / 100.0;
+  playground->setODESteps((int) actualValue);
 }

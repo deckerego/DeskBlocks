@@ -27,15 +27,17 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
   : BaseWidget(bitmask, width, height)
 {
   if(! parent) return;
+
+  playground = parent;
   
-  parent->settings->beginGroup("blocks");
-  density = parent->settings->value("density", 100).toInt();;
-  parent->settings->endGroup();
+  playground->settings->beginGroup("ODE");
+  density = playground->settings->value("density", 250).toInt();;
+  playground->settings->endGroup();
   
-  body = dBodyCreate(parent->world);
+  body = dBodyCreate(playground->world);
   
   //Use ODE's new constraint for 2D
-  dJointID planeJoint = dJointCreatePlane2D(parent->world, 0);
+  dJointID planeJoint = dJointCreatePlane2D(playground->world, 0);
   dJointAttach(planeJoint, body, 0);
   
   //Set to top of screen
@@ -84,8 +86,8 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     //Reset any velocity the object had, replace it with mouse velocity.
     //Since we're hard-coding the frequency of updates, use that value
     //to calculate the time delta instead of actually watching the clock
-    int xDelta = (currentPosition.x() - lastPosition.x()) * FRAMES_SEC;
-    int yDelta = (currentPosition.y() - lastPosition.y()) * FRAMES_SEC;
+    int xDelta = (currentPosition.x() - lastPosition.x()) * playground->getFramesPerSecond();
+    int yDelta = (currentPosition.y() - lastPosition.y()) * playground->getFramesPerSecond();
     dBodySetLinearVel(body, RELATIVE((dReal)xDelta), RELATIVE((dReal)yDelta), 0.0);
     lastPosition = currentPosition;
     

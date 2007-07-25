@@ -39,9 +39,9 @@
   I'm assuming that (for the sake of Newtonian forces) 
   density would scale relative to size
  */
-//I should probably replace these with inline functions
 #define ABSOLUTE(position)  lrint(position*100.0)
 #define RELATIVE(position)  ((dReal)position)/100.0
+
 //Casting floating point numbers can be weird, but especially so 
 //when you don't know if a dReal is going to be single or double 
 //precision. Sometimes 1.0 casts to 0, so we'll force the rounding
@@ -54,10 +54,8 @@
 
 //What is the "normal" size of an object?
 #define LENGTH              48
-//How many objects can we spew at the same time?
-#define MAX_BLOCKS          10
-//How many times per second should we calculate object positions?
-#define FRAMES_SEC          30
+//The upper limit on the number of blocks we can have
+#define MAX_BLOCKS          100
 //How many ODE contact points should an object have?
 #define MAX_CONTACTS        4
 

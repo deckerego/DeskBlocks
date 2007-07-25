@@ -55,6 +55,7 @@ Playground::Playground(QWidget *parent)
   if(DEBUG) qDebug("Created new playground");
 }
 
+//TODO Doing destructors explicity in Qt seems to result in a lot of memory leaks
 Playground::~Playground()
 {
   savePrefs();
@@ -76,50 +77,68 @@ void Playground::clear()
   numBlocks = 0;
 }
 
-void Playground::setGravity(dReal gravity)
+// Let the record show I hate getter's and setter's. Yet sometimes they're
+// actually useful when you want to obscure the object's actual property
+
+void Playground::setFramesPerSecond(int framesPerSecond)
+{
+  if(DEBUG) qDebug("FPS set to: %i", framesPerSecond);
+  this->framesPerSecond = framesPerSecond;
+}
+
+int Playground::getFramesPerSecond()
+{
+  return this->framesPerSecond;
+}
+
+void Playground::setMaximumBlocks(int maximumBlocks)
+{
+  if(DEBUG) qDebug("Max blocks set to: %i", maximumBlocks);
+  this->maximumBlocks = maximumBlocks;
+}
+
+void Playground::setGravity(double gravity)
 {
   if(DEBUG) qDebug("Gravity set to: %f", gravity);
   this->gravity = gravity;
   dWorldSetGravity (world,0,gravity,0);
 }
 
-// Let the record show I hate getter's and setter's. Yet sometimes they're
-// actually useful when you want to obscure the object's actual property
-dReal Playground::getGravity()
+double Playground::getGravity()
 {
   return this->gravity;
 }
 
-void Playground::setErrorReduction(dReal errorReduction)
+void Playground::setErrorReduction(double errorReduction)
 {
   if(DEBUG) qDebug("Error Reduction set to: %f", errorReduction);
   this->errorReduction = errorReduction;
   dWorldSetERP (world,errorReduction);
 }
 
-dReal Playground::getErrorReduction()
+double Playground::getErrorReduction()
 {
   return this->errorReduction;
 }
 
-void Playground::setCollisionErrorReduction(dReal collisionErrorReduction)
+void Playground::setCollisionErrorReduction(double collisionErrorReduction)
 {
   if(DEBUG) qDebug("Collision Error Reduction set to: %f", collisionErrorReduction);
   this->collisionErrorReduction = collisionErrorReduction;
 }
 
-dReal Playground::getCollisionErrorReduction()
+double Playground::getCollisionErrorReduction()
 {
   return this->collisionErrorReduction;
 }
 
-void Playground::setODESteps(dReal odeSteps)
+void Playground::setODESteps(double odeSteps)
 {
   if(DEBUG) qDebug("ODE Steps set to: %f", odeSteps);
   this->odeSteps = odeSteps;
 }
 
-dReal Playground::getODESteps()
+double Playground::getODESteps()
 {
   return this->odeSteps;
 }
@@ -130,7 +149,7 @@ void Playground::loadPrefs()
 #ifdef dSINGLE
   qWarning("WARNING: ODE is using single precision");
 #endif
-  
+
   //Restore ODE settings
   settings->beginGroup("ODE");
   gravity = settings->value("gravity", 10.0).toDouble();
@@ -138,6 +157,12 @@ void Playground::loadPrefs()
   contactDepth = settings->value("contact_depth", 0.01).toDouble();
   odeSteps = settings->value("steps", 0.01).toDouble();
   collisionErrorReduction = settings->value("collision_error_reduction", 0.09).toDouble();
+  settings->endGroup();
+
+  //Restore animation settings
+  settings->beginGroup("Qt");
+  framesPerSecond = settings->value("fps", 60).toInt();
+  maximumBlocks = settings->value("maximumBlocks", 10).toInt();
   settings->endGroup();
 }
 
@@ -157,17 +182,23 @@ void Playground::savePrefs()
   settings->setValue("collision_error_reduction", collisionErrorReduction);
   settings->endGroup();
   
+  //Save animation settings
+  settings->beginGroup("Qt");
+  settings->setValue("fps", framesPerSecond);
+  settings->setValue("maximumBlocks", maximumBlocks);
+  settings->endGroup();
+  
   settings->sync();
 }
 
 void Playground::start()
 {
-  worldTimer->start(1000/FRAMES_SEC);
+  worldTimer->start((int) 1000/framesPerSecond);
 }
 
 void Playground::dropBlock(QPoint origin, Playground::BlockType type)
 {
-  if(numBlocks >= MAX_BLOCKS) return; //No more blocks!
+  if(numBlocks >= maximumBlocks) return; //No more blocks!
   
   switch(type) {
     case Playground::SQUARE:

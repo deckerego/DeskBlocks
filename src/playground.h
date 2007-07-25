@@ -31,6 +31,7 @@
  */
  
 class QTimer;
+class QSettings;
 class Block;
  
 class Playground : public QWidget
@@ -50,15 +51,20 @@ class Playground : public QWidget
     void initODEPrefs();
     void detectCollision(dGeomID object1, dGeomID object2);
     void dropBlock(QPoint origin, Playground::BlockType type);
-    
-    void setGravity(dReal gravity);
-    dReal getGravity();
-    void setErrorReduction(dReal erp);
-    dReal getErrorReduction();
-    void setCollisionErrorReduction(dReal collisionERP);
-    dReal getCollisionErrorReduction();
-    void setODESteps(dReal odeSteps);
-    dReal getODESteps();
+   
+    void setFramesPerSecond(int framesPerSecond);
+    int getFramesPerSecond();
+    void setMaximumBlocks(int maximumBlocks);
+    int getMaximumBlocks();
+ 
+    void setGravity(double gravity);
+    double getGravity();
+    void setErrorReduction(double erp);
+    double getErrorReduction();
+    void setCollisionErrorReduction(double collisionERP);
+    double getCollisionErrorReduction();
+    void setODESteps(double odeSteps);
+    double getODESteps();
     
     dWorldID world;
     dSpaceID space;
@@ -81,12 +87,15 @@ class Playground : public QWidget
     dJointGroupID contactGroup;
     Block *blocks[MAX_BLOCKS];
     int numBlocks;
-    
-    dReal gravity;
-    dReal errorReduction;
-    dReal contactDepth;
-    dReal odeSteps;
-    dReal collisionErrorReduction;
+
+    int framesPerSecond;
+    int maximumBlocks;
+
+    double gravity;
+    double errorReduction;
+    double contactDepth;
+    double odeSteps;
+    double collisionErrorReduction;
 };
 
 #endif
