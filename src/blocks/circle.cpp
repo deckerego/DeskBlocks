@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by John T. Ellis   *
- *   jtellis@alumni.indiana.edu   *
+ *   Copyright (C) 2006 by John T. Ellis                                   *
+ *   jtellis@alumni.indiana.edu                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,15 +26,16 @@ Circle::Circle(Playground *parent, QPoint position)
 {
   dMass mass;
   
-  dReal length = RELATIVE(LENGTH);
+  dReal radius = RELATIVE(LENGTH) / 2;
   dReal density = RELATIVE(this->density);
 
   //Define initial mass
-  dMassSetSphere(&mass, density, length / 2);
+  dMassSetSphereTotal(&mass, density, radius);
+  qDebug("Creating circle with density %f, mass %f and radius %f", density, mass.mass, radius);
   dBodySetMass(body, &mass);
   
   //Set collision space
-  geometry = dCreateSphere(parent->space, length / 2);
+  geometry = dCreateSphere(parent->space, radius);
   dGeomSetBody(geometry, body);
   
   //We should determine how far to shift the bitmap so it's centered inside of the window

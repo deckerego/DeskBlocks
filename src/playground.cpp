@@ -27,10 +27,6 @@
 Playground::Playground(QWidget *parent)
   : QWidget(parent)
 {
-  //Load preferences file
-  settings = new QSettings();
-  loadPrefs();
-  
   numBlocks = 0;
   
   //Do the ODE inits
@@ -45,6 +41,10 @@ Playground::Playground(QWidget *parent)
   //Create the screen boundries
   createBounds();
   
+  //Load preferences file
+  settings = new QSettings();
+  loadPrefs();
+
   //Connect the Qt timer with the ODE timer
   worldTimer = new QTimer(this);
   connect(worldTimer, SIGNAL(timeout()), this, SLOT(simLoop()));
@@ -52,7 +52,8 @@ Playground::Playground(QWidget *parent)
   //Connect other Qt signals
   connect(qApp, SIGNAL(aboutToQuit()), this, SLOT(shutdown()));
   
-  if(DEBUG) qDebug("Created new playground");
+  dInitODE();
+  qDebug("Created new playground");
 }
 
 //TODO Doing destructors explicity in Qt seems to result in a lot of memory leaks
@@ -82,7 +83,7 @@ void Playground::clear()
 
 void Playground::setFramesPerSecond(int framesPerSecond)
 {
-  if(DEBUG) qDebug("FPS set to: %i", framesPerSecond);
+  qDebug("FPS set to: %i", framesPerSecond);
   this->framesPerSecond = framesPerSecond;
 }
 
@@ -93,13 +94,13 @@ int Playground::getFramesPerSecond()
 
 void Playground::setMaximumBlocks(int maximumBlocks)
 {
-  if(DEBUG) qDebug("Max blocks set to: %i", maximumBlocks);
+  qDebug("Max blocks set to: %i", maximumBlocks);
   this->maximumBlocks = maximumBlocks;
 }
 
 void Playground::setGravity(double gravity)
 {
-  if(DEBUG) qDebug("Gravity set to: %f", gravity);
+  qDebug("Gravity set to: %f", gravity);
   this->gravity = gravity;
   dWorldSetGravity (world,0,gravity,0);
 }
@@ -111,7 +112,7 @@ double Playground::getGravity()
 
 void Playground::setErrorReduction(double errorReduction)
 {
-  if(DEBUG) qDebug("Error Reduction set to: %f", errorReduction);
+  qDebug("Error Reduction set to: %f", errorReduction);
   this->errorReduction = errorReduction;
   dWorldSetERP (world,errorReduction);
 }
@@ -123,7 +124,7 @@ double Playground::getErrorReduction()
 
 void Playground::setCollisionErrorReduction(double collisionErrorReduction)
 {
-  if(DEBUG) qDebug("Collision Error Reduction set to: %f", collisionErrorReduction);
+  qDebug("Collision Error Reduction set to: %f", collisionErrorReduction);
   this->collisionErrorReduction = collisionErrorReduction;
 }
 
@@ -134,8 +135,13 @@ double Playground::getCollisionErrorReduction()
 
 void Playground::setODESteps(double odeSteps)
 {
-  if(DEBUG) qDebug("ODE Steps set to: %f", odeSteps);
-  this->odeSteps = odeSteps;
+  qDebug("ODE Steps set to: %f", odeSteps);
+  if(odeSteps <= 0.0) {
+    qWarning("ODE Steps must be larger than 0, resetting to 0.01");
+    this->odeSteps = 0.01;
+  } else {
+    this->odeSteps = odeSteps;
+  }
 }
 
 double Playground::getODESteps()
@@ -152,26 +158,26 @@ void Playground::loadPrefs()
 
   //Restore ODE settings
   settings->beginGroup("ODE");
-  gravity = settings->value("gravity", 10.0).toDouble();
-  errorReduction = settings->value("error_reduction", 0.1).toDouble();
+  setGravity(settings->value("gravity", 10.0).toDouble());
+  setErrorReduction(settings->value("error_reduction", 0.1).toDouble());
   contactDepth = settings->value("contact_depth", 0.01).toDouble();
-  odeSteps = settings->value("steps", 0.01).toDouble();
-  collisionErrorReduction = settings->value("collision_error_reduction", 0.09).toDouble();
+  setODESteps(settings->value("steps", 0.01).toDouble());
+  setCollisionErrorReduction(settings->value("collision_error_reduction", 0.09).toDouble());
   settings->endGroup();
 
   //Restore animation settings
   settings->beginGroup("Qt");
-  framesPerSecond = settings->value("fps", 60).toInt();
-  maximumBlocks = settings->value("maximumBlocks", 10).toInt();
+  setFramesPerSecond(settings->value("fps", 60).toInt());
+  setMaximumBlocks(settings->value("maximumBlocks", 10).toInt());
   settings->endGroup();
 }
 
 void Playground::savePrefs()
 {
   //Since ODE flips between single and double precision, warn if we're different than Qt
-#ifdef dSINGLE
-  qWarning("WARNING: ODE is using single precision");
-#endif
+  #ifdef dSINGLE
+    qWarning("WARNING: ODE is using single precision");
+  #endif
 
   //Save ODE settings
   settings->beginGroup("ODE");
@@ -215,7 +221,7 @@ void Playground::dropBlock(QPoint origin, Playground::BlockType type)
 
 void Playground::shutdown()
 {
-  if(DEBUG) qDebug("Destroying Playground");
+  qDebug("Destroying Playground");
   delete this;
 }
 
@@ -231,7 +237,7 @@ void Playground::createBounds()
   int halfLength = LENGTH / 2;
   int height = screen->height();
   int width = screen->width();
-  if(DEBUG) qDebug("Window dimensions are: %i x %i", height, width);
+  qDebug("Window dimensions are: %i x %i", height, width);
   
   // Our point in space used for collision is the midpoint of the shape - so we add
   // half the length to ensure we create boundries that exist on either extremity
@@ -257,7 +263,7 @@ void Playground::detectCollision(dGeomID object1, dGeomID object2)
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
-    if(DEBUG) qDebug("%i Collision(s)!", numCollisions);
+    qDebug("%i Collision(s)!", numCollisions);
     
     for (i=0; i<numCollisions; i++) {
       dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);

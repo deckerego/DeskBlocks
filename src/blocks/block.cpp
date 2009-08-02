@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by John T. Ellis   *
- *   jtellis@alumni.indiana.edu   *
+ *   Copyright (C) 2006 by John T. Ellis                                   *
+ *   jtellis@alumni.indiana.edu                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,7 +24,7 @@
 #include "block.h"
 
 Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, int height)
-  : BaseWidget(bitmask, width, height)
+  : BaseWidget(bitmask, width, height) 
 {
   if(! parent) return;
 
@@ -58,7 +58,7 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
   gradient->setColorAt(0.0, Qt::white);
   gradient->setColorAt(1.0, Qt::black);
 
-  if(DEBUG) qDebug("Created Block");
+  qDebug("Created Block");
 }
 
 void Block::updatePosition()
@@ -116,7 +116,7 @@ QSize Block::sizeHint() const
 void Block::paintEvent(QPaintEvent *)
 {
   //TODO If ODE auto-disables an object I should skip the repaint... or at least the transformation
-  if(DEBUG) qDebug("Repainting Block");
+  qDebug("Repainting Block");
   
   //Rotate the bitmap to correspond to what ODE sees
   QBitmap regionMask = bitmask->transformed(rotation);
@@ -132,7 +132,7 @@ void Block::paintEvent(QPaintEvent *)
 
   //Draw the object and mask the rest
   QPainterPath maskedPath;
-  if(! DEBUG) setMask(maskedRegion);
+  setMask(maskedRegion);
   maskedPath.addRegion(maskedRegion);
   QPainter painter(this);
   painter.fillPath(maskedPath, *gradient);

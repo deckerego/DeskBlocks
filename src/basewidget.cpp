@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by John T. Ellis   *
- *   jtellis@alumni.indiana.edu   *
+ *   Copyright (C) 2006 by John T. Ellis                                   *
+ *   jtellis@alumni.indiana.edu                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,27 +31,29 @@ BaseWidget::BaseWidget(QBitmap *bitmask, int width, int height)
   this->height = height;
   //a^2 + b^2 = c^2. I remembered something from elementary school!
   boundingLength = (int)sqrt((width* width) + (height * height));
-  if(DEBUG) qDebug("Calculating size hint: %i", boundingLength);
+  qDebug("Calculating size hint: %i", boundingLength);
 }
 
-void BaseWidget::setPosition(dReal *position) {
+void BaseWidget::setPosition(dReal *position)
+{
   //Update position
   int xPos = ABSOLUTE(position[0]);
   int yPos = ABSOLUTE(position[1]);
   
-  if(DEBUG) qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[1]);
+  qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[1]);
   
   // Update Qt's position
   move(xPos, yPos);
 }
 
-void BaseWidget::setPosition(QPoint position) {
+void BaseWidget::setPosition(QPoint position)
+{
   dReal xPos = (dReal)position.x();
   dReal yPos = (dReal)position.y();
   
   // Update ODE's position
   dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
-  if(DEBUG) qDebug("Moved to %f, %f", xPos, yPos);
+  qDebug("Moved to %f, %f", xPos, yPos);
 
   // Update Qt's position
   move(position);

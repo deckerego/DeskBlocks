@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by John T. Ellis   *
- *   jtellis@alumni.indiana.edu   *
+ *   Copyright (C) 2006 by John T. Ellis                                   *
+ *   jtellis@alumni.indiana.edu                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,6 +31,7 @@ Square::Square(Playground *parent, QPoint position)
 
   //Define initial mass
   dMassSetBox(&mass, density, length, length, length);
+  qDebug("Creating square with density %f, mass %f and length %f", density, mass.mass, length);
   dBodySetMass(body, &mass);
   
   //Set collision space

@@ -3,16 +3,12 @@
 # Subdir relative project main directory: ./src
 # Target is an application:  ../bin/deskblocks
 
-RESOURCES = deskblocks.qrc 
+RESOURCES = deskblocks.qrc
 PRECOMPILED_HEADER = conventions.h 
 LIBS += -lode 
 INCLUDEPATH += /usr/include 
 QMAKE_LIBDIR = /usr/lib/releasedll 
-QMAKE_CXXFLAGS_DEBUG += -DDEBUG 
 TARGET = ../bin/deskblocks 
-CONFIG += release \
-          warn_on \
-          qt 
 TEMPLATE = app 
 FORMS += ../forms/preferences.ui 
 HEADERS += blocks/block.h \
