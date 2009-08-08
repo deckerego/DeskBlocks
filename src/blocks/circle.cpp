@@ -22,7 +22,7 @@
 #include "circle.h"
 
 Circle::Circle(Playground *parent, QPoint position)
-  : Block(parent, position, new QBitmap(":/blocks/circle.bmp"), LENGTH, LENGTH)
+  : Block(parent, position, QBitmap(":/blocks/circle.bmp"), LENGTH, LENGTH)
 {
   dMass mass;
   
@@ -45,20 +45,18 @@ Circle::Circle(Playground *parent, QPoint position)
   yMargin >>= 1; // divide by 2
   
   //Procedurally texture the object. Actual pixmaps take too long to draw.
-  gradient->setColorAt(0.0, Qt::white);
-  gradient->setColorAt(0.2, Qt::red);
-  gradient->setColorAt(1.0, Qt::black);
+  gradient.setColorAt(0.0, Qt::white);
+  gradient.setColorAt(0.2, Qt::red);
+  gradient.setColorAt(1.0, Qt::black);
 }
 
-void Circle::paintEvent(QPaintEvent *)
+QRegion Circle::getRegion()
 {
+  if(! dBodyIsEnabled(body)) return currentRegion;
+  qDebug("Recalculating Circle Region");
+
   //No need to rotate. It's a freakin' circle.
-  QRegion maskedRegion(*bitmask);
-  maskedRegion.translate(xMargin, yMargin);
-  
-  QPainterPath maskedPath;
-  if(! DEBUG) setMask(maskedRegion);
-  maskedPath.addRegion(maskedRegion);
-  QPainter painter(this);
-  painter.fillPath(maskedPath, *gradient);
+  currentRegion = QRegion(bitmask);
+  currentRegion.translate(xMargin, yMargin);
+  return currentRegion;
 }

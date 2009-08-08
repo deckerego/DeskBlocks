@@ -23,7 +23,8 @@
 
 #include "basewidget.h"
 
-BaseWidget::BaseWidget(QBitmap *bitmask, int width, int height)
+//FIXME Make bitmask a shared resource
+BaseWidget::BaseWidget(QWidget *, QBitmap bitmask, int width, int height)
   : QWidget(0, Qt::SubWindow | Qt::FramelessWindowHint | Qt::X11BypassWindowManagerHint)
 {
   this->bitmask = bitmask;
@@ -36,6 +37,8 @@ BaseWidget::BaseWidget(QBitmap *bitmask, int width, int height)
 
 void BaseWidget::setPosition(dReal *position)
 {
+  if(! dBodyIsEnabled(body)) return;
+
   //Update position
   int xPos = ABSOLUTE(position[0]);
   int yPos = ABSOLUTE(position[1]);
@@ -72,5 +75,5 @@ void BaseWidget::setRotation(const dMatrix3 odeRotation)
   //right. Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
   //the turn in Qt to make it clockwise (relative to Qt's coordinate system). The nice thing
   //is that since this is a matrix identity ([a b][-b a]) we just have to swap values.
-  rotation = QMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
+  rotation.setMatrix(odeRotation[0], odeRotation[4], odeRotation[1], odeRotation[5], 0.0, 0.0);
 }

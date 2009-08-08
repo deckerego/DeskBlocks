@@ -33,9 +33,10 @@ class Circle : public Block
     Circle(Playground *parent, QPoint position);
     
   protected:
-    void paintEvent(QPaintEvent *event);
-  
+    QRegion getRegion();
+
   private:
+    QRegion currentRegion;
     int xMargin;
     int yMargin;
 };

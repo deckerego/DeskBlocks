@@ -23,8 +23,9 @@
 
 #include "block.h"
 
-Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, int height)
-  : BaseWidget(bitmask, width, height) 
+//FIXME Make bitmask a shared resource
+Block::Block(Playground *parent, QPoint position, QBitmap bitmask, int width, int height)
+  : BaseWidget(parent, bitmask, width, height)
 {
   if(! parent) return;
 
@@ -54,9 +55,9 @@ Block::Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, i
   dBodySetRotation(body, odeRotation);
   
   //Procedurally texture the object. Actual pixmaps take too long to draw.
-  gradient = new QLinearGradient(0, 0, LENGTH, LENGTH);
-  gradient->setColorAt(0.0, Qt::white);
-  gradient->setColorAt(1.0, Qt::black);
+  gradient = QLinearGradient(0, 0, LENGTH, LENGTH);
+  gradient.setColorAt(0.0, Qt::white);
+  gradient.setColorAt(1.0, Qt::black);
 
   qDebug("Created Block");
 }
@@ -113,27 +114,33 @@ QSize Block::sizeHint() const
   return QSize(boundingLength, boundingLength);
 }
 
-void Block::paintEvent(QPaintEvent *)
+QRegion Block::getRegion()
 {
-  //TODO If ODE auto-disables an object I should skip the repaint... or at least the transformation
-  qDebug("Repainting Block");
-  
+  if(! dBodyIsEnabled(body)) return currentRegion;
+  qDebug("Recalculating Block Region");
+
   //Rotate the bitmap to correspond to what ODE sees
-  QBitmap regionMask = bitmask->transformed(rotation);
-  
-  //We just changed the width & height of the bitmap by rotating it. Next we should 
+  QBitmap regionMask = bitmask.transformed(rotation);
+
+  //We just changed the width & height of the bitmap by rotating it. Next we should
   //determine how far to shift the bitmap so it's centered inside of the window
   int xMargin = boundingLength - regionMask.width(); //window width - bitmap width
   xMargin >>= 1; // divide by 2
   int yMargin = boundingLength - regionMask.height(); //window height - bitmap height
   yMargin >>= 1; // divide by 2
-  QRegion maskedRegion(regionMask);
-  maskedRegion.translate(xMargin, yMargin);
 
+  currentRegion = QRegion(regionMask);
+  currentRegion.translate(xMargin, yMargin);
+  return currentRegion;
+}
+
+void Block::paintEvent(QPaintEvent *)
+{
   //Draw the object and mask the rest
+  QRegion maskedRegion = this->getRegion();
   QPainterPath maskedPath;
   setMask(maskedRegion);
   maskedPath.addRegion(maskedRegion);
   QPainter painter(this);
-  painter.fillPath(maskedPath, *gradient);
+  painter.fillPath(maskedPath, gradient);
 }

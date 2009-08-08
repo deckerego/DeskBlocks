@@ -30,6 +30,7 @@
 class Playground;
 class QPoint;
 class QLinearGradient;
+class QRegion;
 
 /**
   @author John T. Ellis <jtellis@alumni.indiana.edu>
@@ -39,7 +40,7 @@ class Block : public BaseWidget
   Q_OBJECT
       
   public:
-    Block(Playground *parent, QPoint position, QBitmap *bitmask, int width, int height);
+    Block(Playground *parent, QPoint position, QBitmap bitmask, int width, int height);
     
     dReal getMass() const;
     QSize sizeHint() const;
@@ -51,15 +52,16 @@ class Block : public BaseWidget
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *event);
+    virtual QRegion getRegion();
     
     int density;
-
-    QLinearGradient *gradient;
+    QLinearGradient gradient;
     
   private:
+    QRegion currentRegion;
     QPoint dragPosition;
     QPoint lastPosition;
-    Playground *playground;
+    QPointer<Playground> playground;
 };
 
 #endif

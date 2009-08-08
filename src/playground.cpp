@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by John T. Ellis   *
- *   jtellis@alumni.indiana.edu   *
+ *   Copyright (C) 2006 by John T. Ellis                                   *
+ *   jtellis@alumni.indiana.edu                                            *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +24,7 @@
 #include "blocks/square.h"
 #include "blocks/circle.h"
 
+//TODO All QObjects needs a parent so they can be destroyed
 Playground::Playground(QWidget *parent)
   : QWidget(parent)
 {
@@ -42,7 +43,7 @@ Playground::Playground(QWidget *parent)
   createBounds();
   
   //Load preferences file
-  settings = new QSettings();
+  settings = new QSettings(this);
   loadPrefs();
 
   //Connect the Qt timer with the ODE timer
@@ -68,10 +69,12 @@ Playground::~Playground()
 
 void Playground::clear()
 {
+  //TODO Convert to Qt's foreach
   for(int i = 0; i < numBlocks; i++)
   {
     dBodyDestroy(blocks[i]->body);
     dGeomDestroy(blocks[i]->geometry);
+    //FIXME This doesn't work, I suck
     delete blocks[i];
   }
   
@@ -263,8 +266,6 @@ void Playground::detectCollision(dGeomID object1, dGeomID object2)
   }
   
   if (int numCollisions = dCollide(object1, object2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact))) {
-    qDebug("%i Collision(s)!", numCollisions);
-    
     for (i=0; i<numCollisions; i++) {
       dJointID contactJoint = dJointCreateContact(world, contactGroup, contact+i);
       dJointAttach(contactJoint, body1, body2);

@@ -39,7 +39,7 @@ class BaseWidget : public QWidget
   Q_OBJECT
       
   public:
-    BaseWidget(QBitmap *mask, int length, int width);
+    BaseWidget(QWidget *parent, QBitmap mask, int length, int width);
     
     void resetRotation();
     void setRotation(const dMatrix3 rotation);
@@ -52,7 +52,7 @@ class BaseWidget : public QWidget
     
   protected:
     QMatrix rotation;
-    QBitmap *bitmask;
+    QBitmap bitmask;
     
     int boundingLength;
     int width;

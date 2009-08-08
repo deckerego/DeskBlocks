@@ -22,7 +22,7 @@
 #include "square.h"
 
 Square::Square(Playground *parent, QPoint position)
-  : Block(parent, position, new QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
+  : Block(parent, position, QBitmap(":/blocks/square.bmp"), LENGTH, LENGTH)
 {
   dMass mass;
   
@@ -39,7 +39,7 @@ Square::Square(Playground *parent, QPoint position)
   dGeomSetBody(geometry, body);
   
   //Procedurally texture the object. Actual pixmaps take too long to draw.
-  gradient->setColorAt(0.0, Qt::white);
-  gradient->setColorAt(0.2, Qt::blue);
-  gradient->setColorAt(1.0, Qt::black);
+  gradient.setColorAt(0.0, Qt::white);
+  gradient.setColorAt(0.2, Qt::blue);
+  gradient.setColorAt(1.0, Qt::black);
 }

@@ -22,9 +22,10 @@
 #include "systray.h"
 
 SysTray::SysTray(Playground *playground)
+    : QSystemTrayIcon(playground)
 {
   this->playground = playground;
-  this->prefsWindow = new PrefsWindow(playground);
+  this->prefsWindow = new PrefsWindow(playground, playground); //Why isn't QSystemTray a QWidget?
   setIcon(QIcon(":/box/box.svg"));
   
   //Quit Action
@@ -55,7 +56,7 @@ SysTray::SysTray(Playground *playground)
   connect(dropSquareAction, SIGNAL(triggered()), this, SLOT(setSquares()));
 
   //Build the menu
-  trayIconMenu = new QMenu();
+  trayIconMenu = new QMenu(playground);
   trayIconMenu->addAction(dropSquareAction);
   trayIconMenu->addAction(dropCircleAction);
   trayIconMenu->addSeparator();

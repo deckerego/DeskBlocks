@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>PrefsWindow</class>
- <widget class="QDialog" name="PrefsWindow" >
-  <property name="geometry" >
+ <widget class="QDialog" name="PrefsWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,17 +10,18 @@
     <height>315</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Preferences</string>
   </property>
-  <property name="windowIcon" >
-   <iconset/>
+  <property name="windowIcon">
+   <iconset resource="../src/deskblocks.qrc">
+    <normaloff>:/box/box.svg</normaloff>:/box/box.svg</iconset>
   </property>
-  <property name="sizeGripEnabled" >
+  <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
-  <widget class="QLabel" name="maxGravityLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="maxGravityLabel">
+   <property name="geometry">
     <rect>
      <x>409</x>
      <y>50</y>
@@ -27,12 +29,12 @@
      <height>22</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>50 m/s/s</string>
    </property>
   </widget>
-  <widget class="QLabel" name="erpLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="erpLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>130</y>
@@ -40,17 +42,17 @@
      <height>30</height>
     </rect>
    </property>
-   <property name="font" >
+   <property name="font">
     <font>
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Error Correction</string>
    </property>
   </widget>
-  <widget class="QSlider" name="gravitySlider" >
-   <property name="geometry" >
+  <widget class="QSlider" name="gravitySlider">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>30</y>
@@ -58,33 +60,33 @@
      <height>25</height>
     </rect>
    </property>
-   <property name="maximum" >
+   <property name="maximum">
     <number>50</number>
    </property>
-   <property name="singleStep" >
+   <property name="singleStep">
     <number>2</number>
    </property>
-   <property name="pageStep" >
+   <property name="pageStep">
     <number>5</number>
    </property>
-   <property name="value" >
+   <property name="value">
     <number>10</number>
    </property>
-   <property name="sliderPosition" >
+   <property name="sliderPosition">
     <number>10</number>
    </property>
-   <property name="orientation" >
+   <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-   <property name="tickPosition" >
+   <property name="tickPosition">
     <enum>QSlider::TicksBelow</enum>
    </property>
-   <property name="tickInterval" >
+   <property name="tickInterval">
     <number>0</number>
    </property>
   </widget>
-  <widget class="QLabel" name="minGravityLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="minGravityLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>50</y>
@@ -92,12 +94,12 @@
      <height>22</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>0 m/s/s</string>
    </property>
   </widget>
-  <widget class="QLabel" name="gravityLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="gravityLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>0</y>
@@ -105,23 +107,23 @@
      <height>31</height>
     </rect>
    </property>
-   <property name="font" >
+   <property name="font">
     <font>
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Gravity</string>
    </property>
-   <property name="textFormat" >
+   <property name="textFormat">
     <enum>Qt::AutoText</enum>
    </property>
-   <property name="scaledContents" >
+   <property name="scaledContents">
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="collisionERPLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="collisionERPLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>70</y>
@@ -129,17 +131,17 @@
      <height>30</height>
     </rect>
    </property>
-   <property name="font" >
+   <property name="font">
     <font>
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Block Softness</string>
    </property>
   </widget>
-  <widget class="QLabel" name="minERPLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="minERPLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>190</y>
@@ -147,12 +149,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>0.0</string>
    </property>
   </widget>
-  <widget class="QLabel" name="stepsLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="stepsLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>200</y>
@@ -160,17 +162,17 @@
      <height>30</height>
     </rect>
    </property>
-   <property name="font" >
+   <property name="font">
     <font>
      <pointsize>12</pointsize>
     </font>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>Calculations per Frame</string>
    </property>
   </widget>
-  <widget class="QSlider" name="erpSlider" >
-   <property name="geometry" >
+  <widget class="QSlider" name="erpSlider">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>160</y>
@@ -178,24 +180,24 @@
      <height>25</height>
     </rect>
    </property>
-   <property name="maximum" >
+   <property name="maximum">
     <number>10</number>
    </property>
-   <property name="pageStep" >
+   <property name="pageStep">
     <number>1</number>
    </property>
-   <property name="value" >
+   <property name="value">
     <number>1</number>
    </property>
-   <property name="orientation" >
+   <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-   <property name="tickPosition" >
+   <property name="tickPosition">
     <enum>QSlider::TicksBelow</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="minStepsLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="minStepsLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>250</y>
@@ -203,12 +205,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>0.00</string>
    </property>
   </widget>
-  <widget class="QLabel" name="minCollisionERPLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="minCollisionERPLabel">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>120</y>
@@ -216,12 +218,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>0.0</string>
    </property>
   </widget>
-  <widget class="QLabel" name="maxERPLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="maxERPLabel">
+   <property name="geometry">
     <rect>
      <x>430</x>
      <y>190</y>
@@ -229,12 +231,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>1.0</string>
    </property>
   </widget>
-  <widget class="QLabel" name="maxCollisionERPLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="maxCollisionERPLabel">
+   <property name="geometry">
     <rect>
      <x>430</x>
      <y>120</y>
@@ -242,12 +244,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>1.0</string>
    </property>
   </widget>
-  <widget class="QSlider" name="collisionERPSlider" >
-   <property name="geometry" >
+  <widget class="QSlider" name="collisionERPSlider">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>100</y>
@@ -255,24 +257,24 @@
      <height>16</height>
     </rect>
    </property>
-   <property name="maximum" >
+   <property name="maximum">
     <number>10</number>
    </property>
-   <property name="pageStep" >
+   <property name="pageStep">
     <number>1</number>
    </property>
-   <property name="value" >
+   <property name="value">
     <number>9</number>
    </property>
-   <property name="orientation" >
+   <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-   <property name="tickPosition" >
+   <property name="tickPosition">
     <enum>QSlider::TicksBelow</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="maxStepsLabel" >
-   <property name="geometry" >
+  <widget class="QLabel" name="maxStepsLabel">
+   <property name="geometry">
     <rect>
      <x>430</x>
      <y>250</y>
@@ -280,12 +282,12 @@
      <height>15</height>
     </rect>
    </property>
-   <property name="text" >
+   <property name="text">
     <string>0.10</string>
    </property>
   </widget>
-  <widget class="QSlider" name="stepsSlider" >
-   <property name="geometry" >
+  <widget class="QSlider" name="stepsSlider">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>230</y>
@@ -293,30 +295,30 @@
      <height>16</height>
     </rect>
    </property>
-   <property name="maximum" >
+   <property name="maximum">
     <number>10</number>
    </property>
-   <property name="singleStep" >
+   <property name="singleStep">
     <number>1</number>
    </property>
-   <property name="pageStep" >
+   <property name="pageStep">
     <number>1</number>
    </property>
-   <property name="value" >
+   <property name="value">
     <number>1</number>
    </property>
-   <property name="sliderPosition" >
+   <property name="sliderPosition">
     <number>1</number>
    </property>
-   <property name="orientation" >
+   <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
-   <property name="tickPosition" >
+   <property name="tickPosition">
     <enum>QSlider::TicksBelow</enum>
    </property>
   </widget>
-  <widget class="QWidget" name="Layout1" >
-   <property name="geometry" >
+  <widget class="QWidget" name="Layout1">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>270</y>
@@ -324,22 +326,22 @@
      <height>49</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" >
-    <property name="margin" >
-     <number>11</number>
-    </property>
-    <property name="spacing" >
+   <layout class="QHBoxLayout">
+    <property name="spacing">
      <number>6</number>
+    </property>
+    <property name="margin">
+     <number>11</number>
     </property>
     <item>
      <spacer>
-      <property name="orientation" >
+      <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeType" >
+      <property name="sizeType">
        <enum>QSizePolicy::Expanding</enum>
       </property>
-      <property name="sizeHint" >
+      <property name="sizeHint" stdset="0">
        <size>
         <width>20</width>
         <height>20</height>
@@ -348,17 +350,17 @@
      </spacer>
     </item>
     <item>
-     <widget class="QPushButton" name="buttonOk" >
-      <property name="text" >
+     <widget class="QPushButton" name="buttonOk">
+      <property name="text">
        <string>&amp;OK</string>
       </property>
-      <property name="shortcut" >
+      <property name="shortcut">
        <string/>
       </property>
-      <property name="autoDefault" >
+      <property name="autoDefault">
        <bool>true</bool>
       </property>
-      <property name="default" >
+      <property name="default">
        <bool>true</bool>
       </property>
      </widget>
@@ -366,9 +368,11 @@
    </layout>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <resources/>
+ <resources>
+  <include location="../src/deskblocks.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonOk</sender>
@@ -376,11 +380,11 @@
    <receiver>PrefsWindow</receiver>
    <slot>hide()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>20</x>
      <y>20</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>20</x>
      <y>20</y>
     </hint>
