@@ -1,0 +1,65 @@
+{
+   IceWrite
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   obj:/usr/lib64/libICE.so.6.3.0
+   fun:_IceWrite
+   fun:IceFlush
+   fun:_ZL14sm_setPropertyPKcS0_iP11SmPropValue
+   fun:_ZL14sm_setPropertyRK7QStringS1_
+   fun:_ZL22sm_performSaveYourselfP22QSessionManagerPrivate
+   fun:_ZL23sm_saveYourselfCallbackP8_SmcConnPviiii
+   fun:_SmcProcessMessage
+   fun:IceProcessMessages
+   fun:_ZN17QSmSocketReceiver11qt_metacallEN11QMetaObject4CallEiPPv
+   fun:_ZN11QMetaObject8activateEP7QObjectiiPPv
+}
+{
+   ODE QuickStep
+   Memcheck:Cond
+   obj:/usr/lib64/libode.so.0.8.0
+   fun:_Z14dxQuickStepperP7dxWorldPKP6dxBodyiPKP7dxJointid
+   fun:_Z16dxProcessIslandsP7dxWorlddPFvS0_PKP6dxBodyiPKP7dxJointidE
+   fun:_ZN10Playground7simLoopEv
+   fun:_ZN10Playground11qt_metacallEN11QMetaObject4CallEiPPv
+   fun:_ZN11QMetaObject8activateEP7QObjectiiPPv
+   fun:_ZN7QObject5eventEP6QEvent
+   fun:_ZN19QApplicationPrivate13notify_helperEP7QObjectP6QEvent
+   fun:_ZN12QApplication6notifyEP7QObjectP6QEvent
+   fun:_ZN16QCoreApplication14notifyInternalEP7QObjectP6QEvent
+   fun:_ZN14QTimerInfoList14activateTimersEv
+   fun:_ZL19timerSourceDispatchP8_GSourcePFiPvES1_
+}
+{
+   FontConfig String Copy Leak
+   Memcheck:Leak
+   fun:malloc
+   fun:FcStrCopy
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/lib64/libexpat.so.1.5.2
+   obj:/lib64/libexpat.so.1.5.2
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/lib64/libexpat.so.1.5.2
+   obj:/lib64/libexpat.so.1.5.2
+   obj:/lib64/libexpat.so.1.5.2
+}
+{
+   FontConfig Malloc Leak
+   Memcheck:Leak
+   fun:malloc
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/lib64/libexpat.so.1.5.2
+   obj:/lib64/libexpat.so.1.5.2
+   fun:XML_ParseBuffer
+   fun:FcConfigParseAndLoad
+   fun:FcConfigParseAndLoad
+   obj:/usr/lib64/libfontconfig.so.1.2.0
+   obj:/lib64/libexpat.so.1.5.2
+}
