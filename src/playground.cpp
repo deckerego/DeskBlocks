@@ -281,9 +281,15 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
     
 void Playground::simLoop()
 {
-  dSpaceCollide(space, this, &nearCallback);
-  dWorldQuickStep(world, odeSteps);
-  dJointGroupEmpty(contactGroup);
+  if(space)
+    dSpaceCollide(space, this, &nearCallback);
+
+  if(world)
+    dWorldQuickStep(world, odeSteps);
+
+  if(contactGroup)
+    dJointGroupEmpty(contactGroup);
+
   emit odeUpdated();
 }
 

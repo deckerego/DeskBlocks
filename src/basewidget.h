@@ -42,10 +42,10 @@ class BaseWidget : public QWidget
     BaseWidget(QWidget *parent, QBitmap mask, int length, int width);
     
     void resetRotation();
-    void setRotation(const dMatrix3 rotation);
+    void setRotation(const dReal *rotation);
     
-    void setPosition(dReal *position);
-    void setPosition(const QPoint position);
+    void setPosition(const dReal *position);
+    void setPosition(const QPoint *position);
     
     dBodyID body;
     dGeomID geometry;

@@ -64,13 +64,15 @@ Block::Block(Playground *parent, QPoint position, QBitmap bitmask, int width, in
 
 void Block::updatePosition()
 {
-  //TODO I need to test and ensure the geometry is set, exit if not
-  
   //Update rotation
-  setRotation(*(dMatrix3*)dGeomGetRotation(geometry));
+  const dReal *odeRotation = dGeomGetRotation(geometry);
+  if(odeRotation)
+    setRotation(odeRotation);
   
   //Update position
-  setPosition((dReal*)dGeomGetPosition(geometry));
+  const dReal *odePosition = dGeomGetPosition(geometry);
+  if(odePosition)
+    setPosition(odePosition);
   
   update();
 }
@@ -93,7 +95,7 @@ void Block::mouseMoveEvent(QMouseEvent *event)
     lastPosition = currentPosition;
     
     //Move the object
-    setPosition(currentPosition);
+    setPosition(&currentPosition);
     
     event->accept();
   }

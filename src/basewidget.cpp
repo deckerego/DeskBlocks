@@ -35,7 +35,7 @@ BaseWidget::BaseWidget(QWidget *, QBitmap bitmask, int width, int height)
   qDebug("Calculating size hint: %i", boundingLength);
 }
 
-void BaseWidget::setPosition(dReal *position)
+void BaseWidget::setPosition(const dReal *position)
 {
   if(! dBodyIsEnabled(body)) return;
 
@@ -49,17 +49,17 @@ void BaseWidget::setPosition(dReal *position)
   move(xPos, yPos);
 }
 
-void BaseWidget::setPosition(QPoint position)
+void BaseWidget::setPosition(const QPoint *position)
 {
-  dReal xPos = (dReal)position.x();
-  dReal yPos = (dReal)position.y();
+  dReal xPos = position->x();
+  dReal yPos = position->y();
   
   // Update ODE's position
   dGeomSetPosition(geometry, RELATIVE(xPos), RELATIVE(yPos), 0);
   qDebug("Moved to %f, %f", xPos, yPos);
 
   // Update Qt's position
-  move(position);
+  move(*position);
 }
 
 void BaseWidget::resetRotation()
@@ -69,7 +69,7 @@ void BaseWidget::resetRotation()
   dBodySetRotation(body, odeRotation);
 }
 
-void BaseWidget::setRotation(const dMatrix3 odeRotation)
+void BaseWidget::setRotation(const dReal *odeRotation)
 {
   //ODE has its origin starting at the lower left-hand corner, while Qt's starts in the upper
   //right. Since a positive angle represents a counter-clockwise turn in ODE, we'll need to invert
