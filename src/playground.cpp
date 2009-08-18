@@ -38,7 +38,6 @@ Playground::Playground(QWidget *parent)
   dWorldSetERP(world,errorReduction);
   dWorldSetAutoDisableFlag(world,1);
   dWorldSetContactSurfaceLayer(world,contactDepth);
-  dWorldSetContactMaxCorrectingVel(world, 1.0); //TODO what value should this be?
   
   //Create the screen boundries
   createBounds();
@@ -282,15 +281,9 @@ static void nearCallback(void *data, dGeomID object1, dGeomID object2)
     
 void Playground::simLoop()
 {
-  if(space)
-    dSpaceCollide(space, this, &nearCallback);
-
-  if(world && odeSteps)
-    dWorldQuickStep(world, odeSteps);
-
-  if(contactGroup)
-    dJointGroupEmpty(contactGroup);
-
+  dSpaceCollide(space, this, &nearCallback);
+  dWorldQuickStep(world, odeSteps);
+  dJointGroupEmpty(contactGroup);
   emit odeUpdated();
 }
 

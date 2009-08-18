@@ -41,23 +41,23 @@ void PrefsWindow::showPreferences()
  
 void PrefsWindow::on_gravitySlider_valueChanged(int value)
 {
-  playground->setGravity((int) value);
+  playground->setGravity(value);
 }
 
 void PrefsWindow::on_erpSlider_valueChanged(int value)
 {
   double actualValue = (double)value / 10.0;
-  playground->setErrorReduction((int) actualValue);
+  playground->setErrorReduction(actualValue);
 }
 
 void PrefsWindow::on_collisionERPSlider_valueChanged(int value)
 {
   double actualValue = (double)value / 100.0;
-  playground->setCollisionErrorReduction((int) actualValue);
+  playground->setCollisionErrorReduction(actualValue);
 }
 
 void PrefsWindow::on_stepsSlider_valueChanged(int value)
 {
   double actualValue = (double)value / 100.0;
-  playground->setODESteps((int) actualValue);
+  playground->setODESteps(actualValue);
 }
