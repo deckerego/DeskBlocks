@@ -68,7 +68,7 @@ void Block::updatePosition()
   const dReal *odeRotation = dGeomGetRotation(geometry);
   if(odeRotation)
     setRotation(odeRotation);
-  
+
   //Update position
   const dReal *odePosition = dGeomGetPosition(geometry);
   if(odePosition)

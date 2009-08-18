@@ -32,12 +32,13 @@ Playground::Playground(QWidget *parent)
   
   //Do the ODE inits
   world = dWorldCreate();
-  space = dHashSpaceCreate (0);
-  contactGroup = dJointGroupCreate (0);
-  dWorldSetGravity (world,0,gravity,0);
-  dWorldSetERP (world,errorReduction);
-  dWorldSetAutoDisableFlag (world,1);
-  dWorldSetContactSurfaceLayer (world,contactDepth);
+  space = dHashSpaceCreate(0);
+  contactGroup = dJointGroupCreate(0);
+  dWorldSetGravity(world,0,gravity,0);
+  dWorldSetERP(world,errorReduction);
+  dWorldSetAutoDisableFlag(world,1);
+  dWorldSetContactSurfaceLayer(world,contactDepth);
+  dWorldSetContactMaxCorrectingVel(world, 1.0); //TODO what value should this be?
   
   //Create the screen boundries
   createBounds();
@@ -284,7 +285,7 @@ void Playground::simLoop()
   if(space)
     dSpaceCollide(space, this, &nearCallback);
 
-  if(world)
+  if(world && odeSteps)
     dWorldQuickStep(world, odeSteps);
 
   if(contactGroup)

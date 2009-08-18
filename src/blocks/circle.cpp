@@ -24,12 +24,11 @@
 Circle::Circle(Playground *parent, QPoint position)
   : Block(parent, position, QBitmap(":/blocks/circle.bmp"), LENGTH, LENGTH)
 {
-  dMass mass;
-  
   dReal radius = RELATIVE(LENGTH) / 2;
   dReal density = RELATIVE(this->density);
 
   //Define initial mass
+  dMass mass;
   dMassSetSphereTotal(&mass, density, radius);
   qDebug("Creating circle with density %f, mass %f and radius %f", density, mass.mass, radius);
   dBodySetMass(body, &mass);

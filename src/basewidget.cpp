@@ -42,10 +42,9 @@ void BaseWidget::setPosition(const dReal *position)
   //Update position
   int xPos = ABSOLUTE(position[0]);
   int yPos = ABSOLUTE(position[1]);
-  
-  qDebug("Position: %i (%f), %i (%f)", xPos, position[0], yPos, position[1]);
-  
+
   // Update Qt's position
+  qDebug("Position: %i, %i", xPos, yPos);
   move(xPos, yPos);
 }
 
