@@ -31,7 +31,7 @@ BaseWidget::BaseWidget(QWidget *, QBitmap bitmask, int width, int height)
   this->width = width;
   this->height = height;
   //a^2 + b^2 = c^2. I remembered something from elementary school!
-  boundingLength = (int)sqrt((width* width) + (height * height));
+  boundingLength = (int) sqrt((width * width) + (height * height));
   qDebug("Calculating size hint: %i", boundingLength);
 }
 
