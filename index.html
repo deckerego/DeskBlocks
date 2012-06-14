@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>DeskBlocks - A Desktop Distraction</title>
+
+    <script type="text/javascript">
+      function writemsg(message, fieldName)
+      {
+        //Get rid of fancy _
+        currentText = document.getElementById(fieldName).innerHTML;
+        document.getElementById(fieldName).innerHTML = currentText.substring(0, currentText.length - 1);
+
+        if(message.length == 0)
+        {
+          clearTimeout(timeout);
+        }
+
+        else
+        {
+          //We need to escape the ' ' character for some browsers
+          nextChar = message.charAt(0) == " " ? "&nbsp;" : message.charAt(0);
+          document.getElementById(fieldName).innerHTML += nextChar;
+          document.getElementById(fieldName).innerHTML += "_";
+          methodName = "writemsg('"+message.substring(1)+"', '"+fieldName+"')";
+          timeout = setTimeout(methodName, Math.random() * 100);
+        }
+      }
+
+      function expandMenu(element)
+      {
+        menuElement = eval("menu_"+element.id);
+        titleElement = eval("title_"+element.id);
+
+        menuElement.style.left = eval(titleElement.style.left.replace("px", ""));
+        menuElement.style.top = eval(titleElement.style.top.replace("px", "")) + 30;
+        menuElement.style.visibility = "visible";
+      }
+
+      function collapseMenu(element)
+      {
+        menuElement = eval("menu_"+element.id);
+        titleElement = eval("title_"+element.id);
+
+        menuElement.style.visibility = "hidden";
+      }
+    </script>
+
+    <style type="text/css">
+      .typeface { color: black; font-family: "Courier 10 Pitch", Courier, monospace; }
+      .label { font-weight: 500; font-size: 16pt; position: absolute; z-index: 1; }
+
+      h1.typeface { font-weight: 700; font-size: 32pt; margin-left: 20px; }
+      h2.typeface { font-size: 24pt; margin-top: -40px; margin-left: 20px; }
+      a.typeface { position: relative; display: block; margin-left: 10px; margin-right: 10px; }
+      layer.label { background-color: #9fd2e7; border: groove; z-index: 2; visibility: hidden}
+      img.paperWad { position: absolute; left: 250px; top: 150px; z-index: 0; }
+    </style>
+  </head>
+
+  <body onload="writemsg('Another Desktop Distraction, coming soon...', 'typingTitle');" bgColor="#FFFFFF">
+    <h1 class="typeface">DeskBlocks</h1>
+    <h2 class="typeface" id="typingTitle">_</h2>
+
+    <img class="paperWad" src="paper.png" width="400" height="400">
+
+    <br clear="all">
+
+    <span class="typeface label" id="goto" style="margin-left: 20px; top: 500px;">#> <a href="https://github.com/deckerego/DeskBlocks">goto project_page</a></span>
+  </body>
+</html>
