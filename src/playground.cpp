@@ -72,8 +72,9 @@ void Playground::clear()
   //TODO Convert to Qt's foreach
   for(int i = 0; i < numBlocks; i++)
   {
+    blocks[i]->disconnect();
     dBodyDestroy(blocks[i]->body);
-    dGeomDestroy(blocks[i]->geometry);
+    //dGeomDestroy(blocks[i]->geometry);
     //FIXME This doesn't work, I suck
     delete blocks[i];
   }

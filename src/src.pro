@@ -27,3 +27,8 @@ SOURCES += playground.cpp \
            blocks/square.cpp \
            blocks/circle.cpp \
            ui/prefswindow.cpp 
+
+release {
+    DEFINES += QT_NO_DEBUG
+    DEFINES += QT_NO_DEBUG_OUTPUT
+}

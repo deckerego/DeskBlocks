@@ -36,8 +36,8 @@ int main(int argc, char *argv[])
   
   QApplication app(argc, argv);
   
-  Playground *desktop = new Playground(); // The world blocks exist in
-  SysTray *box = new SysTray(desktop); // The window the user interacts with
+  QPointer<Playground> desktop = new Playground(); // The world blocks exist in
+  QPointer<SysTray> box = new SysTray(desktop); // The window the user interacts with
   
   box->show();
   desktop->start();

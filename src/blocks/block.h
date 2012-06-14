@@ -21,6 +21,7 @@
 #define BLOCK_H
 
 #include <QtGui>
+#include <QSharedPointer>
 #include <ode/ode.h>
 
 #include "basewidget.h"
