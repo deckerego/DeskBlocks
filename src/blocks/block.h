@@ -21,7 +21,6 @@
 #define BLOCK_H
 
 #include <QtGui>
-#include <QSharedPointer>
 #include <ode/ode.h>
 
 #include "basewidget.h"
@@ -62,7 +61,7 @@ class Block : public BaseWidget
     QRegion currentRegion;
     QPoint dragPosition;
     QPoint lastPosition;
-    QPointer<Playground> playground;
+    Playground *playground;
 };
 
 #endif

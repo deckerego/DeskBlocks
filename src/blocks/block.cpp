@@ -59,11 +59,16 @@ Block::Block(Playground *parent, QPoint position, QBitmap bitmask, int width, in
   gradient.setColorAt(0.0, Qt::white);
   gradient.setColorAt(1.0, Qt::black);
 
+  //Set window attributes
+  setAttribute(Qt::WA_QuitOnClose, false);
+
   qDebug("Created Block");
 }
 
 void Block::updatePosition()
 {
+  if(! isEnabled()) return;
+
   //Update rotation
   const dReal *odeRotation = dGeomGetRotation(geometry);
   if(odeRotation)

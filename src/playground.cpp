@@ -28,8 +28,6 @@
 Playground::Playground(QWidget *parent)
   : QWidget(parent)
 {
-  numBlocks = 0;
-  
   //Do the ODE inits
   world = dWorldCreate();
   space = dHashSpaceCreate(0);
@@ -69,17 +67,17 @@ Playground::~Playground()
 
 void Playground::clear()
 {
-  //TODO Convert to Qt's foreach
-  for(int i = 0; i < numBlocks; i++)
+  foreach(Block *block, blocks)
   {
-    blocks[i]->disconnect();
-    dBodyDestroy(blocks[i]->body);
-    //dGeomDestroy(blocks[i]->geometry);
-    //FIXME This doesn't work, I suck
-    delete blocks[i];
+    block->disconnect();
+    block->setEnabled(false);
+    dGeomDestroy(block->geometry);
+    dBodyDestroy(block->body);
+    block->close();
+    delete block;
   }
   
-  numBlocks = 0;
+  blocks.empty();
 }
 
 // Let the record show I hate getter's and setter's. Yet sometimes they're
@@ -208,19 +206,23 @@ void Playground::start()
 
 void Playground::dropBlock(QPoint origin, Playground::BlockType type)
 {
-  if(numBlocks >= maximumBlocks) return; //No more blocks!
+  if(blocks.size() >= maximumBlocks) return; //No more blocks!
+  Block *block;
   
   switch(type) {
     case Playground::SQUARE:
-      blocks[numBlocks] = new Square(this, origin);
+      block = new Square(this, origin);
       break;
     case Playground::CIRCLE:
-      blocks[numBlocks] = new Circle(this, origin);
+      block = new Circle(this, origin);
       break;
+    default:
+      block = new Circle(this, origin);
   }
   
-  connect(this, SIGNAL(odeUpdated()), blocks[numBlocks], SLOT(updatePosition()));
-  blocks[numBlocks++]->show();
+  connect(this, SIGNAL(odeUpdated()), block, SLOT(updatePosition()));
+  blocks.append(block);
+  block->show();
 }
 
 void Playground::shutdown()

@@ -85,8 +85,7 @@ class Playground : public QWidget
     
     QTimer *worldTimer;
     dJointGroupID contactGroup;
-    Block *blocks[MAX_BLOCKS];
-    int numBlocks;
+    QList<Block *> blocks;
 
     int framesPerSecond;
     int maximumBlocks;
